@@ -16,6 +16,5 @@
 <body>
 login
 ${test}
-git connected
 </body>
 </html>
