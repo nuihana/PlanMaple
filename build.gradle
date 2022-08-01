@@ -1,0 +1,29 @@
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+
+dependencies {
+	testCompile fileTree(dir: 'WebContent/WEB-INF/lib', include: ['*.jar'])
+	compile fileTree(dir: 'lib', include: ['*.jar'])
+	compile 'ch.qos.logback:logback-classic:1.2.2'
+	
+	// MyBatis
+	compile 'org.mybatis:mybatis:3.2.2'
+    compile 'org.mybatis:mybatis-spring:1.2.4'
+}
+
+project.webAppDirName = 'WebContent'
+war {
+	archiveName = "${baseName}.${extension}"
+}

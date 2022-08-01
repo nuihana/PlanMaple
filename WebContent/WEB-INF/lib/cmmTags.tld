@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="2.1">
+	
+	<description>
+		<![CDATA[
+		<p>vsc Common Tag Lib</p>
+		]]>
+	</description>
+	<tlib-version>1.2</tlib-version>
+	<short-name>cmmTags</short-name>
+	<uri>http://vsc.co.kr/cmmTags.tld</uri>
+
+	<tag>
+		<description>
+			-- 숫자형식 표시 (1,234,567,890) --
+			value : 숫자("123456790")
+			format : 표시 구분자 (","으로 할경우 1,234,567,890)
+		</description>
+		<name>numFormat</name>
+		<tag-class>com.utils.tag.NumberFormatTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>format</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<description>
+			-- 백분율 형식 표시 (12.34) --
+			value : 유리수("123456790.0987654321")
+			-- 제한 --
+			수가 100 초과인 경우 *출력 / 수가 0 이거나 Nan인 경우 - 출력
+		</description>
+		<name>perNumFormat</name>
+		<tag-class>com.utils.tag.PercentNumberFormatTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<description>
+			-- 문자열 포맷 변경 --
+			value : 포맷 변경할 문자열값("12345")
+			format : 변경할 포맷 양식("000-00")
+			pattern : 포맷 구분자('-')
+		</description>
+		<name>strFormat</name>
+		<tag-class>com.utils.tag.StringFormatTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>format</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>pattern</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<description>
+			-- 파일 사이즈 포멧변환(BTYE, KB, MB, GB, TB) --
+			value : 파일사이즈
+			format : BTYE => 1
+			KB => 2
+			MB => 3
+			GB => 4
+			TB => 5
+		</description>
+		<name>fileSizeFormat</name>
+		<tag-class>com.utils.tag.FileSizeFormatTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>format</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<description>
+			-- 줄바꿈과 스페이스를 html 스타일로 바꿔준다. --
+			source : 바꿀 소스
+		</description>
+		<name>strToHtmlStyle</name>
+		<tag-class>com.utils.tag.StrToHtmlStyleTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>source</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+</taglib>
