@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,12 +25,8 @@ public class LoginController {
 	LoginService loginService;
 
 	@RequestMapping(value = {"login"}, method = RequestMethod.GET)
-	public @ResponseBody ModelAndView login(ModelMap model) {
-//		UserVo reqUser = new UserVo();
-//		reqUser.setUser_id("test");
-//		reqUser.setUser_pw("test");
-//		
-//		model.addAttribute("user", loginService.selectUser(reqUser));
+	public @ResponseBody ModelAndView login(ModelMap model, @ModelAttribute("userVo") UserVo reqUser) {
+		model.addAttribute("userVo", reqUser);
 		
 		return new ModelAndView("/login", model);
 	}
@@ -48,7 +45,17 @@ public class LoginController {
 			
 			return new ReturnVo("OK", "home", rstUser);
 		} else {
-			return new ReturnVo("OK", "login", rstUser);
+			String returnUrl = "?";
+			
+			if (reqUser.getUser_id() != null && !reqUser.getUser_id().equals("")) {
+				returnUrl += "user_id=" + reqUser.getUser_id() + "&";
+			}
+			
+			if (reqUser.getUser_pw() != null && !reqUser.getUser_pw().equals("")) {
+				returnUrl += "user_pw=" + reqUser.getUser_pw() + "&";
+			}
+			
+			return new ReturnVo("NO", "login" + returnUrl, rstUser);
 		}
 	}
 }

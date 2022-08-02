@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/include/commonHead.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +11,18 @@
 
 <link href="${pageContext.request.contextPath}/static/login/login.css" rel="stylesheet" type="text/css" />
 
+<c:import url="/include/commonModalHead.jsp" />
+
 <script type="text/javascript">
 $(document).ready(function() {
+	//redirect 시 login 입력 정보 주소창에서 제거
+	history.replaceState({}, null, location.pathname);
+	
+	//로그인 실패시 알림
+	if (${userVo.user_id ne null and userVo.user_id != ""}) {
+		$.alert('계정정보가 일치하지 않습니다.');
+	}
+	
 	$('.login-input').keydown(function(e) {
 		if (e.keyCode == 13) {
 			loginCheck();
@@ -62,10 +73,10 @@ function loginValidation() {
 		<h3>PlanMaple</h3>
 
 		<label for="username">ID</label>
-		<input class="login-input" type="text" placeholder="Enter ID" id="user_id" name="user_id">
+		<input class="login-input" type="text" placeholder="Enter ID" id="user_id" name="user_id" value="${userVo.user_id}">
 
 		<label for="password">PW</label>
-		<input class="login-input" type="password" placeholder="Enter Password" id="user_pw" name="user_pw">
+		<input class="login-input" type="password" placeholder="Enter Password" id="user_pw" name="user_pw" value="${userVo.user_pw}">
 
 		<button type="button" onclick="loginCheck();">Log In</button>
 <!-- 		<div class="social"> -->

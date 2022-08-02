@@ -5,4 +5,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="vscCmm" uri="http://vsc.co.kr/cmmTags.tld"%>
+<%-- <%@ taglib prefix="vscCmm" uri="http://vsc.co.kr/cmmTags.tld"%> --%>

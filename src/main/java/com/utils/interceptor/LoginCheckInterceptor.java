@@ -15,15 +15,34 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		
+		if (!isSkip(request)) {
 			
-//		HttpSession session = request.getSession();
-//		Object obj = session.getAttribute("login");
-//		
-//		if(obj == null){
-//			response.sendRedirect("/login");
-//			return false;
-//		}
+			HttpSession session = request.getSession();
+			Object obj = session.getAttribute("login");
+			
+			if(obj == null){
+				response.sendRedirect("/login");
+				return false;
+			}
+			
+		} 
 
 		return true;
 	}
+	
+	private boolean isSkip(HttpServletRequest request) {
+		boolean resultFlag = false;
+		String requestURI = request.getRequestURI();
+		
+		if(requestURI.contains("/login")) {
+			resultFlag = true;
+		} else if (requestURI.contains("/error")) {
+			resultFlag = true;
+		} else if (requestURI.contains("/static")) {
+			resultFlag = true;
+		}
+		return resultFlag;
+	}
+
 }
