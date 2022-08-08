@@ -37,8 +37,6 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 		
 		if(requestURI.contains("/login")) {
 			resultFlag = true;
-		} else if (requestURI.contains("/error")) {
-			resultFlag = true;
 		} else if (requestURI.contains("/static")) {
 			resultFlag = true;
 		}
