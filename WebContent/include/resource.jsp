@@ -9,7 +9,7 @@
 <script src="${pageContext.request.contextPath}/static/common_js/modal.js" type="text/javascript"></script>
 
 <!-- bootstrap -->
-<script src="${pageContext.request.contextPath}/static/bootstrap/bootstrap.min.js" type="text/javascript"></script>
-<link href="${pageContext.request.contextPath}/static/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<script src="${pageContext.request.contextPath}/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="${pageContext.request.contextPath}/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
 <link href="${pageContext.request.contextPath}/static/common_css/jdu_common.css" rel="stylesheet" type="text/css" />

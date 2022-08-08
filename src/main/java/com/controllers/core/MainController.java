@@ -34,11 +34,10 @@ public class MainController {
 			if (context != null) context = null;
 		}
 
-		logger.info("OS->" + config.getValue("os.name"));
-		logger.info("vscID->" + config.getValue("vscID"));
-		logger.info("dbType->" + config.getValue("db.type"));
-
 		config.setValue("build.version", buildVersion);
+
+		logger.info("OS->" + config.getValue("os.name"));
+		logger.info("buildVersion->" + config.getValue("build.version"));
 		
 //		CheckThread chkThread = new CheckThread(datsSource);
 //		Thread threadCheck = new Thread(chkThread);	

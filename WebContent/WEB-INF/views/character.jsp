@@ -9,17 +9,14 @@
 <jsp:include page="/include/resource.jsp" />
 
 <script type="text/javascript">
-	var loginId = ${loginSession eq null};
-	
-	if(loginId){
-		document.location.href = ctxPath + "/login";
-	}else{
-		document.location.href = ctxPath + "/home";
-	}
+
 </script>
 
 </head>
-<body>
-
+<body class="d-flex flex-column min-vh-100">
+	<jsp:include page="/include/header.jsp"></jsp:include>
+	<div class="container">
+	</div>
+	<jsp:include page="/include/footer.jsp"></jsp:include>
 </body>
 </html>
