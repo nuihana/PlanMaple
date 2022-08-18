@@ -17,6 +17,7 @@
     transform: translate(-50%, 0%); /* 요소가 자기 자신의 크기 절반만큼 왼쪽으로 이동 */
 	opacity: 0; /* 기본 상태는 안보이게 */
     transition: all 0.5s linear; /* 나타났다 사라지는 애니메이션 */
+    z-index: 100;
 }
 .tooltip-nav:hover::before {
     opacity: 1;
@@ -27,8 +28,12 @@
 $(document).ready(function () {
 	
 });
-</script>
 
+function logout() {
+	$('#formLogout').submit();
+}
+</script>
+<form id="formLogout" action="/logout" method="post"></form>
 <nav class="navbar navbar-inverse navber-fixed-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -54,8 +59,8 @@ $(document).ready(function () {
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-<!-- 				<li><a href="#">Settings</a></li> -->
-				<li><a href="#">Help</a></li>
+<!-- 				<li><a href="#">Help</a></li> -->
+				<li><a href="#" onclick="logout();">로그아웃</a></li>
 			</ul>
 <!-- 			우측 검색공간 -->
 <!-- 			<form class="navbar-form navbar-right"> -->

@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${config.getValue('Title')}</title>
+<title>${config.getValue('client.title')}</title>
 <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
 <jsp:include page="/include/resource.jsp" />
@@ -13,10 +13,12 @@
 </script>
 
 </head>
-<body class="d-flex flex-column min-vh-100">
-	<jsp:include page="/include/header.jsp"></jsp:include>
-	<div class="container">
+<body>
+	<div class="main-container">
+		<jsp:include page="/include/header.jsp"></jsp:include>
+		<div class="row main-content">
+		</div>
+		<jsp:include page="/include/footer.jsp"></jsp:include>
 	</div>
-	<jsp:include page="/include/footer.jsp"></jsp:include>
 </body>
 </html>

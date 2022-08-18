@@ -5,6 +5,11 @@ $(function() {
 		$("#modal_body").html(value);
 	};
 	
+	$.confirm = function(value) {
+		$("#confirm_modal").modal();
+		$("#confirm_modal_body").html(value);
+	};
+	
 //	$.dialog = function(value) {
 //		$("#dial_modal").modal();
 //		$("#modal_body").html(value);

@@ -16,6 +16,7 @@
 		<typeAlias alias="Double" type="java.lang.Double" />
 		
 		<typeAlias alias="UserVo" type="com.vos.web.UserVo" />
+		<typeAlias alias="CharacterVo" type="com.vos.web.CharacterVo" />
     </typeAliases>    
   
 </configuration>

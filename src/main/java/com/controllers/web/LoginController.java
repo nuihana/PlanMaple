@@ -42,6 +42,9 @@ public class LoginController {
 		
 		if (rstUser != null) {
 			session.setAttribute("login", rstUser);
+			session.setAttribute("loginSeq", rstUser.getUser_seq());
+			
+			session.setMaxInactiveInterval(60*60*24);
 			
 			return new ReturnVo("OK", "home", rstUser);
 		} else {

@@ -39,6 +39,10 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 			resultFlag = true;
 		} else if (requestURI.contains("/static")) {
 			resultFlag = true;
+		} else if (requestURI.contains("maplestory")) { //메이플스토리 정보 수집 url 1
+			resultFlag = true;
+		} else if (requestURI.contains("nexon")) { //메이플스토리 정보 수집 url 2
+			resultFlag = true;
 		}
 		return resultFlag;
 	}

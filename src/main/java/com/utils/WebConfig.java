@@ -57,7 +57,7 @@ public class WebConfig {
 		properties.setProperty("java.version", System.getProperty("java.version"));
 		
 		// vsc.conf 에 없을수 있는 값들 처리
-		if(properties.getProperty("client.title") == null || properties.getProperty("client.title").equals("")) properties.setProperty("client.title", properties.getProperty("client"));
+		if(properties.getProperty("client.title") == null || properties.getProperty("client.title").equals("")) properties.setProperty("client.title", properties.getProperty("client.title"));
 		
 		//system log
 		if(properties.getProperty("log.show") == null || properties.getProperty("log.show").equals("")) properties.setProperty("log.show", "");
