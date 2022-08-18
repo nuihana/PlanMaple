@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -22,8 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.utils.WebConfig;
 import com.services.web.CharacterService;
+import com.services.web.ManagecodeService;
+import com.services.web.ManagementService;
 import com.utils.Crawler;
 import com.vos.web.CharacterVo;
+import com.vos.web.ManagecodeVo;
+import com.vos.web.ManagementVo;
 import com.vos.web.ReturnVo;
 
 @Controller
@@ -36,6 +38,10 @@ public class CharacterController {
 	
 	@Inject
 	CharacterService characterService;
+	@Inject
+	ManagecodeService managecodeService;
+	@Inject
+	ManagementService managementService;
 
 	@RequestMapping(value = {"character"}, method = RequestMethod.GET)
 	public @ResponseBody ModelAndView character(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
@@ -44,6 +50,7 @@ public class CharacterController {
 		List<CharacterVo> characterList = characterService.selectCharacterList(new CharacterVo(user_seq));
 		
 		model.addAttribute("characterList", characterList);
+		
 		model.addAttribute("loginSeq", user_seq);
 		model.addAttribute("config", config);
 		
@@ -77,6 +84,43 @@ public class CharacterController {
 			actionMessage = "등록 되었습니다.";
 			try {
 				actionCnt = characterService.insertCharacter(characterVo);
+			} catch (DuplicateKeyException e) {
+				actionMessage = "이미 존재하는 데이터입니다.";
+			}
+		}
+		
+		if (actionMessage.equals("")) {
+			actionMessage = "예상치 못한 오류가 발생하였습니다.";
+		}
+		
+		if (actionCnt > 0) {
+			return new ReturnVo("YES", actionMessage, null);
+		} else {
+			return new ReturnVo("NO", actionMessage, null);
+		}
+	}
+	
+	@RequestMapping(value = {"managecodeList"}, method = RequestMethod.POST)
+	public @ResponseBody ModelAndView managecodeList(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("characterVo") CharacterVo characterVo, ModelMap model) {
+		List<ManagecodeVo> managecodeList = managecodeService.selectManagementCodeList(characterVo);
+		
+		model.addAttribute("managecodeList", managecodeList);
+		
+		return new ModelAndView("/innerPage/innerManagecodeList", model);
+	}
+	
+	@RequestMapping(value = {"managecodeEditProc"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo managecodeEditProc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("managementVo") ManagementVo managementVo, ModelMap model) {
+		
+		int actionCnt = 0;
+		String actionMessage = "";
+		
+		if (managementVo.getProc_role().equals("insert")) {
+			actionMessage = "등록 되었습니다.";
+			try {
+				actionCnt = managementService.insertManagement(managementVo);
 			} catch (DuplicateKeyException e) {
 				actionMessage = "이미 존재하는 데이터입니다.";
 			}

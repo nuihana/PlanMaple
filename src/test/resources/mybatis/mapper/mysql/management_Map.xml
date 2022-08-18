@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="management">
+
+	<insert id="insertManagement" parameterType="ManagementVo">
+		<selectKey resultType="String" keyProperty="sequence" order="BEFORE">
+			SELECT IFNULL(MAX(SEQUENCE), 0)+1 FROM PM_MANAGEMENT WHERE CHARACTER_SEQ = #{character_seq};
+		</selectKey>
+		INSERT INTO PM_MANAGEMENT (
+			MANAGEMENT_CODE, CHARACTER_SEQ, COMPLETE_COUNT, SEQUENCE
+		) VALUES (
+			#{management_code}, #{character_seq}, #{complete_count}, #{sequence}
+		)
+	</insert>
+	
+</mapper>

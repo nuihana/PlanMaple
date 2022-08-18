@@ -10,8 +10,81 @@
 <jsp:include page="/include/resource.jsp" />
 
 <script type="text/javascript">
+$(document).ready(function () {
+	$('#Managecode_user_seq').val('${loginSeq}');
+});
+
 function searchCharacter() {
 	$("#characterSearch_modal").modal();
+}
+
+function selectCharacter(character_seq) {
+	$('.character-data').removeClass("active");
+	
+	$('#Managecode_character_seq').val(character_seq);
+	
+	if (character_seq != undefined && character_seq != "") {
+		$('#planEditer').ajaxload(
+			'blockLoad',
+			ctxPath+'/managecodeList',
+			"POST",
+			"html",
+			$("#formCharacterManagecode").separator('separatorRemoveForm').serialize()
+		);
+	} else {
+		
+	}
+	
+	$("#character_tr_" + character_seq).addClass("active");
+}
+
+function managecodeProc(val) {
+	if (managecodeProcValidation(val)) {
+		$('#Managecode_proc_role').val(val);
+		
+		ajaxCall4Html(ctxPath + '/managecodeEditProc', $("#formCharacterManagecode").separator('separatorRemoveForm').serialize(), function(data) {
+			var rtn = JSON.parse(data);
+			console.log(rtn);
+// 			if (rtn.result == 'YES') {
+// 				$.alert("데이터 입력이 완료되었습니다.");
+// 			} else {
+// 				$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+// 			}
+		});
+	}
+}
+
+function managecodeProcValidation(val) {
+	if (val == 'insert') {
+		if ($('#Managecode_character_seq').val() == undefined || $('#Managecode_character_seq').val() == "") {
+			$.alert("숙제를 적용할 캐릭터를 선택해주세요.");
+			return false;
+		}
+		
+		if ($('#Managecode_managecode').val() == undefined || $('#Managecode_managecode').val() == "") {
+			$.alert("숙제를 선택해주세요.");
+			return false;
+		}
+	} else if (val == 'delete') {
+		
+	}
+	
+	return true;
+}
+
+function selectManagecode(managecode, complete_count) {
+	$('.managecode-data').removeClass("active");
+	
+	$('#Managecode_managecode').val(managecode);
+	$('#Managecode_complete_count').val(complete_count);
+	
+	if (managecode != "") {
+		
+	} else {
+		
+	}
+	
+	$("#managecode_tr_" + managecode).addClass("active");
 }
 </script>
 
@@ -24,6 +97,15 @@ function searchCharacter() {
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div style="overflow: auto; max-height: 900px;">
+							<form id="formCharacterManagecode" action="" method="post">
+								<input type="hidden" id="Managecode_character_seq" name="character_seq"/>
+								<input type="hidden" id="Managecode_user_seq" name="user_seq"/>
+								
+								<input type="hidden" id="Managecode_managecode" name="management_code"/>
+								<input type="hidden" id="Managecode_complete_count" name="complete_count"/>
+								
+								<input type="hidden" id="Managecode_proc_role" name="proc_role"/>
+							</form>
 							<table class="table table-hover character-table" id="characterTableInfo" style="width: 100%;">
 								<thead>
 									<tr>
@@ -35,7 +117,7 @@ function searchCharacter() {
 								</thead>
 								<tbody>
 									<c:forEach var="characterList" items="${characterList}" varStatus="status">
-										<tr id="character_tr_${characterList.character_seq}" style="cursor:pointer;" >
+										<tr id="character_tr_${characterList.character_seq}" class="btn-fn character-data" onclick="selectCharacter('${characterList.character_seq}');">
 											<td class="character-image">
 												<img src="${characterList.character_img}" alt="캐릭터 이미지">
 												<img class="character-image-bg" src="https://ssl.nexon.com/s2/game/maplestory/renewal/common/rank_other.png" alt="캐릭터 이미지 배경">
@@ -54,38 +136,7 @@ function searchCharacter() {
 					<div class="panel-body">
 						<div style="overflow: auto; height: 900px;">
 							<div id="planEditer" class="row" style="height: 100%;">
-								<div class="col-sm-4 col-sm-offset-1">
-									<table class="table table-hover">
-										<thead>
-											<tr>
-												<th class="text-center">숙제목록</th>
-											</tr>
-										</thead>
-									</table>
-								</div>
-								<div class="col-sm-2" style="height: 100%; display: flex; align-items: center; justify-content: center;">
-									<table>
-										<tr>
-											<td class="btn-fn">
-												<span class="glyphicon glyphicon-chevron-right pb-8" aria-hidden="true" style="font-size: 2.0em;"></span>
-											</td>
-										</tr>
-										<tr>
-											<td class="btn-fn">
-												<span class="glyphicon glyphicon-chevron-left" aria-hidden="true" style="font-size: 2.0em;"></span>
-											</td>
-										</tr>
-									</table>
-								</div>
-								<div class="col-sm-4">
-									<table class="table table-hover">
-										<thead>
-											<tr>
-												<th class="text-center">진행중</th>
-											</tr>
-										</thead>
-									</table>
-								</div>
+								<jsp:include page="/WEB-INF/views/innerPage/innerManagecodeList.jsp"></jsp:include>
 							</div>
 						</div>
 					</div>

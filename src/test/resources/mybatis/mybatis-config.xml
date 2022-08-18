@@ -17,6 +17,8 @@
 		
 		<typeAlias alias="UserVo" type="com.vos.web.UserVo" />
 		<typeAlias alias="CharacterVo" type="com.vos.web.CharacterVo" />
-    </typeAliases>    
+		<typeAlias alias="ManagecodeVo" type="com.vos.web.ManagecodeVo" />
+		<typeAlias alias="ManagementVo" type="com.vos.web.ManagementVo" />
+    </typeAliases>
   
 </configuration>

@@ -3,6 +3,7 @@
 <!-- jquery -->
 <script src="${pageContext.request.contextPath}/static/jQuery/jQuery-2.1.3.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/static/jQuery/jQuery.separator.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/static/jQuery/jQuery-ajaxload.js" type="text/javascript"></script>
 
 <!-- modal setting -->
 <script src="${pageContext.request.contextPath}/static/common_js/common_js.js" type="text/javascript"></script>
