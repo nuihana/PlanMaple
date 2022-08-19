@@ -22,6 +22,7 @@ function selectCharacter(character_seq) {
 	$('.character-data').removeClass("active");
 	
 	$('#Managecode_character_seq').val(character_seq);
+	$('#Management_character_seq').val(character_seq);
 	
 	if (character_seq != undefined && character_seq != "") {
 		$('#planEditer').ajaxload(
@@ -41,16 +42,29 @@ function selectCharacter(character_seq) {
 function managecodeProc(val) {
 	if (managecodeProcValidation(val)) {
 		$('#Managecode_proc_role').val(val);
+		$('#Management_proc_role').val(val);
 		
-		ajaxCall4Html(ctxPath + '/managecodeEditProc', $("#formCharacterManagecode").separator('separatorRemoveForm').serialize(), function(data) {
-			var rtn = JSON.parse(data);
-			console.log(rtn);
-// 			if (rtn.result == 'YES') {
-// 				$.alert("데이터 입력이 완료되었습니다.");
-// 			} else {
-// 				$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
-// 			}
-		});
+		if (val == 'insert') {
+			ajaxCall4Html(ctxPath + '/managecodeEditProc', $("#formCharacterManagecode").separator('separatorRemoveForm').serialize(), function(data) {
+				var rtn = JSON.parse(data);
+//	 			console.log(rtn);
+				if (rtn.result == 'YES') {
+					$.confirm("데이터 입력이 완료되었습니다.", "selectCharacter('" + $('#Managecode_character_seq').val() + "');");
+				} else {
+					$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+				}
+			});
+		} else if (val == 'delete') {
+			ajaxCall4Html(ctxPath + '/managecodeEditProc', $("#formCharacterManagement").separator('separatorRemoveForm').serialize(), function(data) {
+				var rtn = JSON.parse(data);
+//	 			console.log(rtn);
+				if (rtn.result == 'YES') {
+					$.confirm("데이터 제거가 완료되었습니다.", "selectCharacter('" + $('#Management_character_seq').val() + "');");
+				} else {
+					$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+				}
+			});
+		}
 	}
 }
 
@@ -62,11 +76,19 @@ function managecodeProcValidation(val) {
 		}
 		
 		if ($('#Managecode_managecode').val() == undefined || $('#Managecode_managecode').val() == "") {
-			$.alert("숙제를 선택해주세요.");
+			$.alert("추가할 숙제를 선택해주세요.");
 			return false;
 		}
 	} else if (val == 'delete') {
+		if ($('#Management_character_seq').val() == undefined || $('#Management_character_seq').val() == "") {
+			$.alert("숙제를 적용할 캐릭터를 선택해주세요.");
+			return false;
+		}
 		
+		if ($('#Management_management_code').val() == undefined || $('#Management_management_code').val() == "") {
+			$.alert("제거할 숙제를 선택해주세요.");
+			return false;
+		}
 	}
 	
 	return true;
@@ -85,6 +107,20 @@ function selectManagecode(managecode, complete_count) {
 	}
 	
 	$("#managecode_tr_" + managecode).addClass("active");
+}
+
+function selectManagement(management) {
+	$('.management-data').removeClass("active");
+	
+	$('#Management_management_code').val(management);
+	
+	if (management != "") {
+		
+	} else {
+		
+	}
+	
+	$("#management_tr_" + management).addClass("active");
 }
 </script>
 
@@ -105,6 +141,12 @@ function selectManagecode(managecode, complete_count) {
 								<input type="hidden" id="Managecode_complete_count" name="complete_count"/>
 								
 								<input type="hidden" id="Managecode_proc_role" name="proc_role"/>
+							</form>
+							<form id="formCharacterManagement" action="" method="post">
+								<input type="hidden" id="Management_character_seq" name="character_seq"/>
+								<input type="hidden" id="Management_management_code" name="management_code"/>
+								
+								<input type="hidden" id="Management_proc_role" name="proc_role"/>
 							</form>
 							<table class="table table-hover character-table" id="characterTableInfo" style="width: 100%;">
 								<thead>

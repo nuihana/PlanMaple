@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 
-<div class="modal fade" id="confirm_modal" >
+<div class="modal fade" id="confirm_modal" style="z-index: 1051;">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<!-- header -->
@@ -13,7 +13,7 @@
 			</div>
 			<!-- Footer -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.reload()">닫기</button>
+				<button id="confirm_modal_btn" type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 			</div>
 		</div>
 	</div>

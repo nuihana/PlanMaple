@@ -78,7 +78,7 @@ function CharacterInfoSaveProc() {
 			var rtn = JSON.parse(data);
 // 			console.log(rtn);
 			if (rtn.result == 'YES') {
-				$.confirm("데이터 입력이 완료되었습니다.");
+				$.confirm("데이터 입력이 완료되었습니다.", "window.location.reload();");
 			} else {
 				$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
 			}

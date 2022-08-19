@@ -3,6 +3,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="management">
 
+	<select id="selectCharacterManagementList" parameterType="CharacterVo" resultType="ManagementVo">
+		SELECT *
+		FROM PM_MANAGEMENT
+		WHERE CHARACTER_SEQ = #{character_seq}
+	</select>
+
 	<insert id="insertManagement" parameterType="ManagementVo">
 		<selectKey resultType="String" keyProperty="sequence" order="BEFORE">
 			SELECT IFNULL(MAX(SEQUENCE), 0)+1 FROM PM_MANAGEMENT WHERE CHARACTER_SEQ = #{character_seq};
@@ -13,5 +19,11 @@
 			#{management_code}, #{character_seq}, #{complete_count}, #{sequence}
 		)
 	</insert>
+	
+	<delete id="deleteManagementFromCode" parameterType="ManagementVo">
+		DELETE FROM PM_MANAGEMENT
+		WHERE CHARACTER_SEQ = #{character_seq}
+		AND MANAGEMENT_CODE = #{management_code}
+	</delete>
 	
 </mapper>

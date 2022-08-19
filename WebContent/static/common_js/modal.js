@@ -5,9 +5,10 @@ $(function() {
 		$("#modal_body").html(value);
 	};
 	
-	$.confirm = function(value) {
+	$.confirm = function(value, func) {
 		$("#confirm_modal").modal();
 		$("#confirm_modal_body").html(value);
+		$("#confirm_modal_btn").attr("onclick", func);
 	};
 	
 //	$.dialog = function(value) {

@@ -1,5 +1,6 @@
 package com.controllers.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -103,9 +104,36 @@ public class CharacterController {
 	@RequestMapping(value = {"managecodeList"}, method = RequestMethod.POST)
 	public @ResponseBody ModelAndView managecodeList(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("characterVo") CharacterVo characterVo, ModelMap model) {
-		List<ManagecodeVo> managecodeList = managecodeService.selectManagementCodeList(characterVo);
+		List<ManagecodeVo> readyManagecodeList = new ArrayList<ManagecodeVo>();
+		List<ManagecodeVo> ingManagecodeList = new ArrayList<ManagecodeVo>();
 		
-		model.addAttribute("managecodeList", managecodeList);
+		//전체 리스트
+		List<ManagecodeVo> managecodeList = managecodeService.selectManagementCodeList(characterVo);
+		//진행중인 숙제
+		List<ManagementVo> managementList = managementService.selectCharacterManagementList(characterVo);
+		
+		for (ManagecodeVo tmp : managecodeList) {
+			boolean flag = true;
+			int idx = 0;
+			int rmv_idx = 0;
+			for (ManagementVo tmp_ : managementList) {
+				if (tmp.getManagement_code().equals(tmp_.getManagement_code())) {
+					flag = false;
+					rmv_idx = idx;
+				}
+				idx++;
+			}
+			
+			if (flag) {
+				readyManagecodeList.add(tmp);
+			} else {
+				ingManagecodeList.add(tmp);
+				managementList.remove(rmv_idx);
+			}
+		}
+		
+		model.addAttribute("readyManagecodeList", readyManagecodeList);
+		model.addAttribute("ingManagecodeList", ingManagecodeList);
 		
 		return new ModelAndView("/innerPage/innerManagecodeList", model);
 	}
@@ -124,6 +152,10 @@ public class CharacterController {
 			} catch (DuplicateKeyException e) {
 				actionMessage = "이미 존재하는 데이터입니다.";
 			}
+		} else if (managementVo.getProc_role().equals("delete")) {
+			actionMessage = "제거 되었습니다.";
+			
+			actionCnt = managementService.deleteManagementFromCode(managementVo);
 		}
 		
 		if (actionMessage.equals("")) {
