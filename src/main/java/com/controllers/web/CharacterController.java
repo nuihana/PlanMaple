@@ -116,19 +116,25 @@ public class CharacterController {
 			boolean flag = true;
 			int idx = 0;
 			int rmv_idx = 0;
-			for (ManagementVo tmp_ : managementList) {
-				if (tmp.getManagement_code().equals(tmp_.getManagement_code())) {
-					flag = false;
-					rmv_idx = idx;
-				}
-				idx++;
-			}
 			
-			if (flag) {
+			if (tmp.getParant_code().equals("")) {
 				readyManagecodeList.add(tmp);
-			} else {
 				ingManagecodeList.add(tmp);
-				managementList.remove(rmv_idx);
+			} else {
+				for (ManagementVo tmp_ : managementList) {
+					if (tmp.getManagement_code().equals(tmp_.getManagement_code())) {
+						flag = false;
+						rmv_idx = idx;
+					}
+					idx++;
+				}
+				
+				if (flag) {
+					readyManagecodeList.add(tmp);
+				} else {
+					ingManagecodeList.add(tmp);
+					managementList.remove(rmv_idx);
+				}
 			}
 		}
 		
@@ -147,15 +153,21 @@ public class CharacterController {
 		
 		if (managementVo.getProc_role().equals("insert")) {
 			actionMessage = "등록 되었습니다.";
-			try {
-				actionCnt = managementService.insertManagement(managementVo);
-			} catch (DuplicateKeyException e) {
-				actionMessage = "이미 존재하는 데이터입니다.";
+			for (String tmp : managementVo.getManagement_code().split(",")) {
+				ManagecodeVo seaechVo = managecodeService.selectManagementCodeInfo(new ManagementVo(tmp));
+				ManagementVo tmpVo = new ManagementVo(tmp, managementVo.getCharacter_seq(), seaechVo.getComplete_count());
+				
+				try {
+					actionCnt = managementService.insertManagement(tmpVo);
+				} catch (DuplicateKeyException e) {
+					actionMessage = "이미 존재하는 데이터입니다.";
+				}
 			}
 		} else if (managementVo.getProc_role().equals("delete")) {
 			actionMessage = "제거 되었습니다.";
-			
-			actionCnt = managementService.deleteManagementFromCode(managementVo);
+			for (String tmp : managementVo.getManagement_code().split(",")) {
+				actionCnt = managementService.deleteManagementFromCode(new ManagementVo(tmp, managementVo.getCharacter_seq()));
+			}
 		}
 		
 		if (actionMessage.equals("")) {

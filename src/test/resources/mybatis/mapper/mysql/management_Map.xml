@@ -7,6 +7,7 @@
 		SELECT *
 		FROM PM_MANAGEMENT
 		WHERE CHARACTER_SEQ = #{character_seq}
+		ORDER BY MANAGEMENT_CODE
 	</select>
 
 	<insert id="insertManagement" parameterType="ManagementVo">

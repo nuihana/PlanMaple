@@ -8,12 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.vos.web.CharacterVo;
 import com.vos.web.ManagecodeVo;
+import com.vos.web.ManagementVo;
 import com.vos.web.UserVo;
 
 @Service
 public class ManagecodeService {
 	@Autowired
 	private SqlSession sqlSession;
+
+	public ManagecodeVo selectManagementCodeInfo(ManagementVo managementVo) {
+		return sqlSession.selectOne("managecode.selectManagementCodeInfo", managementVo);
+	}
 
 	public List<ManagecodeVo> selectManagementCodeList(CharacterVo characterVo) {
 		return sqlSession.selectList("managecode.selectManagementCodeList", characterVo);

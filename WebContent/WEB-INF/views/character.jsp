@@ -45,6 +45,14 @@ function managecodeProc(val) {
 		$('#Management_proc_role').val(val);
 		
 		if (val == 'insert') {
+			var codeList = "";
+			
+	 		$("input:checkbox[name='readyManagecodeCheckBox']:checked").each(function(i, ival) {
+	 			codeList += ival.value + ",";
+	 		});
+	 		
+	 		$('#Managecode_managecode').val(codeList);
+			
 			ajaxCall4Html(ctxPath + '/managecodeEditProc', $("#formCharacterManagecode").separator('separatorRemoveForm').serialize(), function(data) {
 				var rtn = JSON.parse(data);
 //	 			console.log(rtn);
@@ -55,6 +63,14 @@ function managecodeProc(val) {
 				}
 			});
 		} else if (val == 'delete') {
+			var codeList = "";
+			
+	 		$("input:checkbox[name='ingManagecodeCheckBox']:checked").each(function(i, ival) {
+	 			codeList += ival.value + ",";
+	 		});
+	 		
+	 		$('#Management_management_code').val(codeList);
+	 		
 			ajaxCall4Html(ctxPath + '/managecodeEditProc', $("#formCharacterManagement").separator('separatorRemoveForm').serialize(), function(data) {
 				var rtn = JSON.parse(data);
 //	 			console.log(rtn);
@@ -75,7 +91,7 @@ function managecodeProcValidation(val) {
 			return false;
 		}
 		
-		if ($('#Managecode_managecode').val() == undefined || $('#Managecode_managecode').val() == "") {
+		if ($("input:checkbox[name='readyManagecodeCheckBox']:checked").length < 1) {
 			$.alert("추가할 숙제를 선택해주세요.");
 			return false;
 		}
@@ -85,7 +101,7 @@ function managecodeProcValidation(val) {
 			return false;
 		}
 		
-		if ($('#Management_management_code').val() == undefined || $('#Management_management_code').val() == "") {
+		if ($("input:checkbox[name='ingManagecodeCheckBox']:checked").length < 1) {
 			$.alert("제거할 숙제를 선택해주세요.");
 			return false;
 		}
@@ -95,32 +111,47 @@ function managecodeProcValidation(val) {
 }
 
 function selectManagecode(managecode, complete_count) {
-	$('.managecode-data').removeClass("active");
-	
-	$('#Managecode_managecode').val(managecode);
-	$('#Managecode_complete_count').val(complete_count);
-	
-	if (managecode != "") {
-		
+	if ($("#managecode_cb_" + managecode).prop("checked")) {
+		$("#managecode_cb_" + managecode).prop("checked", false);
+		$("#managecode_tr_" + managecode).removeClass("active");
 	} else {
-		
+		$("#managecode_cb_" + managecode).prop("checked", true);
+		$("#managecode_tr_" + managecode).addClass("active");
 	}
-	
-	$("#managecode_tr_" + managecode).addClass("active");
+}
+
+function selectParantcode(managecode) {
+	if ($("#parantcode_cb_" + managecode).prop("checked")) {
+		$("#parantcode_cb_" + managecode).prop("checked", false);
+		$(".cb_" + managecode).prop("checked", false);
+		$(".tr-" + managecode).removeClass("active");
+	} else {
+		$("#parantcode_cb_" + managecode).prop("checked", true);
+		$(".cb_" + managecode).prop("checked", true);
+		$(".tr-" + managecode).addClass("active");
+	}
 }
 
 function selectManagement(management) {
-	$('.management-data').removeClass("active");
-	
-	$('#Management_management_code').val(management);
-	
-	if (management != "") {
-		
+	if ($("#management_cb_" + management).prop("checked")) {
+		$("#management_cb_" + management).prop("checked", false);
+		$("#management_tr_" + management).removeClass("active");
 	} else {
-		
+		$("#management_cb_" + management).prop("checked", true);
+		$("#management_tr_" + management).addClass("active");
 	}
-	
-	$("#management_tr_" + management).addClass("active");
+}
+
+function selectParantManagement(managecode) {
+	if ($("#parant_management_cb_" + managecode).prop("checked")) {
+		$("#parant_management_cb_" + managecode).prop("checked", false);
+		$(".mcb_" + managecode).prop("checked", false);
+		$(".mtr-" + managecode).removeClass("active");
+	} else {
+		$("#parant_management_cb_" + managecode).prop("checked", true);
+		$(".mcb_" + managecode).prop("checked", true);
+		$(".mtr-" + managecode).addClass("active");
+	}
 }
 </script>
 
@@ -138,7 +169,6 @@ function selectManagement(management) {
 								<input type="hidden" id="Managecode_user_seq" name="user_seq"/>
 								
 								<input type="hidden" id="Managecode_managecode" name="management_code"/>
-								<input type="hidden" id="Managecode_complete_count" name="complete_count"/>
 								
 								<input type="hidden" id="Managecode_proc_role" name="proc_role"/>
 							</form>

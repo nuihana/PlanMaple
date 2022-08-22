@@ -10,6 +10,25 @@ public class ManagementVo {
 	
 	private String proc_role;
 	
+	public ManagementVo() {
+		//기본생성자
+	}
+	
+	public ManagementVo(String code) {
+		this.management_code = code;
+	}
+	
+	public ManagementVo(String code, String cha_seq) {
+		this.management_code = code;
+		this.character_seq = cha_seq;
+	}
+	
+	public ManagementVo(String code, String cha_seq, String count) {
+		this.management_code = code;
+		this.character_seq = cha_seq;
+		this.complete_count = count;
+	}
+	
 	public String getManagement_seq() {
 		return management_seq;
 	}

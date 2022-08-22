@@ -3,11 +3,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="managecode">
 
+	<select id="selectManagementCodeInfo" parameterType="ManagementVo" resultType="ManagecodeVo">
+		SELECT *
+		FROM PM_MANAGEMENTCODE
+		WHERE MANAGEMENT_CODE = #{management_code}
+	</select>
+
 	<select id="selectManagementCodeList" parameterType="CharacterVo" resultType="ManagecodeVo">
 		SELECT *
 		FROM PM_MANAGEMENTCODE
 		WHERE (PUBLIC_FLAG = '0' OR PUBLIC_FLAG = #{user_seq})
-		AND PARANT_CODE != ''
+		ORDER BY MANAGEMENT_CODE
 	</select>
 	
 </mapper>
