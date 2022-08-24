@@ -57,6 +57,11 @@ function logout() {
 						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					</a>
 				</li>
+				<li>
+					<a href="/management" class="tooltip-nav" data-tooltip="숙제">
+						<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+					</a>
+				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 <!-- 				<li><a href="#">Help</a></li> -->

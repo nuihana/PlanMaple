@@ -1,5 +1,6 @@
 package com.services.web;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -16,6 +17,10 @@ public class ManagementService {
 
 	public List<ManagementVo> selectCharacterManagementList(CharacterVo characterVo) {
 		return sqlSession.selectList("management.selectCharacterManagementList", characterVo);
+	}
+
+	public List<ManagementVo> selectTargetManagementList(HashMap<String, Object> map) {
+		return sqlSession.selectList("management.selectTargetManagementList", map);
 	}
 
 	public int insertManagement(ManagementVo managementVo) {

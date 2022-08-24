@@ -10,14 +10,25 @@
 		ORDER BY MANAGEMENT_CODE
 	</select>
 
+	<select id="selectTargetManagementList" parameterType="hashMap" resultType="ManagementVo">
+		SELECT *
+		FROM PM_MANAGEMENT
+		WHERE CHARACTER_SEQ IN
+			<foreach collection="characterList" item="item" open="(" separator="," close=")">
+				#{item.character_seq}
+			</foreach>
+		AND MANAGEMENT_CODE = #{code}
+		ORDER BY SEQUENCE
+	</select>
+
 	<insert id="insertManagement" parameterType="ManagementVo">
 		<selectKey resultType="String" keyProperty="sequence" order="BEFORE">
-			SELECT IFNULL(MAX(SEQUENCE), 0)+1 FROM PM_MANAGEMENT WHERE CHARACTER_SEQ = #{character_seq};
+			SELECT IFNULL(MAX(CAST(SEQUENCE AS UNSIGNED)), 0)+1 FROM PM_MANAGEMENT WHERE CHARACTER_SEQ = #{character_seq};
 		</selectKey>
 		INSERT INTO PM_MANAGEMENT (
-			MANAGEMENT_CODE, CHARACTER_SEQ, COMPLETE_COUNT, SEQUENCE
+			MANAGEMENT_CODE, CHARACTER_SEQ, SEQUENCE
 		) VALUES (
-			#{management_code}, #{character_seq}, #{complete_count}, #{sequence}
+			#{management_code}, #{character_seq}, #{sequence}
 		)
 	</insert>
 	

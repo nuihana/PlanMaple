@@ -13,10 +13,12 @@
 </script>
 
 </head>
-<body class="d-flex flex-column min-vh-100">
-	<jsp:include page="/include/header.jsp"></jsp:include>
-	<div class="container">
+<body>
+	<div class="main-container">
+		<jsp:include page="/include/header.jsp"></jsp:include>
+		<div class="row main-content">
+		</div>
+		<jsp:include page="/include/footer.jsp"></jsp:include>
 	</div>
-	<jsp:include page="/include/footer.jsp"></jsp:include>
 </body>
 </html>

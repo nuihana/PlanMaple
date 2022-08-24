@@ -1,5 +1,8 @@
 package com.vos.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ManagecodeVo {
 	private String management_code;
 	private String management_code_desc;
@@ -9,6 +12,11 @@ public class ManagecodeVo {
 	private String complete_count;
 	private String limit_level;
 	private String public_flag;
+	
+	// management 페이지 colspan 입력용도
+	private String chid_count = "0";
+	// management 페이지 체크박스 출력 용도
+	private List<ManagementVo> unique_managementlist = new ArrayList<ManagementVo>();
 	
 	public String getManagement_code() {
 		return management_code;
@@ -57,6 +65,25 @@ public class ManagecodeVo {
 	}
 	public void setPublic_flag(String public_flag) {
 		this.public_flag = public_flag;
+	}
+	public String getChid_count() {
+		return chid_count;
+	}
+	public void setChid_count(String chid_count) {
+		this.chid_count = chid_count;
+	}
+	public List<ManagementVo> getUnique_managementlist() {
+		return unique_managementlist;
+	}
+	public void setUnique_managementlist(List<ManagementVo> unique_managementlist) {
+		this.unique_managementlist = unique_managementlist;
+	}
+	/**
+	 * 
+	 * @param managementVo unique_managementlist에 해당 Vo를 추가
+	 */
+	public void addUnique_managementlist(ManagementVo managementVo) {
+		this.unique_managementlist.add(managementVo);
 	}
 	
 	@Override

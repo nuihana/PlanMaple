@@ -78,4 +78,15 @@ public class ManagementVo {
 				+ ", character_seq=" + character_seq + ", complete_count=" + complete_count + ", sequence=" + sequence
 				+ ", use_yn=" + use_yn + ", proc_role=" + proc_role + "]";
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		ManagementVo vo = (ManagementVo) obj;
+		
+		if (vo.getManagement_code().equals(this.management_code) && vo.getCharacter_seq().equals(this.character_seq)) {
+			return true;
+		}
+		
+		return false;
+	}
 }

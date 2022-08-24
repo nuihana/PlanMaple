@@ -154,8 +154,7 @@ public class CharacterController {
 		if (managementVo.getProc_role().equals("insert")) {
 			actionMessage = "등록 되었습니다.";
 			for (String tmp : managementVo.getManagement_code().split(",")) {
-				ManagecodeVo seaechVo = managecodeService.selectManagementCodeInfo(new ManagementVo(tmp));
-				ManagementVo tmpVo = new ManagementVo(tmp, managementVo.getCharacter_seq(), seaechVo.getComplete_count());
+				ManagementVo tmpVo = new ManagementVo(tmp, managementVo.getCharacter_seq());
 				
 				try {
 					actionCnt = managementService.insertManagement(tmpVo);
