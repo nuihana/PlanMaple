@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,7 @@ import com.utils.WebConfig;
 import com.vos.web.CharacterVo;
 import com.vos.web.ManagecodeVo;
 import com.vos.web.ManagementVo;
+import com.vos.web.ReturnVo;
 
 @Controller
 public class ManagementController {
@@ -88,5 +90,23 @@ public class ManagementController {
 		model.addAttribute("config", config);
 		
 		return new ModelAndView("/management", model);
+	}
+	
+	@RequestMapping(value = {"managementProc"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo managementProc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("managementVo") ManagementVo managementVo, ModelMap model) {
+		int actionCnt = 0;
+		String actionMessage = "";
+		
+		if (managementVo.getProc_role().equals("update")) {
+			actionMessage = "수정 되었습니다.";
+			actionCnt = managementService.updateManagement(managementVo);
+		}
+		
+		if (actionCnt > 0) {
+			return new ReturnVo("YES", actionMessage, null);
+		} else {
+			return new ReturnVo("NO", actionMessage, null);
+		}
 	}
 }

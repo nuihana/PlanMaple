@@ -78,11 +78,7 @@ function loginValidation() {
 		<label for="password">PW</label>
 		<input class="login-input" type="password" placeholder="Enter Password" id="user_pw" name="user_pw" value="${userVo.user_pw}">
 
-		<button type="button" onclick="loginCheck();">Log In</button>
-<!-- 		<div class="social"> -->
-<!-- 			<div class="go"><i class="fab fa-google"></i>  Google</div> -->
-<!-- 			<div class="fb"><i class="fab fa-facebook"></i>  Facebook</div> -->
-<!-- 		</div> -->
+		<button type="button" onclick="loginCheck();">로그인</button>
 	</form>
 	
 <jsp:include page="/include/popup/alertModal.jsp" />

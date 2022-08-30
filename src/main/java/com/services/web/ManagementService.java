@@ -30,4 +30,8 @@ public class ManagementService {
 	public int deleteManagementFromCode(ManagementVo managementVo) {
 		return sqlSession.delete("management.deleteManagementFromCode", managementVo);
 	}
+
+	public int updateManagement(ManagementVo managementVo) {
+		return sqlSession.update("management.updateManagement", managementVo);
+	}
 }

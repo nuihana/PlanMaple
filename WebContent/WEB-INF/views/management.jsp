@@ -49,6 +49,8 @@ function checkManageBox(seq, comp_count) {
 	if ($('#managebox_' + seq).val() == comp_count) {
 		$('#manage_tooltip_' + seq).html('<span class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 0.8em;"></span>');
 	}
+	
+	managementProc(seq, $('#managebox_' + seq).val());
 }
 
 function managementProc(seq, proc_count) {
@@ -95,6 +97,8 @@ function managementValidation() {
 							<form id="formManagementEdit" action="" method="post">
 								<input type="hidden" id="management_seq" name="management_seq"/>
 								<input type="hidden" id="complete_count" name="complete_count"/>
+								
+								<input type="hidden" id="proc_role" name="proc_role" value="update"/>
 							</form>
 							<table class="table table-hover" style="width: auto;">
 								<thead>
@@ -135,9 +139,23 @@ function managementValidation() {
 												<td class="text-center" style="white-space:nowrap;">
 													<div style="position: relative;">
 														<c:if test="${unique_managementlist.complete_count ne null}">
-															<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
-															onclick="checkManageBox('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}');" value="${unique_managementlist.complete_count}">
-															<span id="manage_tooltip_${unique_managementlist.management_seq}" class="manage-tooltip"></span>
+															<c:choose>
+																<c:when test="${unique_managementlist.complete_count eq bodyManagecodeList.complete_count}">
+																	<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
+																	onclick="checkManageBox('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}');" value="${unique_managementlist.complete_count}" checked="checked">
+																	<span id="manage_tooltip_${unique_managementlist.management_seq}" class="manage-tooltip" style="opacity: 1;"><span class="glyphicon glyphicon-ok" aria-hidden="true" style="font-size: 0.8em;"></span></span>
+																</c:when>
+																<c:when test="${unique_managementlist.complete_count gt 0 and unique_managementlist.complete_count lt bodyManagecodeList.complete_count}">
+																	<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
+																	onclick="checkManageBox('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}');" value="${unique_managementlist.complete_count}" checked="checked">
+																	<span id="manage_tooltip_${unique_managementlist.management_seq}" class="manage-tooltip" style="opacity: 1;">${unique_managementlist.complete_count}</span>
+																</c:when>
+																<c:otherwise>
+																	<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
+																	onclick="checkManageBox('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}');" value="${unique_managementlist.complete_count}">
+																	<span id="manage_tooltip_${unique_managementlist.management_seq}" class="manage-tooltip"></span>
+																</c:otherwise>
+															</c:choose>
 														</c:if>
 													</div>
 												</td>

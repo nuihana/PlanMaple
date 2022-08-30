@@ -38,4 +38,10 @@
 		AND MANAGEMENT_CODE = #{management_code}
 	</delete>
 	
+	<update id="updateManagement" parameterType="ManagementVo">
+		UPDATE PM_MANAGEMENT
+		SET COMPLETE_COUNT = #{complete_count}
+		WHERE MANAGEMENT_SEQ = #{management_seq}
+	</update>
+	
 </mapper>
