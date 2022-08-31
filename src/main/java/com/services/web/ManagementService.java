@@ -34,4 +34,8 @@ public class ManagementService {
 	public int updateManagement(ManagementVo managementVo) {
 		return sqlSession.update("management.updateManagement", managementVo);
 	}
+
+	public void updateManagementReset(HashMap<String, Object> map) {
+		sqlSession.update("management.updateManagementReset", map);
+	}
 }

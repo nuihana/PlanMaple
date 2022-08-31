@@ -1,5 +1,6 @@
 package com.services.web;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -22,6 +23,10 @@ public class ManagecodeService {
 
 	public List<ManagecodeVo> selectManagementCodeList(CharacterVo characterVo) {
 		return sqlSession.selectList("managecode.selectManagementCodeList", characterVo);
+	}
+
+	public List<ManagecodeVo> selectManagementCodeListByCondition(HashMap<String, Object> map) {
+		return sqlSession.selectList("managecode.selectManagementCodeListByCondition", map);
 	}
 	
 }

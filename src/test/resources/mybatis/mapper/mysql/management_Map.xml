@@ -44,4 +44,13 @@
 		WHERE MANAGEMENT_SEQ = #{management_seq}
 	</update>
 	
+	<update id="updateManagementReset" parameterType="hashMap">
+		UPDATE PM_MANAGEMENT
+		SET COMPLETE_COUNT = '0'
+		WHERE MANAGEMENT_CODE IN
+			<foreach collection="targetCodeList" item="item" open="(" separator="," close=")">
+				#{item.management_code}
+			</foreach>
+	</update>
+	
 </mapper>
