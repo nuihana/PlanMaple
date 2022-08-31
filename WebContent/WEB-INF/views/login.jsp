@@ -9,8 +9,6 @@
 
 <jsp:include page="/include/resource.jsp" />
 
-<link href="${pageContext.request.contextPath}/static/login/login.css" rel="stylesheet" type="text/css" />
-
 <c:import url="/include/commonModalHead.jsp" />
 
 <script type="text/javascript">
@@ -23,7 +21,7 @@ $(document).ready(function() {
 		$.alert('계정정보가 일치하지 않습니다.');
 	}
 	
-	$('.login-input').keydown(function(e) {
+	$('.form-control').keydown(function(e) {
 		if (e.keyCode == 13) {
 			loginCheck();
 			return;
@@ -61,26 +59,32 @@ function loginValidation() {
 	
 	return true;
 }
+
+function signup() {
+	location.href = ctxPath + "/signup";
+}
 </script>
 
 </head>
 <body>
-	<div class="background">
-		<div class="shape"></div>
-		<div class="shape"></div>
+	<div class="container">
+		<form id="formLogin" class="form-login form-horizontal" action="" method="post">
+			<h3 class="form-login-heading text-center">로그인</h3>
+			
+			<div class="form-group">
+				<label for="username" class="control-label">ID</label>
+				<input class="form-control" type="text" placeholder="ID 입력" id="user_id" name="user_id" value="${userVo.user_id}">
+		
+				<label for="password" class="control-label">PW</label>
+				<input class="form-control" type="password" placeholder="PW 입력" id="user_pw" name="user_pw" value="${userVo.user_pw}">
+			</div>
+			
+			<div class="d-grid gap-2">
+				<button type="button" class="btn btn-secondary btn-block" onclick="loginCheck();" style="margin-top: 30px;">로그인</button>
+				<button type="button" class="btn btn-secondary btn-block" onclick="signup();" style="margin-top: 10px;">계정등록</button>
+			</div>
+		</form>
 	</div>
-	<form id="formLogin" action="" method="post">
-		<h3>PlanMaple</h3>
-
-		<label for="username">ID</label>
-		<input class="login-input" type="text" placeholder="Enter ID" id="user_id" name="user_id" value="${userVo.user_id}">
-
-		<label for="password">PW</label>
-		<input class="login-input" type="password" placeholder="Enter Password" id="user_pw" name="user_pw" value="${userVo.user_pw}">
-
-		<button type="button" onclick="loginCheck();">로그인</button>
-	</form>
-	
 <jsp:include page="/include/popup/alertModal.jsp" />
 </body>
 </html>

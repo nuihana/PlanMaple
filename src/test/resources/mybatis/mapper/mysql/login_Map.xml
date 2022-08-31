@@ -9,5 +9,19 @@
 		WHERE USER_ID = #{user_id}
 		AND USER_PW = #{user_pw}
 	</select>
+
+	<select id="selectUserIsExist" parameterType="UserVo" resultType="UserVo">
+		SELECT *
+		FROM PM_USER
+		WHERE USER_ID = #{user_id}
+	</select>
+	
+	<insert id="insertUser" parameterType="UserVo">
+		INSERT INTO PM_USER (
+			USER_ID, USER_PW, LAST_UPDATE
+		) VALUES (
+			#{user_id}, #{user_pw}, CURDATE()
+		)
+	</insert>
 	
 </mapper>

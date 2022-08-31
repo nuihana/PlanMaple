@@ -14,4 +14,12 @@ public class LoginService {
 	public UserVo selectUser(UserVo userVo) {
 		return sqlSession.selectOne("login.selectUser", userVo);
 	}
+
+	public UserVo selectUserIsExist(UserVo userVo) {
+		return sqlSession.selectOne("login.selectUserIsExist", userVo);
+	}
+
+	public int insertUser(UserVo userVo) {
+		return sqlSession.insert("login.insertUser", userVo);
+	}
 }

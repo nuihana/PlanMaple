@@ -1,14 +1,30 @@
 $(function() {
 	
 	$.alert = function(value) {
-		$("#alert_modal").modal();
+		let options = {
+			backdrop: true,
+			keyboard: true,
+			focus: true
+		};
+		
+		let myModal = new bootstrap.Modal(document.getElementById('alert_modal'), options);
+//		$("#alert_modal").modal();
 		$("#modal_body").html(value);
+		myModal.show();
 	};
 	
 	$.confirm = function(value, func) {
-		$("#confirm_modal").modal();
+		let options = {
+				backdrop: true,
+				keyboard: true,
+				focus: true
+			};
+		
+		let myModal = new bootstrap.Modal(document.getElementById('confirm_modal'), options);
+//		$("#confirm_modal").modal();
 		$("#confirm_modal_body").html(value);
 		$("#confirm_modal_btn").attr("onclick", func);
+		myModal.show();
 	};
 	
 //	$.dialog = function(value) {

@@ -15,11 +15,18 @@ $(document).ready(function () {
 });
 
 function searchCharacter() {
-	$("#characterSearch_modal").modal();
+	let options = {
+		backdrop: true,
+		keyboard: true,
+		focus: true
+	};
+	
+	let myModal = new bootstrap.Modal(document.getElementById('characterSearch_modal'), options);
+	myModal.show();
 }
 
 function selectCharacter(character_seq) {
-	$('.character-data').removeClass("active");
+	$('.character-data').removeClass("table-active");
 	
 	$('#Managecode_character_seq').val(character_seq);
 	$('#Management_character_seq').val(character_seq);
@@ -36,7 +43,7 @@ function selectCharacter(character_seq) {
 		
 	}
 	
-	$("#character_tr_" + character_seq).addClass("active");
+	$("#character_tr_" + character_seq).addClass("table-active");
 }
 
 function managecodeProc(val) {
@@ -113,10 +120,10 @@ function managecodeProcValidation(val) {
 function selectManagecode(managecode, complete_count) {
 	if ($("#managecode_cb_" + managecode).prop("checked")) {
 		$("#managecode_cb_" + managecode).prop("checked", false);
-		$("#managecode_tr_" + managecode).removeClass("active");
+		$("#managecode_tr_" + managecode).removeClass("table-active");
 	} else {
 		$("#managecode_cb_" + managecode).prop("checked", true);
-		$("#managecode_tr_" + managecode).addClass("active");
+		$("#managecode_tr_" + managecode).addClass("table-active");
 	}
 }
 
@@ -124,21 +131,21 @@ function selectParantcode(managecode) {
 	if ($("#parantcode_cb_" + managecode).prop("checked")) {
 		$("#parantcode_cb_" + managecode).prop("checked", false);
 		$(".cb_" + managecode).prop("checked", false);
-		$(".tr-" + managecode).removeClass("active");
+		$(".tr-" + managecode).removeClass("table-active");
 	} else {
 		$("#parantcode_cb_" + managecode).prop("checked", true);
 		$(".cb_" + managecode).prop("checked", true);
-		$(".tr-" + managecode).addClass("active");
+		$(".tr-" + managecode).addClass("table-active");
 	}
 }
 
 function selectManagement(management) {
 	if ($("#management_cb_" + management).prop("checked")) {
 		$("#management_cb_" + management).prop("checked", false);
-		$("#management_tr_" + management).removeClass("active");
+		$("#management_tr_" + management).removeClass("table-active");
 	} else {
 		$("#management_cb_" + management).prop("checked", true);
-		$("#management_tr_" + management).addClass("active");
+		$("#management_tr_" + management).addClass("table-active");
 	}
 }
 
@@ -146,11 +153,11 @@ function selectParantManagement(managecode) {
 	if ($("#parant_management_cb_" + managecode).prop("checked")) {
 		$("#parant_management_cb_" + managecode).prop("checked", false);
 		$(".mcb_" + managecode).prop("checked", false);
-		$(".mtr-" + managecode).removeClass("active");
+		$(".mtr-" + managecode).removeClass("table-active");
 	} else {
 		$("#parant_management_cb_" + managecode).prop("checked", true);
 		$(".mcb_" + managecode).prop("checked", true);
-		$(".mtr-" + managecode).addClass("active");
+		$(".mtr-" + managecode).addClass("table-active");
 	}
 }
 </script>
@@ -159,56 +166,58 @@ function selectParantManagement(managecode) {
 <body>
 	<div class="main-container">
 		<jsp:include page="/include/header.jsp"></jsp:include>
-		<div class="row main-content">
-			<div class="col-sm-3 col-xs-3">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div style="overflow: auto; max-height: 900px;">
-							<form id="formCharacterManagecode" action="" method="post">
-								<input type="hidden" id="Managecode_character_seq" name="character_seq"/>
-								<input type="hidden" id="Managecode_user_seq" name="user_seq"/>
-								
-								<input type="hidden" id="Managecode_managecode" name="management_code"/>
-								
-								<input type="hidden" id="Managecode_proc_role" name="proc_role"/>
-							</form>
-							<form id="formCharacterManagement" action="" method="post">
-								<input type="hidden" id="Management_character_seq" name="character_seq"/>
-								<input type="hidden" id="Management_management_code" name="management_code"/>
-								
-								<input type="hidden" id="Management_proc_role" name="proc_role"/>
-							</form>
-							<table class="table table-hover character-table" id="characterTableInfo" style="width: 100%;">
-								<thead>
-									<tr>
-										<th width="114px" class="text-center" style="cursor: pointer;" onclick="searchCharacter();">
-											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-										</th>
-										<th width="*" class="text-center">닉네임</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="characterList" items="${characterList}" varStatus="status">
-										<tr id="character_tr_${characterList.character_seq}" class="btn-fn character-data" onclick="selectCharacter('${characterList.character_seq}');">
-											<td class="character-image">
-												<img src="${characterList.character_img}" alt="캐릭터 이미지">
-												<img class="character-image-bg" src="https://ssl.nexon.com/s2/game/maplestory/renewal/common/rank_other.png" alt="캐릭터 이미지 배경">
-											</td>
-											<td class="text-center text-vertical-center">${characterList.character_name}</td>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3 col-xs-3">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div style="overflow: auto; max-height: 900px;">
+								<form id="formCharacterManagecode" action="" method="post">
+									<input type="hidden" id="Managecode_character_seq" name="character_seq"/>
+									<input type="hidden" id="Managecode_user_seq" name="user_seq"/>
+									
+									<input type="hidden" id="Managecode_managecode" name="management_code"/>
+									
+									<input type="hidden" id="Managecode_proc_role" name="proc_role"/>
+								</form>
+								<form id="formCharacterManagement" action="" method="post">
+									<input type="hidden" id="Management_character_seq" name="character_seq"/>
+									<input type="hidden" id="Management_management_code" name="management_code"/>
+									
+									<input type="hidden" id="Management_proc_role" name="proc_role"/>
+								</form>
+								<table class="table table-hover character-table" id="characterTableInfo" style="width: 100%;">
+									<thead>
+										<tr>
+											<th width="114px" class="text-center" style="cursor: pointer;" onclick="searchCharacter();">
+												<i class="bi bi-person-plus-fill"></i>
+											</th>
+											<th width="*" class="text-center">닉네임</th>
 										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+									</thead>
+									<tbody>
+										<c:forEach var="characterList" items="${characterList}" varStatus="status">
+											<tr id="character_tr_${characterList.character_seq}" class="btn-fn character-data" onclick="selectCharacter('${characterList.character_seq}');">
+												<td class="character-image">
+													<img src="${characterList.character_img}" alt="캐릭터 이미지">
+													<img class="character-image-bg" src="https://ssl.nexon.com/s2/game/maplestory/renewal/common/rank_other.png" alt="캐릭터 이미지 배경">
+												</td>
+												<td class="text-center text-vertical-center">${characterList.character_name}</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-sm-9 col-xs-9">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div style="overflow: auto; height: 900px;">
-							<div id="planEditer" class="row" style="height: 100%;">
-								<jsp:include page="/WEB-INF/views/innerPage/innerManagecodeList.jsp"></jsp:include>
+				<div class="col-sm-9 col-xs-9">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div style="position: relative; overflow: auto; height: 900px;">
+								<div id="planEditer" class="row" style="position: absolute; height: 100%; width: 100%;">
+									<jsp:include page="/WEB-INF/views/innerPage/innerManagecodeList.jsp"></jsp:include>
+								</div>
 							</div>
 						</div>
 					</div>

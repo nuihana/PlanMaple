@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -59,6 +60,46 @@ public class LoginController {
 			}
 			
 			return new ReturnVo("NO", "login" + returnUrl, rstUser);
+		}
+	}
+
+	@RequestMapping(value = {"signup"}, method = RequestMethod.GET)
+	public @ResponseBody ModelAndView signup(ModelMap model) {
+		
+		return new ModelAndView("/signup", model);
+	}
+	
+	@RequestMapping(value = {"loginUserDuplChkAjax"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo loginUserDuplChkAjax(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("userVo") UserVo reqUser, ModelMap model) {
+		
+		UserVo rstUser = loginService.selectUserIsExist(reqUser);
+		
+		if (rstUser != null) {
+			return new ReturnVo("NO", null, rstUser);
+		} else {
+			return new ReturnVo("OK", null, null);
+		}
+	}
+	
+	@RequestMapping(value = {"signupAjax"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo signupAjax(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("userVo") UserVo reqUser, ModelMap model) {
+		
+		int actionCnt = 0;
+		String actionMessage = "";
+		
+		actionMessage = "등록 되었습니다.";
+		try {
+			actionCnt = loginService.insertUser(reqUser);
+		} catch (DuplicateKeyException e) {
+			actionMessage = "이미 존재하는 데이터입니다.";
+		}
+		
+		if (actionCnt > 0) {
+			return new ReturnVo("OK", actionMessage, reqUser);
+		} else {
+			return new ReturnVo("NO", actionMessage, null);
 		}
 	}
 }

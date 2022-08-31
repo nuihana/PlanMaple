@@ -125,7 +125,7 @@ dl.profile dd{
 }
 </style>
 
-<div class="modal fade" id="characterSearch_modal" >
+<div class="modal fade" id="characterSearch_modal" tabindex="-1" aria-labelledby="characterSearchModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<!-- header -->
@@ -137,25 +137,29 @@ dl.profile dd{
 			<!-- body -->
 			<div class="modal-body">
 				<!-- 캐릭터 검색 form -->
-				<form id="formCharacterSearch" class="form-horizontal" action="" method="post">
+				<form id="formCharacterSearch" action="" method="post">
 					<input hidden="hidden"/> <!-- form에 input 1개만 단일 존재시 enter 입력했을 때 자동으로 summit되는 기능 방지 -->
-					<div class="form-group">
-						<label for="character_name" class="col-sm-4 control-label">검색</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control-plaintext" id="character_name" name="character_name"/>
-							<a href="#" style="color: #333; padding-left: 15px;" onclick="searchCharacterInfo();">
-								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					<div class="row g-3 justify-content-center">
+						<div class="col-auto">
+							<label for="character_name" class="col-form-label">검색</label>
+						</div>
+						<div class="col-auto">
+							<input type="text" class="form-control" id="character_name" name="character_name"/>
+						</div>
+						<div class="col-auto py-1">
+							<a href="#" class="" style="color: #333; font-size: 1.1rem;" onclick="searchCharacterInfo();">
+								<i class="bi bi-search"></i>
 							</a>
 						</div>
 					</div>
 				</form>
 				
 				<!-- 캐릭터 정보 display -->
-				<div class="row">
-					<div class="col-sm-3 col-sm-offset-2">
-						<img id="characterProfile_img" src="${pageContext.request.contextPath}/static/common_files/question-mark.png" class="center-block img-responsive img-circle" alt="캐릭터 이미지">
+				<div class="row mt-2 justify-content-center">
+					<div class="col-sm-4 py-3">
+						<img id="characterProfile_img" src="${pageContext.request.contextPath}/static/common_files/question-mark.png" class="img-fluid" alt="캐릭터 이미지">
 					</div>
-					<div class="col-sm-5">
+					<div class="col-sm-6 py-1">
 						<!-- 캐릭터 검색 결과 저장 form -->
 						<form id="formCharacterSave" class="form-horizontal" action="" method="post">
 							<input type="hidden" id="save_character_name" name="character_name" />
@@ -170,23 +174,32 @@ dl.profile dd{
 							
 							<input type="hidden" name="proc_role" value="insert"/>
 						</form>
-						<dl class="dl-horizontal profile">
-							<dt>닉네임</dt>
-							<dd id="characterProfile_name"></dd>
-							<dt>월드</dt>
-							<dd id="characterProfile_server"></dd>
-							<dt>레벨</dt>
-							<dd id="characterProfile_level"></dd>
-							<dt>직업</dt>
-							<dd id="characterProfile_class"></dd>
-						</dl>
+						
+						<table class="table table-borderless">
+							<tr>
+								<td><strong>닉네임</strong></td>
+								<td id="characterProfile_name"></td>
+							</tr>
+							<tr>
+								<td><strong>월드</strong></td>
+								<td id="characterProfile_server"></td>
+							</tr>
+							<tr>
+								<td><strong>레벨</strong></td>
+								<td id="characterProfile_level"></td>
+							</tr>
+							<tr>
+								<td><strong>직업</strong></td>
+								<td id="characterProfile_class"></td>
+							</tr>
+						</table>
 					</div>
 				</div>
 			</div>
 			<!-- Footer -->
 			<div class="modal-footer">
 				<button id="btn_save" type="button" class="btn btn-secondary" disabled onclick="CharacterInfoSaveProc('insert');">저장</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				<button type="button" class="btn" data-bs-dismiss="modal">닫기</button>
 			</div>
 		</div>
 	</div>
