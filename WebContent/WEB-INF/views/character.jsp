@@ -169,8 +169,8 @@ function selectParantManagement(managecode) {
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-3 col-xs-3">
-					<div class="panel panel-default">
-						<div class="panel-body">
+					<div class="card">
+						<div class="card-body">
 							<div style="overflow: auto; max-height: 900px;">
 								<form id="formCharacterManagecode" action="" method="post">
 									<input type="hidden" id="Managecode_character_seq" name="character_seq"/>
@@ -212,8 +212,8 @@ function selectParantManagement(managecode) {
 					</div>
 				</div>
 				<div class="col-sm-9 col-xs-9">
-					<div class="panel panel-default">
-						<div class="panel-body">
+					<div class="card">
+						<div class="card-body">
 							<div style="position: relative; overflow: auto; height: 900px;">
 								<div id="planEditer" class="row" style="position: absolute; height: 100%; width: 100%;">
 									<jsp:include page="/WEB-INF/views/innerPage/innerManagecodeList.jsp"></jsp:include>

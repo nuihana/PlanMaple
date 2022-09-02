@@ -92,8 +92,8 @@ function managementValidation() {
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12 col-xs-12">
-					<div class="panel panel-default">
-						<div class="panel-body">
+					<div class="card">
+						<div class="card-body">
 							<div style="overflow: auto; width: 100%; max-height: 900px;">
 								<form id="formManagementEdit" action="" method="post">
 									<input type="hidden" id="management_seq" name="management_seq"/>

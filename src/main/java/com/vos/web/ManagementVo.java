@@ -9,6 +9,7 @@ public class ManagementVo {
 	private String use_yn;
 	
 	private String proc_role;
+	private String server_code;
 	
 	public ManagementVo() {
 		//기본생성자
@@ -70,6 +71,12 @@ public class ManagementVo {
 	}
 	public void setProc_role(String proc_role) {
 		this.proc_role = proc_role;
+	}
+	public String getServer_code() {
+		return server_code;
+	}
+	public void setServer_code(String server_code) {
+		this.server_code = server_code;
 	}
 	
 	@Override

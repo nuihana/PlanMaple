@@ -2,6 +2,7 @@ package com.services.web;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,9 @@ public class ManagementService {
 
 	public void updateManagementReset(HashMap<String, Object> map) {
 		sqlSession.update("management.updateManagementReset", map);
+	}
+
+	public List<Map<String, String>> selectLeftManagementList() {
+		return sqlSession.selectList("management.selectLeftManagementList");
 	}
 }
