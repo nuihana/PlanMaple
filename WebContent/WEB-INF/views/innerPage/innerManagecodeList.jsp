@@ -19,7 +19,10 @@ $(document).ready(function () {
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th colspan="2" class="text-center">숙제목록</th>
+				<th colspan="2" class="text-center">
+					<button class="btn btn-secondary p-0" style="width: 50px; position: absolute; left: 5%;" onclick="addManagement();"><i class="bi bi-calendar-plus-fill"></i></button>
+					숙제목록
+				</th>
 			</tr>
 		</thead>
 		<tbody id="manageCodeTbl">

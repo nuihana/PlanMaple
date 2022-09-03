@@ -160,6 +160,17 @@ function selectParantManagement(managecode) {
 		$(".mtr-" + managecode).addClass("table-active");
 	}
 }
+
+function addManagement() {
+	let options = {
+			backdrop: true,
+			keyboard: true,
+			focus: true
+		};
+		
+	let myModal = new bootstrap.Modal(document.getElementById('managecodeAdd_modal'), options);
+	myModal.show();
+}
 </script>
 
 </head>
@@ -190,7 +201,7 @@ function selectParantManagement(managecode) {
 									<thead>
 										<tr>
 											<th width="114px" class="text-center" style="cursor: pointer;" onclick="searchCharacter();">
-												<i class="bi bi-person-plus-fill"></i>
+												<button class="btn btn-secondary p-0" style="width: 50px;"><i class="bi bi-person-plus-fill"></i></button>
 											</th>
 											<th width="*" class="text-center">닉네임</th>
 										</tr>
@@ -224,9 +235,9 @@ function selectParantManagement(managecode) {
 				</div>
 			</div>
 		</div>
+		<jsp:include page="/include/popup/characterSearchModal.jsp" />
+		<jsp:include page="/include/popup/managecodeAddModal.jsp" />
 		<jsp:include page="/include/footer.jsp"></jsp:include>
 	</div>
-	
-	<jsp:include page="/include/popup/characterSearchModal.jsp" />
 </body>
 </html>

@@ -13,6 +13,8 @@ public class ManagecodeVo {
 	private String limit_level;
 	private String public_flag;
 	
+	private String proc_role;
+	
 	// management 페이지 colspan 입력용도
 	private String chid_count = "0";
 	// management 페이지 체크박스 출력 용도
@@ -84,6 +86,12 @@ public class ManagecodeVo {
 	 */
 	public void addUnique_managementlist(ManagementVo managementVo) {
 		this.unique_managementlist.add(managementVo);
+	}
+	public String getProc_role() {
+		return proc_role;
+	}
+	public void setProc_role(String proc_role) {
+		this.proc_role = proc_role;
 	}
 	
 	@Override

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 
-<div class="modal fade" id="alert_modal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+<div class="modal fade" id="alert_modal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true" style="z-index: 1062;">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<!-- header -->

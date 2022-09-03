@@ -71,7 +71,10 @@ public class ManagementController {
 			map.put("code", tmp.getManagement_code());
 			map.put("characterList", characterList);
 			
-			List<ManagementVo> targetManagementList = managementService.selectTargetManagementList(map);
+			List<ManagementVo> targetManagementList = null;
+			if (!characterList.isEmpty()) {
+				targetManagementList = managementService.selectTargetManagementList(map);
+			}
 			
 			for (CharacterVo tmp_ : characterList) {
 				if (targetManagementList.contains(new ManagementVo(tmp.getManagement_code(), tmp_.getCharacter_seq()))) {

@@ -28,5 +28,9 @@ public class ManagecodeService {
 	public List<ManagecodeVo> selectManagementCodeListByCondition(HashMap<String, Object> map) {
 		return sqlSession.selectList("managecode.selectManagementCodeListByCondition", map);
 	}
+
+	public int insertManagecode(ManagecodeVo managecodeVo) {
+		return sqlSession.insert("managecode.insertManagecode", managecodeVo);
+	}
 	
 }
