@@ -4,6 +4,7 @@ public class UserVo {
 	private String user_seq;
 	private String user_id;
 	private String user_pw;
+	private String memo;
 	private String login_flag;
 	private String last_update;
 	
@@ -24,6 +25,12 @@ public class UserVo {
 	}
 	public void setUser_pw(String iser_pW) {
 		this.user_pw = iser_pW;
+	}
+	public String getMemo() {
+		return memo;
+	}
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 	public String getLogin_flag() {
 		return login_flag;

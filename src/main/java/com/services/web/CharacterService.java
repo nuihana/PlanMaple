@@ -21,5 +21,10 @@ public class CharacterService {
 	public int insertCharacter(CharacterVo characterVo) {
 		return sqlSession.insert("character.insertCharacter", characterVo);
 	}
+
+	public int deleteCharacter(CharacterVo characterVo) {
+		sqlSession.delete("management.deleteCharacterManagement", characterVo);
+		return sqlSession.delete("character.deleteCharacter", characterVo);
+	}
 	
 }

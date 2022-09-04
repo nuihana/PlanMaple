@@ -171,6 +171,37 @@ function addManagement() {
 	let myModal = new bootstrap.Modal(document.getElementById('managecodeAdd_modal'), options);
 	myModal.show();
 }
+
+function deleteProcChk(character_seq, mode) {
+	$.feedback("정말 삭제하시겠습니까?", "characterProc('" + character_seq + "', '" + mode + "');");
+}
+
+function characterProc(character_seq, mode) {
+	$('#Management_character_seq').val(character_seq);
+	$('#Management_proc_role').val(mode);
+	
+	if (characterProcValidation()) {
+		ajaxCall4Html(ctxPath + '/characterEditProc', $("#formCharacterManagement").separator('separatorRemoveForm').serialize(), function(data) {
+			var rtn = JSON.parse(data);
+// 			console.log(rtn);
+			if (rtn.result == 'YES') {
+				$.confirm("삭제되었습니다.", "window.location.reload();");
+			} else {
+				$.alert("삭제에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+			}
+		});
+	}
+}
+
+function characterProcValidation() {
+	if ($('#Management_character_seq').val() == undefined || $('#Management_character_seq').val() == "") {
+		$.alert("삭제할 캐릭터의 정보가 완전하지 않습니다. 새로고침 후 다시 실행해주세요.");
+		return false;
+	}
+	
+	return true;
+}
+
 </script>
 
 </head>
@@ -200,7 +231,7 @@ function addManagement() {
 								<table class="table table-hover character-table" id="characterTableInfo" style="width: 100%;">
 									<thead>
 										<tr>
-											<th width="114px" class="text-center" style="cursor: pointer;" onclick="searchCharacter();">
+											<th colspan="2" width="114px" class="text-center" style="cursor: pointer;" onclick="searchCharacter();">
 												<button class="btn btn-secondary p-0" style="width: 50px;"><i class="bi bi-person-plus-fill"></i></button>
 											</th>
 											<th width="*" class="text-center">닉네임</th>
@@ -208,12 +239,15 @@ function addManagement() {
 									</thead>
 									<tbody>
 										<c:forEach var="characterList" items="${characterList}" varStatus="status">
-											<tr id="character_tr_${characterList.character_seq}" class="btn-fn character-data" onclick="selectCharacter('${characterList.character_seq}');">
-												<td class="character-image">
-													<img src="${characterList.character_img}" alt="캐릭터 이미지">
-													<img class="character-image-bg" src="https://ssl.nexon.com/s2/game/maplestory/renewal/common/rank_other.png" alt="캐릭터 이미지 배경">
+											<tr id="character_tr_${characterList.character_seq}" class="btn-fn character-data">
+												<td width="5%;" style="padding-top: 36px;">
+													<button class="btn btn-outline-danger p-0"><i class="bi bi-person-dash-fill" onclick="deleteProcChk('${characterList.character_seq}', 'delete');"></i></button>
 												</td>
-												<td class="text-center text-vertical-center">${characterList.character_name}</td>
+												<td class="character-image" onclick="selectCharacter('${characterList.character_seq}');">
+													<img src="${characterList.character_img}" alt="캐릭터 이미지">
+<!-- 													<img class="character-image-bg" src="https://ssl.nexon.com/s2/game/maplestory/renewal/common/rank_other.png" alt="캐릭터 이미지 배경"> -->
+												</td>
+												<td class="text-center text-vertical-center" onclick="selectCharacter('${characterList.character_seq}');">${characterList.character_name}</td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -237,6 +271,7 @@ function addManagement() {
 		</div>
 		<jsp:include page="/include/popup/characterSearchModal.jsp" />
 		<jsp:include page="/include/popup/managecodeAddModal.jsp" />
+		<jsp:include page="/include/popup/feedbackModal.jsp" />
 		<jsp:include page="/include/footer.jsp"></jsp:include>
 	</div>
 </body>

@@ -21,4 +21,9 @@
 		)
 	</insert>
 	
+	<delete id="deleteCharacter" parameterType="CharacterVo">
+		DELETE FROM PM_CHARACTER
+		WHERE CHARACTER_SEQ = #{character_seq}
+	</delete>
+	
 </mapper>

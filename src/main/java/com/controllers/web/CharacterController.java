@@ -88,6 +88,9 @@ public class CharacterController {
 			} catch (DuplicateKeyException e) {
 				actionMessage = "이미 존재하는 데이터입니다.";
 			}
+		} else if (characterVo.getProc_role().equals("delete")) {
+			actionMessage = "삭제 되었습니다.";
+			actionCnt = characterService.deleteCharacter(characterVo);
 		}
 		
 		if (actionMessage.equals("")) {
