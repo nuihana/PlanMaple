@@ -32,5 +32,22 @@
 			#{management_code}, #{management_code_desc}, 'ZYX_0000', #{belong_condition}, #{cycle_condition}, #{complete_count}, #{public_flag}
 		)
 	</insert>
+
+	<select id="selectDeadlineManagecodeList" parameterType="hashMap" resultType="ManagecodeVo">
+		SELECT *
+		FROM PM_MANAGEMENTCODE
+		WHERE (PUBLIC_FLAG = '0' OR PUBLIC_FLAG = #{user_seq})
+		AND (
+			CYCLE_CONDITION = 'D'
+			<choose>
+				<when test='day == "7"'>
+					OR CYCLE_CONDITION = 'S'
+				</when>
+				<when test='day == "3"'>
+					OR CYCLE_CONDITION = 'T'
+				</when>
+			</choose>
+		)
+	</select>
 	
 </mapper>

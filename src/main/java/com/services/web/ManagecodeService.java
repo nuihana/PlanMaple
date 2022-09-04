@@ -32,5 +32,9 @@ public class ManagecodeService {
 	public int insertManagecode(ManagecodeVo managecodeVo) {
 		return sqlSession.insert("managecode.insertManagecode", managecodeVo);
 	}
+
+	public List<ManagecodeVo> selectDeadlineManagecodeList(HashMap<String, String> map) {
+		return sqlSession.selectList("managecode.selectDeadlineManagecodeList", map);
+	}
 	
 }

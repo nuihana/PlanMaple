@@ -90,9 +90,9 @@ $(document).ready(function () {
 					</div>
 				</div>
 				<div class="col-sm-4 col-xs-4">
-					<div class="card btn-fn text-center" onclick="location.href = ctxPath + '/character';">
-						<div class="card-header">?</div>
-						<div class="card-body">몸통</div>
+					<div class="card btn-fn text-center" onclick="location.href = ctxPath + '/management';">
+						<div class="card-header" style="background-color: #FFDCDC;">오늘이 마감인 숙제</div>
+						<div class="card-body">${card_data.get('deadlineManagementCnt')}</div>
 					</div>
 				</div>
 				<div class="col-sm-4 col-xs-4">

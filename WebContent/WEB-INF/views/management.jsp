@@ -30,6 +30,12 @@
 	opacity: 0; /* 기본 상태는 안보이게 */
     transition: all 0.1s linear; /* 나타났다 사라지는 애니메이션 */
 }
+
+.deadline-box{
+	border-color: #FFDCDC;
+	box-shadow: 0 0 0 0.25rem rgb(220 53 69 / 25%);
+    transition: all 0.25s linear;
+}
 </style>
 
 <script type="text/javascript">
@@ -48,6 +54,9 @@ function checkManageBox(seq, comp_count) {
 	
 	if ($('#managebox_' + seq).val() == comp_count) {
 		$('#manage_tooltip_' + seq).html('<i class="bi bi-check-lg"></i>');
+		$('#managebox_' + seq).removeClass('deadline-box');
+	} else {
+		$('#managebox_' + seq).addClass('deadline-box');
 	}
 	
 	managementProc(seq, $('#managebox_' + seq).val());
@@ -137,23 +146,39 @@ function managementValidation() {
 													${bodyManagecodeList.management_code_desc}
 												</td>
 												<c:forEach var="unique_managementlist" items="${bodyManagecodeList.unique_managementlist}" varStatus="status_">
-													<td class="text-center" style="white-space:nowrap;">
+													<td class="text-center" style="white-space:nowrap;" onclick="checkManageBox('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}');">
 														<div style="position: relative;">
 															<c:if test="${unique_managementlist.complete_count ne null}">
 																<c:choose>
 																	<c:when test="${unique_managementlist.complete_count eq bodyManagecodeList.complete_count}">
 																		<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
-																		onclick="checkManageBox('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}');" value="${unique_managementlist.complete_count}" checked="checked">
+																		value="${unique_managementlist.complete_count}" checked="checked">
 																		<span id="manage_tooltip_${unique_managementlist.management_seq}" class="manage-tooltip" style="opacity: 1;"><i class="bi bi-check-lg"></i></span>
 																	</c:when>
 																	<c:when test="${unique_managementlist.complete_count gt 0 and unique_managementlist.complete_count lt bodyManagecodeList.complete_count}">
-																		<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
-																		onclick="checkManageBox('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}');" value="${unique_managementlist.complete_count}" checked="checked">
+																		<c:choose>
+																			<c:when test="${unique_managementlist.deadline_flag eq 'Y'}">
+																				<input id="managebox_${unique_managementlist.management_seq}" class="manage deadline-box" type="checkbox" name="management-box"
+																				value="${unique_managementlist.complete_count}" checked="checked">
+																			</c:when>
+																			<c:otherwise>
+																				<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
+																				value="${unique_managementlist.complete_count}" checked="checked">
+																			</c:otherwise>
+																		</c:choose>
 																		<span id="manage_tooltip_${unique_managementlist.management_seq}" class="manage-tooltip" style="opacity: 1;">${unique_managementlist.complete_count}</span>
 																	</c:when>
 																	<c:otherwise>
-																		<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
-																		onclick="checkManageBox('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}');" value="${unique_managementlist.complete_count}">
+																		<c:choose>
+																			<c:when test="${unique_managementlist.deadline_flag eq 'Y'}">
+																				<input id="managebox_${unique_managementlist.management_seq}" class="manage deadline-box" type="checkbox" name="management-box"
+																				value="${unique_managementlist.complete_count}">
+																			</c:when>
+																			<c:otherwise>
+																				<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
+																				value="${unique_managementlist.complete_count}">
+																			</c:otherwise>
+																		</c:choose>
 																		<span id="manage_tooltip_${unique_managementlist.management_seq}" class="manage-tooltip"></span>
 																	</c:otherwise>
 																</c:choose>

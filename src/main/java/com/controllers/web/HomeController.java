@@ -1,6 +1,7 @@
 package com.controllers.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,14 +44,26 @@ public class HomeController {
 		List<CharacterVo> characterList = characterService.selectCharacterList(new CharacterVo(user_seq));
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, String> selectMap = new HashMap<String, String>();
 		map.put("characterCnt", characterList.size());
+		selectMap.put("user_seq", user_seq);
 		
 		int manageSum = 0;
-		List<Map<String, String>> leftManagementList = managementService.selectLeftManagementList();
+		List<Map<String, String>> leftManagementList = managementService.selectLeftManagementList(selectMap);
 		for (Map<String, String> tmp : leftManagementList) {
 			manageSum += Integer.parseInt(String.valueOf(tmp.get("CHARACTER_WORK")));
 		}
 		map.put("leftManagementCnt", manageSum);
+		
+		int deadlineSum = 0;
+		Calendar cal = Calendar.getInstance();
+		String dayOfWeek = cal.get(Calendar.DAY_OF_WEEK) + "";
+		selectMap.put("day", dayOfWeek);
+		List<Map<String, String>> deadlineManagementList = managementService.selectDeadlineManagementList(selectMap);
+		for (Map<String, String> tmp : deadlineManagementList) {
+			deadlineSum += Integer.parseInt(String.valueOf(tmp.get("CHARACTER_WORK")));
+		}
+		map.put("deadlineManagementCnt", deadlineSum);
 
 		model.addAttribute("card_data", map);
 		model.addAttribute("config", config);
@@ -60,8 +73,13 @@ public class HomeController {
 	
 	@RequestMapping(value = {"homeDataAjax"}, method = RequestMethod.POST)
 	public @ResponseBody ReturnVo homeDataAjax(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+		String user_seq = (String) session.getAttribute("loginSeq");
+		
+		HashMap<String, String> selectMap = new HashMap<String, String>();
+		selectMap.put("user_seq", user_seq);
+		
 		List<ManagementVo> serverLeftManagement = new ArrayList<ManagementVo>();
-		List<Map<String, String>> leftManagementList = managementService.selectLeftManagementList();
+		List<Map<String, String>> leftManagementList = managementService.selectLeftManagementList(selectMap);
 		for (Map<String, String> tmp : leftManagementList) {
 			boolean flag = true;
 			for (ManagementVo tmp_ : serverLeftManagement) {

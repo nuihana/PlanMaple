@@ -20,6 +20,14 @@ public class ManagecodeVo {
 	// management 페이지 체크박스 출력 용도
 	private List<ManagementVo> unique_managementlist = new ArrayList<ManagementVo>();
 	
+	public ManagecodeVo() {
+		//기본생성자
+	}
+	
+	public ManagecodeVo(String code) {
+		this.management_code = code;
+	}
+	
 	public String getManagement_code() {
 		return management_code;
 	}
@@ -100,5 +108,16 @@ public class ManagecodeVo {
 				+ ", parant_code=" + parant_code + ", belong_condition=" + belong_condition + ", cycle_condition="
 				+ cycle_condition + ", complete_count=" + complete_count + ", limit_level=" + limit_level
 				+ ", public_flag=" + public_flag + "]";
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		ManagecodeVo vo = (ManagecodeVo) obj;
+		
+		if (vo.getManagement_code().equals(this.management_code)) {
+			return true;
+		}
+		
+		return false;
 	}
 }

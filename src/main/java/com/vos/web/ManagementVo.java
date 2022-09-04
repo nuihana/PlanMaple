@@ -10,6 +10,7 @@ public class ManagementVo {
 	
 	private String proc_role;
 	private String server_code;
+	private String deadline_flag = "N";
 	
 	public ManagementVo() {
 		//기본생성자
@@ -77,6 +78,12 @@ public class ManagementVo {
 	}
 	public void setServer_code(String server_code) {
 		this.server_code = server_code;
+	}
+	public String getDeadline_flag() {
+		return deadline_flag;
+	}
+	public void setDeadline_flag(String deadline_flag) {
+		this.deadline_flag = deadline_flag;
 	}
 	
 	@Override

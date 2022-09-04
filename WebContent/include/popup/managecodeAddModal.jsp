@@ -98,7 +98,7 @@ function managecodeAddValidation() {
 								<option value="">선택</option>
 								<option value="D">일일 초기화</option>
 								<option value="T">목요일 초기화</option>
-								<option value="S">일요일 초기화</option>
+								<option value="S">월요일 초기화</option>
 								<option value="M">월간 초기화</option>
 							</select>
 						</div>

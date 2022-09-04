@@ -1,6 +1,7 @@
 package com.controllers.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,6 +44,11 @@ public class ManagementController {
 	@RequestMapping(value = {"management"}, method = RequestMethod.GET)
 	public @ResponseBody ModelAndView management(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
 		String user_seq = (String) session.getAttribute("loginSeq");
+		
+		HashMap<String, String> selectMap = new HashMap<String, String>();
+		selectMap.put("user_seq", user_seq);
+		Calendar cal = Calendar.getInstance();
+		selectMap.put("day", cal.get(Calendar.DAY_OF_WEEK) + "");
 
 		List<ManagecodeVo> headManagecodeList = new ArrayList<ManagecodeVo>();
 		List<ManagecodeVo> bodyManagecodeList = new ArrayList<ManagecodeVo>();
@@ -51,6 +57,8 @@ public class ManagementController {
 		List<ManagecodeVo> managecodeList = managecodeService.selectManagementCodeList(new CharacterVo(user_seq));
 		//관리 캐릭터 목록
 		List<CharacterVo> characterList = characterService.selectCharacterList(new CharacterVo(user_seq));
+		//마감일 직전 숙제 코드 목록
+		List<ManagecodeVo> deadlineList = managecodeService.selectDeadlineManagecodeList(selectMap);
 		
 		for (ManagecodeVo tmp : managecodeList) {
 			if (tmp.getParant_code().equals("")) {
@@ -78,7 +86,13 @@ public class ManagementController {
 			
 			for (CharacterVo tmp_ : characterList) {
 				if (targetManagementList.contains(new ManagementVo(tmp.getManagement_code(), tmp_.getCharacter_seq()))) {
-					tmp.addUnique_managementlist(targetManagementList.get(targetManagementList.indexOf(new ManagementVo(tmp.getManagement_code(), tmp_.getCharacter_seq()))));
+					ManagementVo tmpVo = targetManagementList.get(targetManagementList.indexOf(new ManagementVo(tmp.getManagement_code(), tmp_.getCharacter_seq())));
+					if (deadlineList.contains(new ManagecodeVo(tmp.getManagement_code()))) {
+						tmpVo.setDeadline_flag("Y");
+						tmp.addUnique_managementlist(tmpVo);
+					} else {
+						tmp.addUnique_managementlist(tmpVo);
+					}
 				} else {
 					tmp.addUnique_managementlist(new ManagementVo());
 				}
