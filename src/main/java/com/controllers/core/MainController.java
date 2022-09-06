@@ -1,5 +1,7 @@
 package com.controllers.core;
 
+import java.util.TimeZone;
+
 import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -35,6 +37,9 @@ public class MainController {
 		}
 
 		config.setValue("build.version", buildVersion);
+		
+		//UTC-Time존 세팅 : UTC > KST : AWS 서버시간을 직접 서울로 바꿔 필요없어짐
+//		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 
 		logger.info("OS->" + config.getValue("os.name"));
 		logger.info("buildVersion->" + config.getValue("build.version"));

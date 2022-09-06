@@ -162,6 +162,13 @@ function selectParantManagement(managecode) {
 }
 
 function addManagement() {
+	$('#own_management_code_desc').val('');
+	$('#own_belong_condition').val('');
+	$('#own_cycle_condition').val('');
+	$('#own_complete_count').val('');
+
+		$("#btn_managecodeAdd_modal").attr("onclick", "managecodeAddProc('insert');");
+			
 	let options = {
 			backdrop: true,
 			keyboard: true,
@@ -202,6 +209,67 @@ function characterProcValidation() {
 	return true;
 }
 
+function customManagecodeProcChk(managecode, mode) {
+	if (mode == 'delete') {
+		$.feedback("정말 삭제하시겠습니까?", "customManagecodeProc('" + managecode + "', '" + mode + "');");
+	} else if (mode == 'update') {
+		$.ajax({
+			url : ctxPath+'/managecodePreview',
+			type : 'post',
+			dataType : "json",
+			async : false,
+			data : {management_code : managecode},
+			success : function(rtn) {
+// 	 			console.log(rtn);
+	 			$('#manageAdd_management_code').val(rtn.data.management_code);
+	 			$('#own_management_code_desc').val(rtn.data.management_code_desc);
+	 			$('#own_belong_condition').val(rtn.data.belong_condition);
+	 			$('#own_cycle_condition').val(rtn.data.cycle_condition);
+	 			$('#own_complete_count').val(rtn.data.complete_count);
+
+	 			$("#btn_managecodeAdd_modal").attr("onclick", "managecodeAddProc('update');");
+	 			
+	 			let options = {
+	 					backdrop: true,
+	 					keyboard: true,
+	 					focus: true
+	 				};
+	 				
+	 			let myModal = new bootstrap.Modal(document.getElementById('managecodeAdd_modal'), options);
+	 			myModal.show();
+			},
+			error:function(request,status,error){
+				console.log(error);
+			}
+		});
+	}
+}
+
+function customManagecodeProc(managecode, mode) {
+	$('#Managecode_managecode').val(managecode);
+	$('#Managecode_proc_role').val(mode);
+	
+	if (customManagecodeProcValidation()) {
+		ajaxCall4Html(ctxPath + '/managecodeProc', $("#formCharacterManagecode").separator('separatorRemoveForm').serialize(), function(data) {
+			var rtn = JSON.parse(data);
+			console.log(rtn);
+			if (rtn.result == 'YES') {
+				$.confirm("삭제되었습니다.", "window.location.reload();");
+			} else {
+				$.alert("삭제에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+			}
+		});
+	}
+}
+
+function customManagecodeProcValidation() {
+	if ($('#Managecode_managecode').val() == undefined || $('#Managecode_managecode').val() == "") {
+		$.alert("삭제할 커스텀숙제의 정보가 완전하지 않습니다. 새로고침 후 다시 실행해주세요.");
+		return false;
+	}
+	
+	return true;
+}
 </script>
 
 </head>

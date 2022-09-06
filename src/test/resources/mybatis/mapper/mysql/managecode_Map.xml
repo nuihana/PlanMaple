@@ -32,6 +32,20 @@
 			#{management_code}, #{management_code_desc}, 'ZYX_0000', #{belong_condition}, #{cycle_condition}, #{complete_count}, #{public_flag}
 		)
 	</insert>
+	
+	<delete id="deleteManagecode" parameterType="ManagecodeVo">
+		DELETE FROM PM_MANAGEMENTCODE
+		WHERE MANAGEMENT_CODE = #{management_code}
+	</delete>
+	
+	<update id="updateManagecode" parameterType="ManagecodeVo">
+		UPDATE PM_MANAGEMENTCODE
+		SET MANAGEMENT_CODE_DESC = #{management_code_desc},
+			BELONG_CONDITION = #{belong_condition},
+			CYCLE_CONDITION = #{cycle_condition},
+			COMPLETE_COUNT = #{complete_count}
+		WHERE MANAGEMENT_CODE = #{management_code}
+	</update>
 
 	<select id="selectDeadlineManagecodeList" parameterType="hashMap" resultType="ManagecodeVo">
 		SELECT *

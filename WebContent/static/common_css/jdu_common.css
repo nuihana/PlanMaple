@@ -144,3 +144,10 @@ button[disabled]{
 .form-login .form-login-heading{
 	margin-bottom: 10px;
 }
+
+.text-ellipsis-character-td {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	max-width: 283px;
+}

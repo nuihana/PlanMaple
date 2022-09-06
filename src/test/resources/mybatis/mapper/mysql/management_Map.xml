@@ -93,4 +93,9 @@
 		WHERE CHARACTER_SEQ = #{character_seq}
 	</delete>
 	
+	<delete id="deleteManagecodeManagement" parameterType="ManagecodeVo">
+		DELETE FROM PM_MANAGEMENT
+		WHERE MANAGEMENT_CODE = #{management_code}
+	</delete>
+	
 </mapper>

@@ -36,12 +36,31 @@ public class ManagecodeController {
 		if (managecodeVo.getProc_role().equals("insert")) {
 			actionMessage = "입력 되었습니다.";
 			actionCnt = managecodeService.insertManagecode(managecodeVo);
+		} else if (managecodeVo.getProc_role().equals("delete")) {
+			actionMessage = "삭제 되었습니다.";
+			actionCnt = managecodeService.deleteManagecode(managecodeVo);
+		} else if (managecodeVo.getProc_role().equals("update")) {
+			actionMessage = "수정 되었습니다.";
+			actionCnt = managecodeService.updateManagecode(managecodeVo);
 		}
 		
 		if (actionCnt > 0) {
 			return new ReturnVo("YES", actionMessage, null);
 		} else {
 			return new ReturnVo("NO", actionMessage, null);
+		}
+	}
+	
+	@RequestMapping(value = {"managecodePreview"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo managecodePreview (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("managecodeVo") ManagecodeVo managecodeVo, ModelMap model) {
+		
+		ManagecodeVo searchVo = managecodeService.selectManagementCodeInfo(managecodeVo);
+		
+		if (searchVo != null) {
+			return new ReturnVo("OK", null, searchVo);
+		} else {
+			return new ReturnVo("NO", null, null);
 		}
 	}
 }

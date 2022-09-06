@@ -14,16 +14,30 @@ $(document).ready(function() {
 });
 
 function managecodeAddProc(mode) {
+	$('#manageAdd_proc_role').val(mode);
+	
 	if (managecodeAddValidation()) {
-		ajaxCall4Html(ctxPath + '/managecodeProc', $("#formManagecodeAdd").separator('separatorRemoveForm').serialize(), function(data) {
-			var rtn = JSON.parse(data);
-			console.log(rtn);
-			if (rtn.result == 'YES') {
-				$.confirm("데이터 입력이 완료되었습니다.", "window.location.reload();");
-			} else {
-				$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
-			}
-		});
+		if (mode == 'insert') {
+			ajaxCall4Html(ctxPath + '/managecodeProc', $("#formManagecodeAdd").separator('separatorRemoveForm').serialize(), function(data) {
+				var rtn = JSON.parse(data);
+				console.log(rtn);
+				if (rtn.result == 'YES') {
+					$.confirm("데이터 입력이 완료되었습니다.", "window.location.reload();");
+				} else {
+					$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+				}
+			});
+		} else if (mode == 'update') {
+			ajaxCall4Html(ctxPath + '/managecodeProc', $("#formManagecodeAdd").separator('separatorRemoveForm').serialize(), function(data) {
+				var rtn = JSON.parse(data);
+				console.log(rtn);
+				if (rtn.result == 'YES') {
+					$.confirm("수정이 완료되었습니다.", "window.location.reload();");
+				} else {
+					$.alert("수정에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+				}
+			});
+		}
 	}
 }
 
@@ -64,9 +78,10 @@ function managecodeAddValidation() {
 			<!-- body -->
 			<div class="modal-body">
 				<form id="formManagecodeAdd" action="" method="post">
+					<input type="hidden" id="manageAdd_management_code" name="management_code"/>
 					<input type="hidden" id="manageAdd_public_flag" name="public_flag"/>
 							
-					<input type="hidden" name="proc_role" value="insert"/>
+					<input type="hidden" id="manageAdd_proc_role" name="proc_role" value="insert"/>
 					
 					<div class="row justify-content-center">
 						<div class="col-sm-3">
@@ -115,7 +130,7 @@ function managecodeAddValidation() {
 			</div>
 			<!-- Footer -->
 			<div class="modal-footer">
-				<button id="btn_save" type="button" class="btn btn-secondary" onclick="managecodeAddProc('insert');">저장</button>
+				<button id="btn_managecodeAdd_modal" type="button" class="btn btn-secondary" onclick="">저장</button>
 				<button type="button" class="btn" data-bs-dismiss="modal">닫기</button>
 			</div>
 		</div>
