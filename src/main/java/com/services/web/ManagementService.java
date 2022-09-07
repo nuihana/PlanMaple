@@ -47,4 +47,8 @@ public class ManagementService {
 	public List<Map<String, String>> selectDeadlineManagementList(HashMap<String, String> map) {
 		return sqlSession.selectList("management.selectDeadlineManagementList", map);
 	}
+
+	public int updateManagementGroup(HashMap<String, Object> map) {
+		return sqlSession.update("management.updateManagementGroup", map);
+	}
 }

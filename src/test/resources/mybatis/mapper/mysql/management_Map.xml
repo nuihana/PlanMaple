@@ -98,4 +98,16 @@
 		WHERE MANAGEMENT_CODE = #{management_code}
 	</delete>
 	
+	<update id="updateManagementGroup" parameterType="hashMap">
+		UPDATE PM_MANAGEMENT
+		SET COMPLETE_COUNT = #{complete_count}
+		WHERE MANAGEMENT_CODE = #{management_code}
+		<if test='belong_condition == "W"'>
+			AND CHARACTER_SEQ IN
+				<foreach collection="characterList" item="item" open="(" separator="," close=")">
+					#{item.character_seq}
+				</foreach>
+		</if>
+	</update>
+	
 </mapper>

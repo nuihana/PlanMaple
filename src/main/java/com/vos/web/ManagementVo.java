@@ -12,6 +12,8 @@ public class ManagementVo {
 	private String server_code;
 	private String deadline_flag = "N";
 	
+	private String belong_condition;
+	
 	public ManagementVo() {
 		//기본생성자
 	}
@@ -84,6 +86,12 @@ public class ManagementVo {
 	}
 	public void setDeadline_flag(String deadline_flag) {
 		this.deadline_flag = deadline_flag;
+	}
+	public String getBelong_condition() {
+		return belong_condition;
+	}
+	public void setBelong_condition(String belong_condition) {
+		this.belong_condition = belong_condition;
 	}
 	
 	@Override

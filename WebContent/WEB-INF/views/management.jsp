@@ -39,6 +39,16 @@
 </style>
 
 <script type="text/javascript">
+function checkManageBoxProc(seq, comp_count, managecode, condition, server) {
+	if (condition == 'W') {
+		checkManageBoxWorldGroup(seq, comp_count, managecode, condition, server);
+	} else if (condition == 'I') {
+		checkManageBoxIDGroup(seq, comp_count, managecode, condition);
+	} else {
+		checkManageBox(seq, comp_count);
+	}
+}
+
 function checkManageBox(seq, comp_count) {
 	if ($('#managebox_' + seq).val() < comp_count) {
 		$('#managebox_' + seq).val($('#managebox_' + seq).val() * 1 + 1);
@@ -62,25 +72,101 @@ function checkManageBox(seq, comp_count) {
 	managementProc(seq, $('#managebox_' + seq).val());
 }
 
+function checkManageBoxIDGroup(seq, comp_count, managecode, condition) {
+	if ($('#managebox_' + seq).val() < comp_count) {
+		$('.' + managecode).val($('#managebox_' + seq).val() * 1 + 1);
+		$('.tooltip-' + managecode).html($('#managebox_' + seq).val());
+		$('.tooltip-' + managecode).css('opacity', '1');
+		$('.' + managecode).prop("checked", true);
+	} else {
+		$('.' + managecode).val(0);
+		$('.tooltip-' + managecode).html('');
+		$('.tooltip-' + managecode).css('opacity', '0');
+		$('.' + managecode).prop("checked", false);
+	}
+	
+	if ($('#managebox_' + seq).val() == comp_count) {
+		$('.tooltip-' + managecode).html('<i class="bi bi-check-lg"></i>');
+		$('.' + managecode).removeClass('deadline-box');
+	} else {
+		$('.' + managecode).addClass('deadline-box');
+	}
+	
+	managementGroupProc(seq, managecode, $('#managebox_' + seq).val(), condition);
+}
+
+function checkManageBoxWorldGroup(seq, comp_count, managecode, condition, server) {
+	if ($('#managebox_' + seq).val() < comp_count) {
+		$('.' + managecode + '-' + server).val($('#managebox_' + seq).val() * 1 + 1);
+		$('.tooltip-' + managecode + '-' + server).html($('#managebox_' + seq).val());
+		$('.tooltip-' + managecode + '-' + server).css('opacity', '1');
+		$('.' + managecode + '-' + server).prop("checked", true);
+	} else {
+		$('.' + managecode + '-' + server).val(0);
+		$('.tooltip-' + managecode + '-' + server).html('');
+		$('.tooltip-' + managecode + '-' + server).css('opacity', '0');
+		$('.' + managecode + '-' + server).prop("checked", false);
+	}
+	
+	if ($('#managebox_' + seq).val() == comp_count) {
+		$('.tooltip-' + managecode + '-' + server).html('<i class="bi bi-check-lg"></i>');
+		$('.' + managecode + '-' + server).removeClass('deadline-box');
+	} else {
+		$('.' + managecode + '-' + server).addClass('deadline-box');
+	}
+	
+	managementGroupProc(seq, managecode, $('#managebox_' + seq).val(), condition);
+}
+
 function managementProc(seq, proc_count) {
 	$('#management_seq').val(seq);
 	$('#complete_count').val(proc_count);
+	$('#proc_role').val('update_seq');
 	
 	if (managementValidation()) {
 		ajaxCall4Html(ctxPath + '/managementProc', $("#formManagementEdit").separator('separatorRemoveForm').serialize(), function(data) {
 			var rtn = JSON.parse(data);
 // 			console.log(rtn);
-// 			if (rtn.result == 'YES') {
-// 				$.confirm("데이터 제거가 완료되었습니다.", "selectCharacter('" + $('#Management_character_seq').val() + "');");
-// 			} else {
-// 				$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
-// 			}
 		});
 	}
 }
 
 function managementValidation() {
 	if ($('#management_seq').val() == undefined || $('#management_seq').val() == "") {
+		$.alert("존재하지 않는 숙제 코드입니다.");
+		return false;
+	}
+
+	if ($('#complete_count').val() == undefined || $('#complete_count').val() == "") {
+		$.alert("완료 횟수가 정확히 입력되지 않았습니다.");
+		return false;
+	}
+	
+	return true;
+}
+
+function managementGroupProc(seq, managecode, proc_count, condition) {
+	$('#management_seq').val(seq);
+	$('#management_code').val(managecode);
+	$('#complete_count').val(proc_count);
+	$('#belong_condition').val(condition);
+	$('#proc_role').val('update_code');
+	
+	if (managementGroupValidation()) {
+		ajaxCall4Html(ctxPath + '/managementProc', $("#formManagementEdit").separator('separatorRemoveForm').serialize(), function(data) {
+			var rtn = JSON.parse(data);
+// 			console.log(rtn);
+		});
+	}
+}
+
+function managementGroupValidation() {
+	if ($('#management_seq').val() == undefined || $('#management_seq').val() == "") {
+		$.alert("존재하지 않는 숙제 코드입니다.");
+		return false;
+	}
+	
+	if ($('#management_code').val() == undefined || $('#management_code').val() == "") {
 		$.alert("존재하지 않는 숙제 코드입니다.");
 		return false;
 	}
@@ -106,9 +192,11 @@ function managementValidation() {
 							<div style="overflow: auto; width: 100%; max-height: 900px;">
 								<form id="formManagementEdit" action="" method="post">
 									<input type="hidden" id="management_seq" name="management_seq"/>
+									<input type="hidden" id="management_code" name="management_code"/>
 									<input type="hidden" id="complete_count" name="complete_count"/>
+									<input type="hidden" id="belong_condition" name="belong_condition"/>
 									
-									<input type="hidden" id="proc_role" name="proc_role" value="update"/>
+									<input type="hidden" id="proc_role" name="proc_role"/>
 								</form>
 								<table class="table table-hover" style="width: auto;">
 									<thead>
@@ -146,40 +234,33 @@ function managementValidation() {
 													${bodyManagecodeList.management_code_desc}
 												</td>
 												<c:forEach var="unique_managementlist" items="${bodyManagecodeList.unique_managementlist}" varStatus="status_">
-													<td class="text-center" style="white-space:nowrap;" onclick="checkManageBox('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}');">
+													<td class="text-center" style="white-space:nowrap;" onclick="checkManageBoxProc('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}', '${unique_managementlist.management_code}', '${unique_managementlist.belong_condition}', '${unique_managementlist.server_code}');">
 														<div style="position: relative;">
 															<c:if test="${unique_managementlist.complete_count ne null}">
 																<c:choose>
 																	<c:when test="${unique_managementlist.complete_count eq bodyManagecodeList.complete_count}">
-																		<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
-																		value="${unique_managementlist.complete_count}" checked="checked">
-																		<span id="manage_tooltip_${unique_managementlist.management_seq}" class="manage-tooltip" style="opacity: 1;"><i class="bi bi-check-lg"></i></span>
+																		<input id="managebox_${unique_managementlist.management_seq}"
+																			class="manage <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
+																			type="checkbox" name="management-box" value="${unique_managementlist.complete_count}" checked="checked">
+																		<span id="manage_tooltip_${unique_managementlist.management_seq}"
+																			class="manage-tooltip <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
+																			style="opacity: 1;"><i class="bi bi-check-lg"></i></span>
 																	</c:when>
 																	<c:when test="${unique_managementlist.complete_count gt 0 and unique_managementlist.complete_count lt bodyManagecodeList.complete_count}">
-																		<c:choose>
-																			<c:when test="${unique_managementlist.deadline_flag eq 'Y'}">
-																				<input id="managebox_${unique_managementlist.management_seq}" class="manage deadline-box" type="checkbox" name="management-box"
-																				value="${unique_managementlist.complete_count}" checked="checked">
-																			</c:when>
-																			<c:otherwise>
-																				<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
-																				value="${unique_managementlist.complete_count}" checked="checked">
-																			</c:otherwise>
-																		</c:choose>
-																		<span id="manage_tooltip_${unique_managementlist.management_seq}" class="manage-tooltip" style="opacity: 1;">${unique_managementlist.complete_count}</span>
+																		<input id="managebox_${unique_managementlist.management_seq}"
+																			class="manage <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-box</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
+																			type="checkbox" name="management-box" value="${unique_managementlist.complete_count}" checked="checked">
+																		<span id="manage_tooltip_${unique_managementlist.management_seq}"
+																			class="manage-tooltip <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
+																			style="opacity: 1;">${unique_managementlist.complete_count}</span>
 																	</c:when>
 																	<c:otherwise>
-																		<c:choose>
-																			<c:when test="${unique_managementlist.deadline_flag eq 'Y'}">
-																				<input id="managebox_${unique_managementlist.management_seq}" class="manage deadline-box" type="checkbox" name="management-box"
-																				value="${unique_managementlist.complete_count}">
-																			</c:when>
-																			<c:otherwise>
-																				<input id="managebox_${unique_managementlist.management_seq}" class="manage" type="checkbox" name="management-box"
-																				value="${unique_managementlist.complete_count}">
-																			</c:otherwise>
-																		</c:choose>
-																		<span id="manage_tooltip_${unique_managementlist.management_seq}" class="manage-tooltip"></span>
+																		<input id="managebox_${unique_managementlist.management_seq}"
+																			class="manage <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-box</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
+																			type="checkbox" name="management-box" value="${unique_managementlist.complete_count}">
+																		<span id="manage_tooltip_${unique_managementlist.management_seq}"
+																			class="manage-tooltip <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
+																			></span>
 																	</c:otherwise>
 																</c:choose>
 															</c:if>

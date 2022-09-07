@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vos.web.CharacterVo;
+import com.vos.web.ManagementVo;
 import com.vos.web.UserVo;
 
 @Service
@@ -25,6 +26,10 @@ public class CharacterService {
 	public int deleteCharacter(CharacterVo characterVo) {
 		sqlSession.delete("management.deleteCharacterManagement", characterVo);
 		return sqlSession.delete("character.deleteCharacter", characterVo);
+	}
+
+	public List<CharacterVo> selectWorldBelongCharacterList(ManagementVo managementVo) {
+		return sqlSession.selectList("character.selectWorldBelongCharacterList", managementVo);
 	}
 	
 }

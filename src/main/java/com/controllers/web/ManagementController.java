@@ -87,6 +87,9 @@ public class ManagementController {
 			for (CharacterVo tmp_ : characterList) {
 				if (targetManagementList.contains(new ManagementVo(tmp.getManagement_code(), tmp_.getCharacter_seq()))) {
 					ManagementVo tmpVo = targetManagementList.get(targetManagementList.indexOf(new ManagementVo(tmp.getManagement_code(), tmp_.getCharacter_seq())));
+					tmpVo.setBelong_condition(tmp.getBelong_condition());
+					tmpVo.setServer_code(tmp_.getCharacter_server_code());
+					
 					if (deadlineList.contains(new ManagecodeVo(tmp.getManagement_code()))) {
 						tmpVo.setDeadline_flag("Y");
 						tmp.addUnique_managementlist(tmpVo);
@@ -115,9 +118,22 @@ public class ManagementController {
 		int actionCnt = 0;
 		String actionMessage = "";
 		
-		if (managementVo.getProc_role().equals("update")) {
+		if (managementVo.getProc_role().equals("update_seq")) {
 			actionMessage = "수정 되었습니다.";
 			actionCnt = managementService.updateManagement(managementVo);
+		} else if (managementVo.getProc_role().equals("update_code")) {
+			actionMessage = "수정 되었습니다.";
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("complete_count", managementVo.getComplete_count());
+			map.put("management_code", managementVo.getManagement_code());
+			map.put("belong_condition", managementVo.getBelong_condition());
+			
+			if (managementVo.getBelong_condition().equalsIgnoreCase("W")) {
+				List<CharacterVo> sameServerCharacterList = characterService.selectWorldBelongCharacterList(managementVo);
+				map.put("characterList", sameServerCharacterList);
+			}
+			
+			actionCnt = managementService.updateManagementGroup(map);
 		}
 		
 		if (actionCnt > 0) {

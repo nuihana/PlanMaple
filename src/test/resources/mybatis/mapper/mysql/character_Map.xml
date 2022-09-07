@@ -25,5 +25,19 @@
 		DELETE FROM PM_CHARACTER
 		WHERE CHARACTER_SEQ = #{character_seq}
 	</delete>
+
+	<select id="selectWorldBelongCharacterList" parameterType="ManagementVo" resultType="CharacterVo">
+		SELECT *
+		FROM PM_CHARACTER
+		WHERE CHARACTER_SERVER_CODE = (
+			SELECT CHARACTER_SERVER_CODE
+			FROM PM_CHARACTER
+			WHERE CHARACTER_SEQ = (
+				SELECT CHARACTER_SEQ
+				FROM PM_MANAGEMENT
+				WHERE MANAGEMENT_SEQ = #{management_seq}
+			)
+		)
+	</select>
 	
 </mapper>
