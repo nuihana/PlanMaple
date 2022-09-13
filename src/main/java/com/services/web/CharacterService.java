@@ -15,6 +15,10 @@ public class CharacterService {
 	@Autowired
 	private SqlSession sqlSession;
 
+	public CharacterVo selectCharacter(CharacterVo characterVo) {
+		return sqlSession.selectOne("character.selectCharacter", characterVo);
+	}
+
 	public List<CharacterVo> selectCharacterList(CharacterVo characterVo) {
 		return sqlSession.selectList("character.selectCharacterList", characterVo);
 	}
@@ -26,6 +30,10 @@ public class CharacterService {
 	public int deleteCharacter(CharacterVo characterVo) {
 		sqlSession.delete("management.deleteCharacterManagement", characterVo);
 		return sqlSession.delete("character.deleteCharacter", characterVo);
+	}
+
+	public int updateCharacter(CharacterVo characterVo) {
+		return sqlSession.update("character.updateCharacter", characterVo);
 	}
 
 	public List<CharacterVo> selectWorldBelongCharacterList(ManagementVo managementVo) {

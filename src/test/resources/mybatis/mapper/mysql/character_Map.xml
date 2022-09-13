@@ -3,6 +3,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="character">
 
+	<select id="selectCharacter" parameterType="CharacterVo" resultType="CharacterVo">
+		SELECT *
+		FROM PM_CHARACTER
+		WHERE CHARACTER_SEQ = #{character_seq}
+	</select>
+
 	<select id="selectCharacterList" parameterType="CharacterVo" resultType="CharacterVo">
 		SELECT *
 		FROM PM_CHARACTER
@@ -25,6 +31,15 @@
 		DELETE FROM PM_CHARACTER
 		WHERE CHARACTER_SEQ = #{character_seq}
 	</delete>
+	
+	<update id="updateCharacter" parameterType="CharacterVo">
+		UPDATE PM_CHARACTER
+		SET CHARACTER_NAME = #{character_name},
+			CHARACTER_LEVEL = #{character_level},
+			CHARACTER_SERVER_CODE = #{character_server_code},
+			CHARACTER_SERVER = #{character_server}
+		WHERE CHARACTER_SEQ = #{character_seq}
+	</update>
 
 	<select id="selectWorldBelongCharacterList" parameterType="ManagementVo" resultType="CharacterVo">
 		SELECT *

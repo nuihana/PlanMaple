@@ -42,8 +42,8 @@ $(document).ready(function () {
 									<td width="*" class="text-ellipsis-character-td" onclick="selectManagecode('${readyManagecodeList.management_code}');">${readyManagecodeList.management_code_desc}</td>
 									<td width="5%">
 										<div style="position: relative; width: 29px;">
-											<button class="btn btn-outline-danger p-0" style="position: absolute; right: 5%; transform: translateX(-120%);"><i class="bi bi-file-earmark-minus-fill" onclick="customManagecodeProcChk('${readyManagecodeList.management_code}', 'delete');"></i></button>
-											<button class="btn btn-outline-danger p-0" style="position: absolute; right: 5%;"><i class="bi bi-file-earmark-text-fill" onclick="customManagecodeProcChk('${readyManagecodeList.management_code}', 'update');"></i></button>
+											<button class="btn btn-outline-danger p-0" style="position: absolute; right: 5%; transform: translateX(-120%);"><i class="bi bi-dash" onclick="customManagecodeProcChk('${readyManagecodeList.management_code}', 'delete');"></i></button>
+											<button class="btn btn-outline-danger p-0" style="position: absolute; right: 5%;"><i class="bi bi-pencil-square" onclick="customManagecodeProcChk('${readyManagecodeList.management_code}', 'update');"></i></button>
 										</div>
 									</td>
 								</tr>
@@ -99,8 +99,8 @@ $(document).ready(function () {
 									<td width="*" class="text-ellipsis-character-td" onclick="selectManagement('${ingManagecodeList.management_code}');">${ingManagecodeList.management_code_desc}</td>
 									<td width="5%">
 										<div style="position: relative; width: 29px;">
-											<button class="btn btn-outline-danger p-0" style="position: absolute; right: 5%; transform: translateX(-120%);"><i class="bi bi-file-earmark-minus-fill" onclick="customManagecodeProcChk('${ingManagecodeList.management_code}', 'delete');"></i></button>
-											<button class="btn btn-outline-danger p-0" style="position: absolute; right: 5%;"><i class="bi bi-file-earmark-text-fill" onclick="customManagecodeProcChk('${ingManagecodeList.management_code}', 'update');"></i></button>
+											<button class="btn btn-outline-danger p-0" style="position: absolute; right: 5%; transform: translateX(-120%);"><i class="bi bi-dash" onclick="customManagecodeProcChk('${ingManagecodeList.management_code}', 'delete');"></i></button>
+											<button class="btn btn-outline-danger p-0" style="position: absolute; right: 5%;"><i class="bi bi-pencil-square" onclick="customManagecodeProcChk('${ingManagecodeList.management_code}', 'update');"></i></button>
 										</div>
 									</td>
 								</tr>

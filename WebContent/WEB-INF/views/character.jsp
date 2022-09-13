@@ -167,7 +167,7 @@ function addManagement() {
 	$('#own_cycle_condition').val('');
 	$('#own_complete_count').val('');
 
-		$("#btn_managecodeAdd_modal").attr("onclick", "managecodeAddProc('insert');");
+	$("#btn_managecodeAdd_modal").attr("onclick", "managecodeAddProc('insert');");
 			
 	let options = {
 			backdrop: true,
@@ -270,6 +270,36 @@ function customManagecodeProcValidation() {
 	
 	return true;
 }
+
+function updateProcPopup(character_seq, mode) {
+	$.ajax({
+		url : ctxPath+'/characterPreview',
+		type : 'post',
+		dataType : "json",
+		async : false,
+		data : {character_seq : character_seq},
+		success : function(rtn) {
+// 	 		console.log(rtn);
+			$('#characterEdit_Profile_img').attr("src", rtn.data.character_img);
+ 			$('#edit_character_seq').val(rtn.data.character_seq);
+ 			$('#edit_character_name').val(rtn.data.character_name);
+ 			$('#edit_character_server_code').val(rtn.data.character_server_code);
+ 			$('#edit_character_level').val(rtn.data.character_level);
+ 			
+ 			let options = {
+ 					backdrop: true,
+ 					keyboard: true,
+ 					focus: true
+ 				};
+ 				
+ 			let myModal = new bootstrap.Modal(document.getElementById('characterEdit_modal'), options);
+ 			myModal.show();
+		},
+		error:function(request,status,error){
+			console.log(error);
+		}
+	});
+}
 </script>
 
 </head>
@@ -308,8 +338,12 @@ function customManagecodeProcValidation() {
 									<tbody>
 										<c:forEach var="characterList" items="${characterList}" varStatus="status">
 											<tr id="character_tr_${characterList.character_seq}" class="btn-fn character-data">
-												<td width="5%;" style="padding-top: 36px;">
-													<button class="btn btn-outline-danger p-0"><i class="bi bi-person-dash-fill" onclick="deleteProcChk('${characterList.character_seq}', 'delete');"></i></button>
+												<td width="2%;">
+													<div style="position: relative; width: 24px; height: 97px;">
+														<button class="btn btn-outline-danger p-0" style="position: absolute; left: 2%; top: 20%;"><i class="bi bi-dash" onclick="deleteProcChk('${characterList.character_seq}', 'delete');"></i></button>
+<%-- 														<button class="btn btn-outline-danger p-0" style="position: absolute; left: 2%; top: 20%; transform: translateY(120%);"><i class="bi bi-pencil-square" onclick="updateProcPopup('${characterList.character_seq}', 'update');"></i></button> --%>
+														<button class="btn btn-outline-danger p-0" style="position: absolute; left: 2%; top: 20%; transform: translateY(120%);"><i class="bi bi-arrow-clockwise" onclick=""></i></button>
+													</div>
 												</td>
 												<td class="character-image" onclick="selectCharacter('${characterList.character_seq}');">
 													<img src="${characterList.character_img}" alt="캐릭터 이미지">
@@ -337,6 +371,7 @@ function customManagecodeProcValidation() {
 				</div>
 			</div>
 		</div>
+		<jsp:include page="/include/popup/characterEditModal.jsp" />
 		<jsp:include page="/include/popup/characterSearchModal.jsp" />
 		<jsp:include page="/include/popup/managecodeAddModal.jsp" />
 		<jsp:include page="/include/popup/feedbackModal.jsp" />

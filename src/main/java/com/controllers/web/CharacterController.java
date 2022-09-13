@@ -35,7 +35,7 @@ public class CharacterController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private Crawler crawler = new Crawler();
 	
-	private String[] serverList = {"미상", "미상", "리부트", "리부트", "오로라", "레드", "이노시스", "유니온", "스카니아", "루나", "제니스", "크로아", "베라", "엘리시움", "아케인", "노바", "버닝", "버닝", "버닝", "버닝"};
+	private String[] serverList = {"미상", "미상", "리부트2", "리부트", "오로라", "레드", "이노시스", "유니온", "스카니아", "루나", "제니스", "크로아", "베라", "엘리시움", "아케인", "노바", "버닝", "버닝", "버닝", "버닝"};
 	
 	@Inject
 	CharacterService characterService;
@@ -75,6 +75,19 @@ public class CharacterController {
 		}
 	}
 	
+	@RequestMapping(value = {"characterPreview"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo characterPreview (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("characterVo") CharacterVo characterVo, ModelMap model) {
+		
+		CharacterVo selectVo = characterService.selectCharacter(characterVo);
+		
+		if (selectVo != null) {
+			return new ReturnVo("YES", null, selectVo);
+		} else {
+			return new ReturnVo("NO", null, null);
+		}
+	}
+	
 	@RequestMapping(value = {"characterEditProc"}, method = RequestMethod.POST)
 	public @ResponseBody ReturnVo characterEditProc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("characterVo") CharacterVo characterVo, ModelMap model) {
@@ -91,6 +104,10 @@ public class CharacterController {
 		} else if (characterVo.getProc_role().equals("delete")) {
 			actionMessage = "삭제 되었습니다.";
 			actionCnt = characterService.deleteCharacter(characterVo);
+		} else if (characterVo.getProc_role().equals("update")) {
+			actionMessage = "수정 되었습니다.";
+			characterVo.setCharacter_server(serverList[Integer.parseInt(characterVo.getCharacter_server_code())]);
+			actionCnt = characterService.updateCharacter(characterVo);
 		}
 		
 		if (actionMessage.equals("")) {
