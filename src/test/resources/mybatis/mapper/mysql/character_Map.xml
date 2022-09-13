@@ -55,4 +55,15 @@
 		)
 	</select>
 	
+	<update id="updateCharacterAPI" parameterType="CharacterVo">
+		UPDATE PM_CHARACTER
+		SET CHARACTER_NAME = #{character_name},
+			CHARACTER_CLASS = #{character_class},
+			CHARACTER_IMG = #{character_img},
+			CHARACTER_LEVEL = #{character_level},
+			CHARACTER_SERVER_CODE = #{character_server_code},
+			CHARACTER_SERVER = #{character_server}
+		WHERE CHARACTER_SEQ = #{character_seq}
+	</update>
+	
 </mapper>

@@ -26,7 +26,7 @@ $(document).ready(function () {
 		success : function(result) {
 // 			console.log(result);
 			result.data.forEach(function(value, index, arry) {
-				console.log(value);
+// 				console.log(value);
 				opt_label[index] = serverList[value.server_code];
 				opt_data[index] = value.complete_count;
 			})

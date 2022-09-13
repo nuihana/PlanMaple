@@ -39,5 +39,9 @@ public class CharacterService {
 	public List<CharacterVo> selectWorldBelongCharacterList(ManagementVo managementVo) {
 		return sqlSession.selectList("character.selectWorldBelongCharacterList", managementVo);
 	}
+
+	public void updateCharacterAPI(CharacterVo characterVo) {
+		sqlSession.update("character.updateCharacterAPI", characterVo);
+	}
 	
 }

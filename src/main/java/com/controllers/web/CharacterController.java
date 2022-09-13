@@ -88,6 +88,31 @@ public class CharacterController {
 		}
 	}
 	
+	@RequestMapping(value = {"characterUpdateAjax"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo characterUpdateAjax (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("characterVo") CharacterVo characterVo, ModelMap model) {
+		CharacterVo selectVo = characterService.selectCharacter(characterVo);
+		
+		logger.info("characterUpdateAjax : [" + selectVo.getCharacter_name() + "] 검색");
+		
+		String searchUrl = "https://maplestory.nexon.com/Ranking/World/Total?c=" + selectVo.getCharacter_name() + "&w=0";
+		String[] dataArray = crawler.getCharacterInfoFromHTML(searchUrl).split("[|]");
+		
+		if (dataArray.length >= 5) {
+			logger.info("characterUpdateAjax : 검색 성공");
+			
+			CharacterVo rstVo = new CharacterVo(dataArray[0], dataArray[1], dataArray[2], dataArray[3], serverList[Integer.parseInt(dataArray[3])], dataArray[4]);
+			rstVo.setCharacter_seq(characterVo.getCharacter_seq());
+			
+			characterService.updateCharacterAPI(rstVo);
+			
+			return new ReturnVo("YES", null, rstVo);
+		} else {
+			logger.info("characterUpdateAjax : 검색 실패 [정보 없음]");
+			return new ReturnVo("NO", null, null);
+		}
+	}
+	
 	@RequestMapping(value = {"characterEditProc"}, method = RequestMethod.POST)
 	public @ResponseBody ReturnVo characterEditProc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("characterVo") CharacterVo characterVo, ModelMap model) {

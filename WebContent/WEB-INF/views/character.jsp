@@ -252,7 +252,7 @@ function customManagecodeProc(managecode, mode) {
 	if (customManagecodeProcValidation()) {
 		ajaxCall4Html(ctxPath + '/managecodeProc', $("#formCharacterManagecode").separator('separatorRemoveForm').serialize(), function(data) {
 			var rtn = JSON.parse(data);
-			console.log(rtn);
+// 			console.log(rtn);
 			if (rtn.result == 'YES') {
 				$.confirm("삭제되었습니다.", "window.location.reload();");
 			} else {
@@ -294,6 +294,31 @@ function updateProcPopup(character_seq, mode) {
  				
  			let myModal = new bootstrap.Modal(document.getElementById('characterEdit_modal'), options);
  			myModal.show();
+		},
+		error:function(request,status,error){
+			console.log(error);
+		}
+	});
+}
+
+function updateProcChk(character_seq) {
+	$.feedback("캐릭터 정보를 업데이트하시겠습니까? <br/> <small>※캐릭터 정보는 홈페이지에 갱신된 정보를 기준으로 수정됩니다.</small>", "characterUpdateAjax('" + character_seq + "');");
+}
+
+function characterUpdateAjax(character_seq) {
+	$.ajax({
+		url : ctxPath+'/characterUpdateAjax',
+		type : 'post',
+		dataType : "json",
+		async : false,
+		data : {character_seq : character_seq},
+		success : function(rtn) {
+// 	 		console.log(rtn);
+			if (rtn.result == 'YES') {
+				$.confirm("수정되었습니다.", "window.location.reload();");
+			} else {
+				$.alert("수정에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+			}
 		},
 		error:function(request,status,error){
 			console.log(error);
@@ -342,7 +367,7 @@ function updateProcPopup(character_seq, mode) {
 													<div style="position: relative; width: 24px; height: 97px;">
 														<button class="btn btn-outline-danger p-0" style="position: absolute; left: 2%; top: 20%;"><i class="bi bi-dash" onclick="deleteProcChk('${characterList.character_seq}', 'delete');"></i></button>
 <%-- 														<button class="btn btn-outline-danger p-0" style="position: absolute; left: 2%; top: 20%; transform: translateY(120%);"><i class="bi bi-pencil-square" onclick="updateProcPopup('${characterList.character_seq}', 'update');"></i></button> --%>
-														<button class="btn btn-outline-danger p-0" style="position: absolute; left: 2%; top: 20%; transform: translateY(120%);"><i class="bi bi-arrow-clockwise" onclick=""></i></button>
+														<button class="btn btn-outline-danger p-0" style="position: absolute; left: 2%; top: 20%; transform: translateY(120%);"><i class="bi bi-arrow-clockwise" onclick="updateProcChk('${characterList.character_seq}');"></i></button>
 													</div>
 												</td>
 												<td class="character-image" onclick="selectCharacter('${characterList.character_seq}');">
