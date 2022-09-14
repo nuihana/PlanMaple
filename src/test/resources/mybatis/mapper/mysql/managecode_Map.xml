@@ -15,12 +15,6 @@
 		WHERE (PUBLIC_FLAG = '0' OR PUBLIC_FLAG = #{user_seq})
 		ORDER BY MANAGEMENT_CODE
 	</select>
-
-	<select id="selectManagementCodeListByCondition" parameterType="hashMap" resultType="ManagecodeVo">
-		SELECT *
-		FROM PM_MANAGEMENTCODE
-		WHERE CYCLE_CONDITION = #{cycle}
-	</select>
 	
 	<insert id="insertManagecode" parameterType="ManagecodeVo">
 		<selectKey resultType="String" keyProperty="management_code" order="BEFORE">

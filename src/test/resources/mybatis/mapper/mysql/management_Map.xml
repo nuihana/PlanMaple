@@ -47,10 +47,11 @@
 	<update id="updateManagementReset" parameterType="hashMap">
 		UPDATE PM_MANAGEMENT
 		SET COMPLETE_COUNT = '0'
-		WHERE MANAGEMENT_CODE IN
-			<foreach collection="targetCodeList" item="item" open="(" separator="," close=")">
-				#{item.management_code}
-			</foreach>
+		WHERE MANAGEMENT_CODE IN (
+			SELECT MANAGEMENT_CODE
+		    FROM PM_MANAGEMENTCODE
+			WHERE CYCLE_CONDITION = #{cycle}
+		)
 	</update>
 	
 	<select id="selectLeftManagementList" resultType="hashMap">

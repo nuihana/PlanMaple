@@ -34,9 +34,6 @@ public class ResetScheduler {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("cycle", "D");
 		
-		List<ManagecodeVo> dailyResetCode = managecodeService.selectManagementCodeListByCondition(map);
-		map.put("targetCodeList", dailyResetCode);
-		
 		managementService.updateManagementReset(map);
 
 		logger.info("Daily Management Info Reset [end]");
@@ -48,9 +45,6 @@ public class ResetScheduler {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("cycle", "S");
-		
-		List<ManagecodeVo> weeklySundayResetCode = managecodeService.selectManagementCodeListByCondition(map);
-		map.put("targetCodeList", weeklySundayResetCode);
 		
 		managementService.updateManagementReset(map);
 		
@@ -64,9 +58,6 @@ public class ResetScheduler {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("cycle", "T");
 		
-		List<ManagecodeVo> weeklyThursdayResetCode = managecodeService.selectManagementCodeListByCondition(map);
-		map.put("targetCodeList", weeklyThursdayResetCode);
-		
 		managementService.updateManagementReset(map);
 		
 		logger.info("Weekly-Thursday Management Info Reset [end]");
@@ -78,9 +69,6 @@ public class ResetScheduler {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("cycle", "M");
-		
-		List<ManagecodeVo> monthlyResetCode = managecodeService.selectManagementCodeListByCondition(map);
-		map.put("targetCodeList", monthlyResetCode);
 		
 		managementService.updateManagementReset(map);
 		
