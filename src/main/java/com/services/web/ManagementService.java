@@ -51,4 +51,8 @@ public class ManagementService {
 	public int updateManagementGroup(HashMap<String, Object> map) {
 		return sqlSession.update("management.updateManagementGroup", map);
 	}
+
+	public int updateManagementAlarm(ManagementVo managementVo) {
+		return sqlSession.update("management.updateManagementAlarm", managementVo);
+	}
 }

@@ -90,7 +90,7 @@ public class ManagementController {
 					tmpVo.setBelong_condition(tmp.getBelong_condition());
 					tmpVo.setServer_code(tmp_.getCharacter_server_code());
 					
-					if (deadlineList.contains(new ManagecodeVo(tmp.getManagement_code()))) {
+					if (deadlineList.contains(new ManagecodeVo(tmp.getManagement_code())) && tmpVo.getUse_yn().equalsIgnoreCase("Y")) {
 						tmpVo.setDeadline_flag("Y");
 						tmp.addUnique_managementlist(tmpVo);
 					} else {

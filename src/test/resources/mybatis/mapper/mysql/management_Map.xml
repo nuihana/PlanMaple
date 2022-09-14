@@ -74,13 +74,14 @@
 		WHERE PM.MANAGEMENT_CODE = PC.MANAGEMENT_CODE
 		AND PM.CHARACTER_SEQ = PCH.CHARACTER_SEQ
 		AND PCH.USER_SEQ = #{user_seq}
+		AND PM.USE_YN = 'Y'
 		AND (
 			PC.CYCLE_CONDITION = 'D'
 			<choose>
-				<when test='day == "7"'>
+				<when test='day == "1"'>
 					OR PC.CYCLE_CONDITION = 'S'
 				</when>
-				<when test='day == "3"'>
+				<when test='day == "4"'>
 					OR PC.CYCLE_CONDITION = 'T'
 				</when>
 			</choose>
@@ -108,6 +109,13 @@
 					#{item.character_seq}
 				</foreach>
 		</if>
+	</update>
+	
+	<update id="updateManagementAlarm" parameterType="ManagementVo">
+		UPDATE PM_MANAGEMENT
+		SET USE_YN = #{use_yn}
+		WHERE CHARACTER_SEQ = #{character_seq}
+		AND MANAGEMENT_CODE = #{management_code}
 	</update>
 	
 </mapper>

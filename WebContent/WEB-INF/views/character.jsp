@@ -325,6 +325,44 @@ function characterUpdateAjax(character_seq) {
 		}
 	});
 }
+
+function alarmOffProc(val) {
+	if (alarmOffProcValidation()) {
+		$('#Management_proc_role').val(val);
+		
+		var codeList = "";
+		
+ 		$("input:checkbox[name='ingManagecodeCheckBox']:checked").each(function(i, ival) {
+ 			codeList += ival.value + ",";
+ 		});
+ 		
+ 		$('#Management_management_code').val(codeList);
+ 		
+		ajaxCall4Html(ctxPath + '/managecodeEditProc', $("#formCharacterManagement").separator('separatorRemoveForm').serialize(), function(data) {
+			var rtn = JSON.parse(data);
+// 			console.log(rtn);
+			if (rtn.result == 'YES') {
+				$.confirm("수정되었습니다.", "selectCharacter('" + $('#Management_character_seq').val() + "');");
+			} else {
+				$.alert("수정에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+			}
+		});
+	}
+}
+
+function alarmOffProcValidation() {
+	if ($('#Management_character_seq').val() == undefined || $('#Management_character_seq').val() == "") {
+		$.alert("캐릭터를 선택해주세요.");
+		return false;
+	}
+
+	if ($("input:checkbox[name='ingManagecodeCheckBox']:checked").length < 1) {
+		$.alert("숙제를 선택해주세요.");
+		return false;
+	}
+	
+	return true;
+}
 </script>
 
 </head>

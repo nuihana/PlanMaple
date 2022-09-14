@@ -15,6 +15,8 @@ public class ManagecodeVo {
 	
 	private String proc_role;
 	
+	// character 페이지 알람 on/off 용도
+	private String use_yn;
 	// management 페이지 colspan 입력용도
 	private String chid_count = "0";
 	// management 페이지 체크박스 출력 용도
@@ -87,6 +89,12 @@ public class ManagecodeVo {
 	}
 	public void setUnique_managementlist(List<ManagementVo> unique_managementlist) {
 		this.unique_managementlist = unique_managementlist;
+	}
+	public String getUse_yn() {
+		return use_yn;
+	}
+	public void setUse_yn(String use_yn) {
+		this.use_yn = use_yn;
 	}
 	/**
 	 * 

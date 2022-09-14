@@ -170,6 +170,8 @@ public class CharacterController {
 					if (tmp.getManagement_code().equals(tmp_.getManagement_code())) {
 						flag = false;
 						rmv_idx = idx;
+						
+						tmp.setUse_yn(tmp_.getUse_yn());
 					}
 					idx++;
 				}
@@ -211,6 +213,20 @@ public class CharacterController {
 			actionMessage = "제거 되었습니다.";
 			for (String tmp : managementVo.getManagement_code().split(",")) {
 				actionCnt = managementService.deleteManagementFromCode(new ManagementVo(tmp, managementVo.getCharacter_seq()));
+			}
+		} else if (managementVo.getProc_role().equals("alarmoff")) {
+			actionMessage = "수정 되었습니다.";
+			for (String tmp : managementVo.getManagement_code().split(",")) {
+				ManagementVo tmpVo = new ManagementVo(tmp, managementVo.getCharacter_seq());
+				tmpVo.setUse_yn("N");
+				actionCnt = managementService.updateManagementAlarm(tmpVo);
+			}
+		} else if (managementVo.getProc_role().equals("alarmon")) {
+			actionMessage = "수정 되었습니다.";
+			for (String tmp : managementVo.getManagement_code().split(",")) {
+				ManagementVo tmpVo = new ManagementVo(tmp, managementVo.getCharacter_seq());
+				tmpVo.setUse_yn("Y");
+				actionCnt = managementService.updateManagementAlarm(tmpVo);
 			}
 		}
 		

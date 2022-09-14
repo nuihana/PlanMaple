@@ -62,7 +62,7 @@ $(document).ready(function () {
 	</table>
 </div>
 <div class="col-sm-2" style="display: flex; align-items: center; justify-content: center;">
-	<table style="position: sticky; top: 400px; align-self: flex-start;">
+	<table style="position: sticky; top: 350px; align-self: flex-start;">
 		<tr>
 			<td class="btn-fn">
 				<i class="bi bi-arrow-right-circle-fill" style="font-size: 2.0em;" onclick="managecodeProc('insert');"></i>
@@ -71,6 +71,17 @@ $(document).ready(function () {
 		<tr>
 			<td class="btn-fn">
 				<i class="bi bi-arrow-left-circle-fill" style="font-size: 2.0em;" onclick="managecodeProc('delete');"></i>
+			</td>
+		</tr>
+		<tr style="height: 40px;"></tr>
+		<tr>
+			<td class="btn-fn">
+				<i class="bi bi-bell-slash-fill" style="font-size: 1.8em;" onclick="alarmOffProc('alarmoff');"></i>
+			</td>
+		</tr>
+		<tr>
+			<td class="btn-fn">
+				<i class="bi bi-bell-fill" style="font-size: 1.8em;" onclick="alarmOffProc('alarmon');"></i>
 			</td>
 		</tr>
 	</table>
@@ -96,8 +107,19 @@ $(document).ready(function () {
 							<c:when test="${fn:contains(ingManagecodeList.management_code, 'ZYX')}">
 								<tr id="management_tr_${ingManagecodeList.management_code}" class="text-center btn-fn mtr-${ingManagecodeList.parant_code}">
 									<td width="5%" onclick="selectManagement('${ingManagecodeList.management_code}');"><input type="checkbox" id="management_cb_${ingManagecodeList.management_code}" class="mcb_${ingManagecodeList.parant_code} cha_cb" name="ingManagecodeCheckBox" value="${ingManagecodeList.management_code}"></td>
-									<td width="*" class="text-ellipsis-character-td" onclick="selectManagement('${ingManagecodeList.management_code}');">${ingManagecodeList.management_code_desc}</td>
-									<td width="5%">
+									<td width="*" class="text-ellipsis-character-td" onclick="selectManagement('${ingManagecodeList.management_code}');">
+										<c:choose>
+											<c:when test="${ingManagecodeList.use_yn eq 'Y'}">
+												${ingManagecodeList.management_code_desc}
+												<i class="bi bi-bell-fill"></i>
+											</c:when>
+											<c:otherwise>
+												${ingManagecodeList.management_code_desc}
+												<i class="bi bi-bell-slash"></i>
+											</c:otherwise>
+										</c:choose>
+									</td>
+									<td width="1%">
 										<div style="position: relative; width: 29px;">
 											<button class="btn btn-outline-danger p-0" style="position: absolute; right: 5%; transform: translateX(-120%);"><i class="bi bi-dash" onclick="customManagecodeProcChk('${ingManagecodeList.management_code}', 'delete');"></i></button>
 											<button class="btn btn-outline-danger p-0" style="position: absolute; right: 5%;"><i class="bi bi-pencil-square" onclick="customManagecodeProcChk('${ingManagecodeList.management_code}', 'update');"></i></button>
@@ -108,7 +130,18 @@ $(document).ready(function () {
 							<c:otherwise>
 								<tr id="management_tr_${ingManagecodeList.management_code}" class="text-center btn-fn mtr-${ingManagecodeList.parant_code}" onclick="selectManagement('${ingManagecodeList.management_code}');">
 									<td width="5%"><input type="checkbox" id="management_cb_${ingManagecodeList.management_code}" class="mcb_${ingManagecodeList.parant_code} cha_cb" name="ingManagecodeCheckBox" value="${ingManagecodeList.management_code}"></td>
-									<td colspan="2" width="*">${ingManagecodeList.management_code_desc}</td>
+									<td colspan="2" width="*">
+										<c:choose>
+											<c:when test="${ingManagecodeList.use_yn eq 'Y'}">
+												${ingManagecodeList.management_code_desc}
+												<i class="bi bi-bell-fill"></i>
+											</c:when>
+											<c:otherwise>
+												${ingManagecodeList.management_code_desc}
+												<i class="bi bi-bell-slash"></i>
+											</c:otherwise>
+										</c:choose>
+									</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>
