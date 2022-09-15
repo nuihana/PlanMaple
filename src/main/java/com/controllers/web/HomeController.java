@@ -15,17 +15,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.services.web.CharacterService;
+import com.services.web.CommonService;
 import com.services.web.ManagementService;
 import com.utils.WebConfig;
 import com.vos.web.CharacterVo;
 import com.vos.web.ManagementVo;
 import com.vos.web.ReturnVo;
+import com.vos.web.UserVo;
 
 @Controller
 public class HomeController {
@@ -36,12 +39,16 @@ public class HomeController {
 	CharacterService characterService;
 	@Inject
 	ManagementService managementService;
+	@Inject
+	CommonService commonService;
 
 	@RequestMapping(value = {"home"}, method = RequestMethod.GET)
 	public @ResponseBody ModelAndView home(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
 		String user_seq = (String) session.getAttribute("loginSeq");
 		
 		List<CharacterVo> characterList = characterService.selectCharacterList(new CharacterVo(user_seq));
+		
+		UserVo myInfo = commonService.selectUser(new UserVo(user_seq));
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		HashMap<String, String> selectMap = new HashMap<String, String>();
@@ -65,7 +72,9 @@ public class HomeController {
 		}
 		map.put("deadlineManagementCnt", deadlineSum);
 
+		model.addAttribute("loginSeq", user_seq);
 		model.addAttribute("card_data", map);
+		model.addAttribute("myInfo", myInfo);
 		model.addAttribute("config", config);
 		
 		return new ModelAndView("/home", model);
@@ -102,6 +111,24 @@ public class HomeController {
 			return new ReturnVo("NO", null, null);
 		} else {
 			return new ReturnVo("OK", null, serverLeftManagement);
+		}
+	}
+	
+	@RequestMapping(value = {"userMemoProc"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo userMemoProc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("userVo") UserVo userVo, ModelMap model) {
+		
+		int actionCnt = 0;
+		String actionMessage = "";
+		
+		actionCnt = commonService.updateUserMemo(userVo);
+		
+		if (actionCnt > 0) {
+			actionMessage = "저장 되었습니다.";
+			return new ReturnVo("YES", actionMessage, null);
+		} else {
+			actionMessage = "예상치 못한 오류가 발생하였습니다.";
+			return new ReturnVo("NO", actionMessage, null);
 		}
 	}
 }

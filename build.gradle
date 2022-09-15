@@ -21,10 +21,6 @@ dependencies {
 	// MyBatis
 	compile 'org.mybatis:mybatis:3.2.2'
     compile 'org.mybatis:mybatis-spring:1.2.4'
-    
-    // shedLock
-	compile("net.javacrumbs.shedlock:shedlock-spring:2.2.0")
-	compile("net.javacrumbs.shedlock:shedlock-provider-jdbc-template:2.1.0")
 }
 
 project.webAppDirName = 'WebContent'

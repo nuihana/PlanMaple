@@ -8,6 +8,14 @@ public class UserVo {
 	private String login_flag;
 	private String last_update;
 	
+	public UserVo() {
+		//기본 생성자
+	}
+	
+	public UserVo(String user_seq) {
+		this.user_seq = user_seq;
+	}
+	
 	public String getUser_seq() {
 		return user_seq;
 	}
