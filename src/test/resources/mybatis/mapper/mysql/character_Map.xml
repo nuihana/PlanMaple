@@ -41,18 +41,21 @@
 		WHERE CHARACTER_SEQ = #{character_seq}
 	</update>
 
-	<select id="selectWorldBelongCharacterList" parameterType="ManagementVo" resultType="CharacterVo">
+	<select id="selectWorldBelongCharacterList" parameterType="hashMap" resultType="CharacterVo">
 		SELECT *
 		FROM PM_CHARACTER
-		WHERE CHARACTER_SERVER_CODE = (
-			SELECT CHARACTER_SERVER_CODE
-			FROM PM_CHARACTER
-			WHERE CHARACTER_SEQ = (
-				SELECT CHARACTER_SEQ
-				FROM PM_MANAGEMENT
-				WHERE MANAGEMENT_SEQ = #{management_seq}
+		WHERE USER_SEQ = #{user_seq}
+		<if test='condition == "W"'>
+			AND CHARACTER_SERVER_CODE = (
+				SELECT CHARACTER_SERVER_CODE
+				FROM PM_CHARACTER
+				WHERE CHARACTER_SEQ = (
+					SELECT CHARACTER_SEQ
+					FROM PM_MANAGEMENT
+					WHERE MANAGEMENT_SEQ = #{management_seq}
+				)
 			)
-		)
+		</if>
 	</select>
 	
 	<update id="updateCharacterAPI" parameterType="CharacterVo">

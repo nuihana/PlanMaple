@@ -112,7 +112,7 @@ function characterEditValidation() {
 			</div>
 			<!-- Footer -->
 			<div class="modal-footer">
-				<button id="btn_save" type="button" class="btn btn-secondary" onclick="CharacterInfoEditProc('update');">저장</button>
+				<button type="button" class="btn btn-secondary" onclick="CharacterInfoEditProc('update');">저장</button>
 				<button type="button" class="btn" data-bs-dismiss="modal">닫기</button>
 			</div>
 		</div>

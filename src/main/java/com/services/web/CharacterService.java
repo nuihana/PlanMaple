@@ -1,5 +1,6 @@
 package com.services.web;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -36,8 +37,8 @@ public class CharacterService {
 		return sqlSession.update("character.updateCharacter", characterVo);
 	}
 
-	public List<CharacterVo> selectWorldBelongCharacterList(ManagementVo managementVo) {
-		return sqlSession.selectList("character.selectWorldBelongCharacterList", managementVo);
+	public List<CharacterVo> selectWorldBelongCharacterList(HashMap<String, String> map) {
+		return sqlSession.selectList("character.selectWorldBelongCharacterList", map);
 	}
 
 	public void updateCharacterAPI(CharacterVo characterVo) {

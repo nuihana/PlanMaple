@@ -129,7 +129,19 @@ public class ManagementController {
 			map.put("belong_condition", managementVo.getBelong_condition());
 			
 			if (managementVo.getBelong_condition().equalsIgnoreCase("W")) {
-				List<CharacterVo> sameServerCharacterList = characterService.selectWorldBelongCharacterList(managementVo);
+				HashMap<String, String> selectMap = new HashMap<String, String>();
+				selectMap.put("condition", managementVo.getBelong_condition());
+				selectMap.put("management_seq", managementVo.getManagement_seq());
+				selectMap.put("user_seq", (String) session.getAttribute("loginSeq"));
+				
+				List<CharacterVo> sameServerCharacterList = characterService.selectWorldBelongCharacterList(selectMap);
+				map.put("characterList", sameServerCharacterList);
+			} else if (managementVo.getBelong_condition().equalsIgnoreCase("I")) {
+				HashMap<String, String> selectMap = new HashMap<String, String>();
+				selectMap.put("condition", managementVo.getBelong_condition());
+				selectMap.put("user_seq", (String) session.getAttribute("loginSeq"));
+				
+				List<CharacterVo> sameServerCharacterList = characterService.selectWorldBelongCharacterList(selectMap);
 				map.put("characterList", sameServerCharacterList);
 			}
 			
