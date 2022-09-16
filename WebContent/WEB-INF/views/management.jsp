@@ -64,9 +64,13 @@ function checkManageBox(seq, comp_count) {
 	
 	if ($('#managebox_' + seq).val() == comp_count) {
 		$('#manage_tooltip_' + seq).html('<i class="bi bi-check-lg"></i>');
-		$('#managebox_' + seq).removeClass('deadline-box');
+		if ($('#managebox_' + seq).attr('class').indexOf('deadline-flag') >= 0) {
+			$('#managebox_' + seq).removeClass('deadline-box');
+		}
 	} else {
-		$('#managebox_' + seq).addClass('deadline-box');
+		if ($('#managebox_' + seq).attr('class').indexOf('deadline-flag') >= 0) {
+			$('#managebox_' + seq).addClass('deadline-box');
+		}
 	}
 	
 	managementProc(seq, $('#managebox_' + seq).val());
@@ -87,9 +91,13 @@ function checkManageBoxIDGroup(seq, comp_count, managecode, condition) {
 	
 	if ($('#managebox_' + seq).val() == comp_count) {
 		$('.tooltip-' + managecode).html('<i class="bi bi-check-lg"></i>');
-		$('.' + managecode).removeClass('deadline-box');
+		if ($('#managebox_' + seq).attr('class').indexOf('deadline-flag') >= 0) {
+			$('.' + managecode).removeClass('deadline-box');
+		}
 	} else {
-		$('.' + managecode).addClass('deadline-box');
+		if ($('#managebox_' + seq).attr('class').indexOf('deadline-flag') >= 0) {
+			$('.' + managecode).addClass('deadline-box');
+		}
 	}
 	
 	managementGroupProc(seq, managecode, $('#managebox_' + seq).val(), condition);
@@ -110,9 +118,13 @@ function checkManageBoxWorldGroup(seq, comp_count, managecode, condition, server
 	
 	if ($('#managebox_' + seq).val() == comp_count) {
 		$('.tooltip-' + managecode + '-' + server).html('<i class="bi bi-check-lg"></i>');
-		$('.' + managecode + '-' + server).removeClass('deadline-box');
+		if ($('#managebox_' + seq).attr('class').indexOf('deadline-flag') >= 0) {
+			$('.' + managecode + '-' + server).removeClass('deadline-box');
+		}
 	} else {
-		$('.' + managecode + '-' + server).addClass('deadline-box');
+		if ($('#managebox_' + seq).attr('class').indexOf('deadline-flag') >= 0) {
+			$('.' + managecode + '-' + server).addClass('deadline-box');
+		}
 	}
 	
 	managementGroupProc(seq, managecode, $('#managebox_' + seq).val(), condition);
@@ -240,7 +252,7 @@ function managementGroupValidation() {
 																<c:choose>
 																	<c:when test="${unique_managementlist.complete_count eq bodyManagecodeList.complete_count}">
 																		<input id="managebox_${unique_managementlist.management_seq}"
-																			class="manage <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
+																			class="manage <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-flag</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
 																			type="checkbox" name="management-box" value="${unique_managementlist.complete_count}" checked="checked">
 																		<span id="manage_tooltip_${unique_managementlist.management_seq}"
 																			class="manage-tooltip <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
@@ -248,7 +260,7 @@ function managementGroupValidation() {
 																	</c:when>
 																	<c:when test="${unique_managementlist.complete_count gt 0 and unique_managementlist.complete_count lt bodyManagecodeList.complete_count}">
 																		<input id="managebox_${unique_managementlist.management_seq}"
-																			class="manage <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-box</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
+																			class="manage <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-box deadline-flag</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
 																			type="checkbox" name="management-box" value="${unique_managementlist.complete_count}" checked="checked">
 																		<span id="manage_tooltip_${unique_managementlist.management_seq}"
 																			class="manage-tooltip <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
@@ -256,7 +268,7 @@ function managementGroupValidation() {
 																	</c:when>
 																	<c:otherwise>
 																		<input id="managebox_${unique_managementlist.management_seq}"
-																			class="manage <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-box</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
+																			class="manage <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-box deadline-flag</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
 																			type="checkbox" name="management-box" value="${unique_managementlist.complete_count}">
 																		<span id="manage_tooltip_${unique_managementlist.management_seq}"
 																			class="manage-tooltip <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
