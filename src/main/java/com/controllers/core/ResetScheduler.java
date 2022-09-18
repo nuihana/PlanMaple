@@ -35,7 +35,7 @@ public class ResetScheduler {
 		managementService.updateManagementReset(map);
 		
 		Calendar cal = Calendar.getInstance();
-		if (cal.get(Calendar.DAY_OF_WEEK) == 1) {
+		if (cal.get(Calendar.DAY_OF_WEEK) == 2) {
 			map.clear();
 			map.put("cycle", "S");
 			
@@ -43,7 +43,7 @@ public class ResetScheduler {
 			logger.info("Weekly-Sunday Management Info Reset [done]");
 		}
 		
-		if (cal.get(Calendar.DAY_OF_WEEK) == 4) {
+		if (cal.get(Calendar.DAY_OF_WEEK) == 5) {
 			map.clear();
 			map.put("cycle", "T");
 			
