@@ -105,4 +105,48 @@ public class LoginController {
 			return new ReturnVo("NO", actionMessage, null);
 		}
 	}
+
+	@RequestMapping(value = {"password"}, method = RequestMethod.GET)
+	public @ResponseBody ModelAndView password (HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+		UserVo userVo = (UserVo) session.getAttribute("login");
+		
+		model.addAttribute("userVo", userVo);
+		
+		return new ModelAndView("/password", model);
+	}
+	
+	@RequestMapping(value = {"passwordChkAjax"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo passwordChkAjax (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("userVo") UserVo reqUser, ModelMap model) {
+		
+		UserVo rstUser = loginService.selectUser(reqUser);
+		
+		if (rstUser != null) {
+			return new ReturnVo("YES", null, rstUser);
+		} else {
+			return new ReturnVo("NO", null, null);
+		}
+	}
+	
+	@RequestMapping(value = {"passwordProc"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo passwordProc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("userVo") UserVo reqUser, ModelMap model) {
+		
+		int actionCnt = 0;
+		String actionMessage = "";
+		
+		actionCnt = loginService.updateUser(reqUser);
+		
+		if (actionCnt > 0) {
+			actionMessage = "변경되었습니다.";
+			
+			session.removeAttribute("login");
+			session.removeAttribute("loginSeq");
+			
+			return new ReturnVo("YES", actionMessage, reqUser);
+		} else {
+			actionMessage = "예상치 못한 오류가 발생하였습니다.";
+			return new ReturnVo("NO", actionMessage, null);
+		}
+	}
 }

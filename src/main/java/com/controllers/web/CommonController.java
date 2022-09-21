@@ -46,6 +46,7 @@ public class CommonController {
 	public @ResponseBody ModelAndView logout (HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("login");
+		session.removeAttribute("loginSeq");
 		
 		return new ModelAndView("/index", model);
 	}

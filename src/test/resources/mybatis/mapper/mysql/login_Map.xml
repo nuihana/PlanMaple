@@ -24,4 +24,10 @@
 		)
 	</insert>
 	
+	<update id="updateUser" parameterType="UserVo">
+		UPDATE PM_USER
+		SET USER_PW = #{user_pw}
+		WHERE USER_ID = #{user_id}
+	</update>
+	
 </mapper>

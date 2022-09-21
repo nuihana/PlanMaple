@@ -22,4 +22,8 @@ public class LoginService {
 	public int insertUser(UserVo userVo) {
 		return sqlSession.insert("login.insertUser", userVo);
 	}
+
+	public int updateUser(UserVo userVo) {
+		return sqlSession.update("login.updateUser", userVo);
+	}
 }

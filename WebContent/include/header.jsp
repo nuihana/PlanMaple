@@ -63,7 +63,17 @@ function logout() {
 			</ul>
 			
 			<ul class="nav">
-	        	<li class="nav-item"><a href="#" class="nav-link text-white px-2" style="font-size: 0.8rem;" onclick="logout();">로그아웃</a></li>
+				<li class="tooltip-nav-list">
+					<a href="/password" class="tooltip-nav nav-link p-2 text-white" data-tooltip="암호 변경">
+						<i class="bi bi-key-fill"></i>
+					</a>
+				</li>
+				<li class="tooltip-nav-list">
+					<a href="#" class="tooltip-nav nav-link p-2 text-white" data-tooltip="로그아웃" onclick="logout();">
+						<i class="bi bi-box-arrow-right"></i>
+					</a>
+				</li>
+<!-- 	        	<li class="nav-item"><a href="#" class="nav-link text-white px-2" style="font-size: 0.8rem;" onclick="logout();">로그아웃</a></li> -->
 	     	</ul>
 		</div>
 	</div>
