@@ -679,4 +679,31 @@ public class Util {
 		}
 		return resultValue;
 	}
+	
+	/**
+	 * 문자열 일부 *처리
+	 * @param baseStr
+	 * @return
+	 */
+	public static String setMosaic(String baseStr) {
+		String resultValue = "";
+		StringBuilder sb = new StringBuilder();
+		
+		int length = baseStr.length();
+		int limit = (length > 1) ? (length > 4) ? (length > 7) ? 3 : 2 : 1 : 0;
+		
+		for (int i = 0; i < length; i++) {
+			char tmp = baseStr.charAt(i);
+			
+			if (length - i > 1 && length - i <= limit + 1) {
+				sb.append("*");
+			} else {
+				sb.append(tmp);
+			}
+		}
+		
+		resultValue = sb.toString();
+		
+		return resultValue;
+	}
 }

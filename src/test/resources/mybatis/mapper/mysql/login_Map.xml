@@ -30,4 +30,25 @@
 		WHERE USER_ID = #{user_id}
 	</update>
 	
+	<select id="selectUserByCharacter" parameterType="UserVo" resultType="UserVo">
+		SELECT *
+		FROM PM_USER
+		WHERE USER_SEQ IN (
+			SELECT USER_SEQ
+			FROM PM_CHARACTER
+			WHERE CHARACTER_NAME = #{character_name}
+		)
+	</select>
+	
+	<select id="selectUserByCharacterID" parameterType="UserVo" resultType="UserVo">
+		SELECT *
+		FROM PM_USER
+		WHERE USER_SEQ IN (
+			SELECT USER_SEQ
+			FROM PM_CHARACTER
+			WHERE CHARACTER_NAME = #{character_name}
+		)
+		AND USER_ID = #{user_id}
+	</select>
+	
 </mapper>

@@ -1,5 +1,8 @@
 package com.controllers.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.services.web.LoginService;
+import com.utils.Util;
 import com.vos.web.ReturnVo;
 import com.vos.web.UserVo;
 
@@ -147,6 +151,39 @@ public class LoginController {
 		} else {
 			actionMessage = "예상치 못한 오류가 발생하였습니다.";
 			return new ReturnVo("NO", actionMessage, null);
+		}
+	}
+
+	@RequestMapping(value = {"findUser"}, method = RequestMethod.GET)
+	public @ResponseBody ModelAndView findUser (ModelMap model) {
+		
+		return new ModelAndView("/findUser", model);
+	}
+	
+	@RequestMapping(value = {"findUserAjax"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo findUserAjax (HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			@ModelAttribute("userVo") UserVo reqUser, ModelMap model) {
+		
+		List<UserVo> rstUser = new ArrayList<UserVo>();
+		
+		if (reqUser.getProc_role().equalsIgnoreCase("ID")) {
+			List<UserVo> tmpUserList = loginService.selectUserByCharacter(reqUser);
+			
+			for (UserVo tmp : tmpUserList) {
+				tmp.setUser_id(Util.setMosaic(tmp.getUser_id()));
+				rstUser.add(tmp);
+			}
+		} else if (reqUser.getProc_role().equalsIgnoreCase("PW")) {
+			UserVo tmp = loginService.selectUserByCharacterID(reqUser);
+			if (tmp != null) {
+				rstUser.add(tmp);
+			}
+		}
+		
+		if (rstUser.size() > 0) {
+			return new ReturnVo("YES", null, rstUser);
+		} else {
+			return new ReturnVo("NO", null, null);
 		}
 	}
 }

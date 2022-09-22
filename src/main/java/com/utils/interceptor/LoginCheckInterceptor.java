@@ -39,6 +39,10 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 			resultFlag = true;
 		} else if (requestURI.contains("/signup")) {
 			resultFlag = true;
+		} else if (requestURI.contains("/findUser")) {
+			resultFlag = true;
+		} else if (requestURI.contains("/passwordProc")) {
+			resultFlag = true;
 		} else if (requestURI.contains("/static")) {
 			resultFlag = true;
 		} else if (requestURI.contains("maplestory")) { //메이플스토리 정보 수집 url 1

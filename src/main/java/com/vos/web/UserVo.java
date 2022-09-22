@@ -7,6 +7,10 @@ public class UserVo {
 	private String memo;
 	private String login_flag;
 	private String last_update;
+
+	// ID/PW 검색에서 닉네임으로 검색용도
+	private String character_name;
+	private String proc_role;
 	
 	public UserVo() {
 		//기본 생성자
@@ -51,6 +55,18 @@ public class UserVo {
 	}
 	public void setLast_update(String last_update) {
 		this.last_update = last_update;
+	}
+	public String getProc_role() {
+		return proc_role;
+	}
+	public void setProc_role(String proc_role) {
+		this.proc_role = proc_role;
+	}
+	public String getCharacter_name() {
+		return character_name;
+	}
+	public void setCharacter_name(String character_name) {
+		this.character_name = character_name;
 	}
 	
 	@Override

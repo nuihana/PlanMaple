@@ -65,6 +65,18 @@ function signup() {
 }
 </script>
 
+<style>
+.text-link {
+	font-size: 0.8rem;
+	text-decoration: none;
+	color: #000;
+}
+.text-link:hover {
+	text-decoration: underline;
+	color: #000;
+}
+</style>
+
 </head>
 <body>
 	<div class="container">
@@ -79,8 +91,12 @@ function signup() {
 				<input class="form-control" type="password" placeholder="PW 입력" id="user_pw" name="user_pw" value="${userVo.user_pw}">
 			</div>
 			
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+				<a href="/findUser" class="p-2 text-link">ID/PW 찾기</a>
+			</div>
+			
 			<div class="d-grid gap-2">
-				<button type="button" class="btn btn-secondary btn-block" onclick="loginCheck();" style="margin-top: 30px;">로그인</button>
+				<button type="button" class="btn btn-secondary btn-block" onclick="loginCheck();" style="margin-top: 10px;">로그인</button>
 				<button type="button" class="btn btn-secondary btn-block" onclick="signup();" style="margin-top: 10px;">계정등록</button>
 			</div>
 		</form>

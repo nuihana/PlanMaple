@@ -1,5 +1,7 @@
 package com.services.web;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +27,13 @@ public class LoginService {
 
 	public int updateUser(UserVo userVo) {
 		return sqlSession.update("login.updateUser", userVo);
+	}
+
+	public List<UserVo> selectUserByCharacter(UserVo userVo) {
+		return sqlSession.selectList("login.selectUserByCharacter", userVo);
+	}
+
+	public UserVo selectUserByCharacterID(UserVo userVo) {
+		return sqlSession.selectOne("login.selectUserByCharacterID", userVo);
 	}
 }
