@@ -126,4 +126,27 @@
 		)
 	</delete>
 	
+	<update id="updateManagementByParantcode" parameterType="ManagementVo">
+		UPDATE PM_MANAGEMENT PM
+		SET COMPLETE_COUNT = 
+		    <choose>
+				<when test='proc_role == "complete_done"'>
+					(
+					SELECT COMPLETE_COUNT
+				    FROM PM_MANAGEMENTCODE
+				    WHERE MANAGEMENT_CODE = PM.MANAGEMENT_CODE
+					)
+				</when>
+				<otherwise>
+					'0'
+				</otherwise>
+			</choose>
+		WHERE MANAGEMENT_CODE IN (
+			SELECT MANAGEMENT_CODE
+		    FROM PM_MANAGEMENTCODE
+		    WHERE PARANT_CODE = #{parant_code}
+		)
+		AND CHARACTER_SEQ = #{character_seq}
+	</update>
+	
 </mapper>

@@ -190,6 +190,39 @@ function managementGroupValidation() {
 	
 	return true;
 }
+
+function checkParantBox(code, character) {
+	if (checkParantBoxValidation(code, character)) {
+		$('#character_seq').val(character);
+		$('#parant_code').val(code);
+		if ($("#managebox_" + code + "_" + character).prop("checked")) {
+			$('.child-' + code + "-" + character).prop("checked", true);
+			$('.child-' + code + "-" + character + ".deadline-flag").removeClass('deadline-box');
+			$('.child-tooltip-' + code + "-" + character).html('<i class="bi bi-check-lg"></i>');
+			$('.child-tooltip-' + code + "-" + character).css('opacity', '1');
+			$('#proc_role').val('complete_done');
+		} else {
+			$('.child-' + code + "-" + character).prop("checked", false);
+			$('.child-' + code + "-" + character + ".deadline-flag").addClass('deadline-box');
+			$('.child-tooltip-' + code + "-" + character).html('');
+			$('.child-tooltip-' + code + "-" + character).css('opacity', '0');
+			$('#proc_role').val('complete_init');
+		}
+
+		ajaxCall4Html(ctxPath + '/managementProc', $("#formManagementEdit").separator('separatorRemoveForm').serialize(), function(data) {
+			var rtn = JSON.parse(data);
+// 			console.log(rtn);
+		});
+	}
+}
+
+function checkParantBoxValidation(code, character) {
+	if ($('.child-' + code + "-" + character).length < 1) {
+		return false;
+	}
+	
+	return true;
+}
 </script>
 
 </head>
@@ -207,6 +240,9 @@ function managementGroupValidation() {
 									<input type="hidden" id="management_code" name="management_code"/>
 									<input type="hidden" id="complete_count" name="complete_count"/>
 									<input type="hidden" id="belong_condition" name="belong_condition"/>
+									
+									<input type="hidden" id="character_seq" name="character_seq"/>
+									<input type="hidden" id="parant_code" name="parant_code"/>
 									
 									<input type="hidden" id="proc_role" name="proc_role"/>
 								</form>
@@ -241,45 +277,63 @@ function managementGroupValidation() {
 	<%-- 										</c:forEach> --%>
 	<!-- 									</tr> -->
 										<c:forEach var="bodyManagecodeList" items="${bodyManagecodeList}" varStatus="status">
-											<tr>
-												<td style="white-space:nowrap;">
-													${bodyManagecodeList.management_code_desc}
-												</td>
-												<c:forEach var="unique_managementlist" items="${bodyManagecodeList.unique_managementlist}" varStatus="status_">
-													<td class="text-center" style="white-space:nowrap;" onclick="checkManageBoxProc('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}', '${unique_managementlist.management_code}', '${unique_managementlist.belong_condition}', '${unique_managementlist.server_code}');">
-														<div style="position: relative;">
-															<c:if test="${unique_managementlist.complete_count ne null}">
-																<c:choose>
-																	<c:when test="${unique_managementlist.complete_count eq bodyManagecodeList.complete_count}">
-																		<input id="managebox_${unique_managementlist.management_seq}"
-																			class="manage <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-flag</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
-																			type="checkbox" name="management-box" value="${unique_managementlist.complete_count}" checked="checked">
-																		<span id="manage_tooltip_${unique_managementlist.management_seq}"
-																			class="manage-tooltip <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
-																			style="opacity: 1;"><i class="bi bi-check-lg"></i></span>
-																	</c:when>
-																	<c:when test="${unique_managementlist.complete_count gt 0 and unique_managementlist.complete_count lt bodyManagecodeList.complete_count}">
-																		<input id="managebox_${unique_managementlist.management_seq}"
-																			class="manage <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-box deadline-flag</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
-																			type="checkbox" name="management-box" value="${unique_managementlist.complete_count}" checked="checked">
-																		<span id="manage_tooltip_${unique_managementlist.management_seq}"
-																			class="manage-tooltip <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
-																			style="opacity: 1;">${unique_managementlist.complete_count}</span>
-																	</c:when>
-																	<c:otherwise>
-																		<input id="managebox_${unique_managementlist.management_seq}"
-																			class="manage <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-box deadline-flag</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
-																			type="checkbox" name="management-box" value="${unique_managementlist.complete_count}">
-																		<span id="manage_tooltip_${unique_managementlist.management_seq}"
-																			class="manage-tooltip <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
-																			></span>
-																	</c:otherwise>
-																</c:choose>
-															</c:if>
-														</div>
-													</td>
-												</c:forEach>
-											</tr>
+											<c:choose>
+												<c:when test="${bodyManagecodeList.parant_code eq ''}">
+													<tr style="background-color: #bbb;">
+														<td style="white-space:nowrap;">
+															${bodyManagecodeList.management_code_desc}
+														</td>
+														<c:forEach var="characterList" items="${characterList}" varStatus="status_">
+															<td class="text-center btn-fn" onclick="checkParantBox('${bodyManagecodeList.management_code}', '${characterList.character_seq}');">
+																<div style="position: relative;">
+																	<input id="managebox_${bodyManagecodeList.management_code}_${characterList.character_seq}" class="manage" type="checkbox" name="parant-management-box" value="${bodyManagecodeList.management_code}">
+																</div>
+															</td>
+														</c:forEach>
+													</tr>
+												</c:when>
+												<c:otherwise>
+													<tr>
+														<td style="white-space:nowrap;">
+															${bodyManagecodeList.management_code_desc}
+														</td>
+														<c:forEach var="unique_managementlist" items="${bodyManagecodeList.unique_managementlist}" varStatus="status_">
+															<td class="text-center" style="white-space:nowrap;" onclick="checkManageBoxProc('${unique_managementlist.management_seq}', '${bodyManagecodeList.complete_count}', '${unique_managementlist.management_code}', '${unique_managementlist.belong_condition}', '${unique_managementlist.server_code}');">
+																<div style="position: relative;">
+																	<c:if test="${unique_managementlist.complete_count ne null}">
+																		<c:choose>
+																			<c:when test="${unique_managementlist.complete_count eq bodyManagecodeList.complete_count}">
+																				<input id="managebox_${unique_managementlist.management_seq}"
+																					class="manage child-${unique_managementlist.parant_code}-${unique_managementlist.character_seq} <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-flag</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
+																					type="checkbox" name="management-box" value="${unique_managementlist.complete_count}" checked="checked">
+																				<span id="manage_tooltip_${unique_managementlist.management_seq}"
+																					class="manage-tooltip child-tooltip-${unique_managementlist.parant_code}-${unique_managementlist.character_seq} <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
+																					style="opacity: 1;"><i class="bi bi-check-lg"></i></span>
+																			</c:when>
+																			<c:when test="${unique_managementlist.complete_count gt 0 and unique_managementlist.complete_count lt bodyManagecodeList.complete_count}">
+																				<input id="managebox_${unique_managementlist.management_seq}"
+																					class="manage child-${unique_managementlist.parant_code}-${unique_managementlist.character_seq} <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-box deadline-flag</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
+																					type="checkbox" name="management-box" value="${unique_managementlist.complete_count}" checked="checked">
+																				<span id="manage_tooltip_${unique_managementlist.management_seq}"
+																					class="manage-tooltip child-tooltip-${unique_managementlist.parant_code}-${unique_managementlist.character_seq} <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
+																					style="opacity: 1;">${unique_managementlist.complete_count}</span>
+																			</c:when>
+																			<c:otherwise>
+																				<input id="managebox_${unique_managementlist.management_seq}"
+																					class="manage child-${unique_managementlist.parant_code}-${unique_managementlist.character_seq} <c:if test="${unique_managementlist.deadline_flag eq 'Y'}">deadline-box deadline-flag</c:if> <c:if test="${unique_managementlist.belong_condition eq 'W'}">${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">${unique_managementlist.management_code}</c:if>"
+																					type="checkbox" name="management-box" value="${unique_managementlist.complete_count}">
+																				<span id="manage_tooltip_${unique_managementlist.management_seq}"
+																					class="manage-tooltip child-tooltip-${unique_managementlist.parant_code}-${unique_managementlist.character_seq} <c:if test="${unique_managementlist.belong_condition eq 'W'}">tooltip-${unique_managementlist.management_code}-${unique_managementlist.server_code}</c:if> <c:if test="${unique_managementlist.belong_condition eq 'I'}">tooltip-${unique_managementlist.management_code}</c:if>"
+																					></span>
+																			</c:otherwise>
+																		</c:choose>
+																	</c:if>
+																</div>
+															</td>
+														</c:forEach>
+													</tr>
+												</c:otherwise>
+											</c:choose>
 										</c:forEach>
 									</tbody>
 								</table>

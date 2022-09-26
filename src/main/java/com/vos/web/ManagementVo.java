@@ -11,6 +11,7 @@ public class ManagementVo {
 	private String proc_role;
 	private String server_code;
 	private String deadline_flag = "N";
+	private String parant_code;
 	
 	private String belong_condition;
 	
@@ -92,6 +93,12 @@ public class ManagementVo {
 	}
 	public void setBelong_condition(String belong_condition) {
 		this.belong_condition = belong_condition;
+	}
+	public String getParant_code() {
+		return parant_code;
+	}
+	public void setParant_code(String parant_code) {
+		this.parant_code = parant_code;
 	}
 	
 	@Override

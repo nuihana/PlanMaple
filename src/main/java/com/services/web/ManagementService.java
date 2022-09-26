@@ -55,4 +55,8 @@ public class ManagementService {
 	public int updateManagementAlarm(ManagementVo managementVo) {
 		return sqlSession.update("management.updateManagementAlarm", managementVo);
 	}
+
+	public int updateManagementByParantcode(ManagementVo managementVo) {
+		return sqlSession.update("management.updateManagementByParantcode", managementVo);
+	}
 }

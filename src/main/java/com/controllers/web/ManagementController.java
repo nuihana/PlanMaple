@@ -63,6 +63,7 @@ public class ManagementController {
 		for (ManagecodeVo tmp : managecodeList) {
 			if (tmp.getParant_code().equals("")) {
 				headManagecodeList.add(tmp);
+				bodyManagecodeList.add(tmp);
 			} else {
 				bodyManagecodeList.add(tmp);
 				
@@ -89,6 +90,7 @@ public class ManagementController {
 					ManagementVo tmpVo = targetManagementList.get(targetManagementList.indexOf(new ManagementVo(tmp.getManagement_code(), tmp_.getCharacter_seq())));
 					tmpVo.setBelong_condition(tmp.getBelong_condition());
 					tmpVo.setServer_code(tmp_.getCharacter_server_code());
+					tmpVo.setParant_code(tmp.getParant_code());
 					
 					if (deadlineList.contains(new ManagecodeVo(tmp.getManagement_code())) && tmpVo.getUse_yn().equalsIgnoreCase("Y")) {
 						tmpVo.setDeadline_flag("Y");
@@ -146,6 +148,9 @@ public class ManagementController {
 			}
 			
 			actionCnt = managementService.updateManagementGroup(map);
+		} else if (managementVo.getProc_role().contains("complete_")) {
+			actionMessage = "수정 되었습니다.";
+			actionCnt = managementService.updateManagementByParantcode(managementVo);
 		}
 		
 		if (actionCnt > 0) {
