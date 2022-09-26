@@ -1,7 +1,3 @@
-/*
- * Copyright(c) CyberLine. All Rights Reserved.
- */
-
 package com.utils;
 
 import java.io.UnsupportedEncodingException;

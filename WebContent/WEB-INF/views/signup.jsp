@@ -59,7 +59,7 @@ function signup() {
 			var rtn = JSON.parse(data);
 // 			console.log(rtn);
 			
-			if (rtn.result == 'OK') {
+			if (rtn.result == 'YES') {
 				$.confirm("데이터 입력이 완료되었습니다. 등록한 계정으로 로그인 후 이용해주세요.", "location.href = ctxPath + '/login';");
 			} else {
 				$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요");
@@ -95,7 +95,7 @@ function userDuplChk() {
 		ajaxCall4Html(ctxPath + '/loginUserDuplChkAjax', $("#formLogin").separator('separatorRemoveForm').serialize(), function(data) {
 			var rtn = JSON.parse(data);
 // 			console.log(rtn);
-			if (rtn.result == 'OK') {
+			if (rtn.result == 'YES') {
 				idDuplicateFlag = true;
 				$('#user_id').removeClass('is-invalid');
 				$('#user_id').addClass('is-valid');

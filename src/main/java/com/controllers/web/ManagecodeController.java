@@ -58,7 +58,7 @@ public class ManagecodeController {
 		ManagecodeVo searchVo = managecodeService.selectManagementCodeInfo(managecodeVo);
 		
 		if (searchVo != null) {
-			return new ReturnVo("OK", null, searchVo);
+			return new ReturnVo("YES", null, searchVo);
 		} else {
 			return new ReturnVo("NO", null, null);
 		}

@@ -64,8 +64,8 @@ function logout() {
 			
 			<ul class="nav">
 				<li class="tooltip-nav-list">
-					<a href="/password" class="tooltip-nav nav-link p-2 text-white" data-tooltip="암호 변경">
-						<i class="bi bi-key-fill"></i>
+					<a href="/user" class="tooltip-nav nav-link p-2 text-white" data-tooltip="계정설정">
+						<i class="bi bi-gear"></i>
 					</a>
 				</li>
 				<li class="tooltip-nav-list">

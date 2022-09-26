@@ -58,4 +58,9 @@
 		)
 	</select>
 	
+	<delete id="deleteUserManagecode" parameterType="UserVo">
+		DELETE FROM PM_MANAGEMENTCODE
+		WHERE PUBLIC_FLAG = #{user_seq}
+	</delete>
+	
 </mapper>

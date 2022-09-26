@@ -25,10 +25,6 @@ public class LoginService {
 		return sqlSession.insert("login.insertUser", userVo);
 	}
 
-	public int updateUser(UserVo userVo) {
-		return sqlSession.update("login.updateUser", userVo);
-	}
-
 	public List<UserVo> selectUserByCharacter(UserVo userVo) {
 		return sqlSession.selectList("login.selectUserByCharacter", userVo);
 	}

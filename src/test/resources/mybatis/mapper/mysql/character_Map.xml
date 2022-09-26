@@ -69,4 +69,9 @@
 		WHERE CHARACTER_SEQ = #{character_seq}
 	</update>
 	
+	<delete id="deleteUserCharacter" parameterType="UserVo">
+		DELETE FROM PM_CHARACTER
+		WHERE USER_SEQ = #{user_seq}
+	</delete>
+	
 </mapper>

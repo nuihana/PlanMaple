@@ -11,12 +11,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.utils.WebConfig;
 
-/**
- * LoggingInterceptor
- * 
- * @author : ChangHo Seok
- * @version : 1.0
- */
 public class LoggingInterceptor extends HandlerInterceptorAdapter {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	static WebConfig config = new WebConfig();

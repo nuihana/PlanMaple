@@ -68,7 +68,7 @@ public class CharacterController {
 		
 		if (dataArray.length >= 5) {
 			logger.info("characterSearchAjax : 검색 성공");
-			return new ReturnVo("OK", null, new CharacterVo(dataArray[0], dataArray[1], dataArray[2], dataArray[3], serverList[Integer.parseInt(dataArray[3])], dataArray[4]));
+			return new ReturnVo("YES", null, new CharacterVo(dataArray[0], dataArray[1], dataArray[2], dataArray[3], serverList[Integer.parseInt(dataArray[3])], dataArray[4]));
 		} else {
 			logger.info("characterSearchAjax : 검색 실패 [정보 없음]");
 			return new ReturnVo("NO", null, null);

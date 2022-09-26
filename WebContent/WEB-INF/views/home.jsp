@@ -27,11 +27,13 @@ $(document).ready(function () {
 		async : false,
 		success : function(result) {
 // 			console.log(result);
-			result.data.forEach(function(value, index, arry) {
-// 				console.log(value);
-				opt_label[index] = serverList[value.server_code];
-				opt_data[index] = value.complete_count;
-			})
+			if (result.result == 'YES') {
+				result.data.forEach(function(value, index, arry) {
+//	 				console.log(value);
+					opt_label[index] = serverList[value.server_code];
+					opt_data[index] = value.complete_count;
+				})
+			}
 		},
 		error:function(request,status,error){
 			console.log(error);

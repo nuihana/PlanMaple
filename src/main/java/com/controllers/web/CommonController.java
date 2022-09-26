@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.utils.WebConfig;
-import com.vos.web.ReturnVo;
 
 @Controller
 public class CommonController {

@@ -117,4 +117,13 @@
 		AND MANAGEMENT_CODE = #{management_code}
 	</update>
 	
+	<delete id="deleteUserManagement" parameterType="UserVo">
+		DELETE FROM PM_MANAGEMENT
+		WHERE CHARACTER_SEQ IN (
+			SELECT CHARACTER_SEQ
+			FROM PM_CHARACTER
+			WHERE USER_SEQ = #{user_seq}
+		)
+	</delete>
+	
 </mapper>

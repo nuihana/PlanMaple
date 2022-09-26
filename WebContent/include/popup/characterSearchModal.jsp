@@ -18,7 +18,7 @@ function searchCharacterInfo() {
 			var rtn = JSON.parse(data);
 			console.log(rtn);
 			
-			if (rtn.result == "OK") {
+			if (rtn.result == "YES") {
 				//검색 결과 표현
 				$('#characterProfile_name').text(rtn.data.character_name);
 				$('#characterProfile_server').text(rtn.data.character_server);

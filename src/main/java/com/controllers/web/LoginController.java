@@ -16,7 +16,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -54,7 +53,7 @@ public class LoginController {
 			
 			session.setMaxInactiveInterval(60*60*24);
 			
-			return new ReturnVo("OK", "home", rstUser);
+			return new ReturnVo("YES", "home", rstUser);
 		} else {
 			String returnUrl = "?";
 			
@@ -85,7 +84,7 @@ public class LoginController {
 		if (rstUser != null) {
 			return new ReturnVo("NO", null, rstUser);
 		} else {
-			return new ReturnVo("OK", null, null);
+			return new ReturnVo("YES", null, null);
 		}
 	}
 	
@@ -104,52 +103,8 @@ public class LoginController {
 		}
 		
 		if (actionCnt > 0) {
-			return new ReturnVo("OK", actionMessage, reqUser);
-		} else {
-			return new ReturnVo("NO", actionMessage, null);
-		}
-	}
-
-	@RequestMapping(value = {"password"}, method = RequestMethod.GET)
-	public @ResponseBody ModelAndView password (HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
-		UserVo userVo = (UserVo) session.getAttribute("login");
-		
-		model.addAttribute("userVo", userVo);
-		
-		return new ModelAndView("/password", model);
-	}
-	
-	@RequestMapping(value = {"passwordChkAjax"}, method = RequestMethod.POST)
-	public @ResponseBody ReturnVo passwordChkAjax (HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			@ModelAttribute("userVo") UserVo reqUser, ModelMap model) {
-		
-		UserVo rstUser = loginService.selectUser(reqUser);
-		
-		if (rstUser != null) {
-			return new ReturnVo("YES", null, rstUser);
-		} else {
-			return new ReturnVo("NO", null, null);
-		}
-	}
-	
-	@RequestMapping(value = {"passwordProc"}, method = RequestMethod.POST)
-	public @ResponseBody ReturnVo passwordProc (HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			@ModelAttribute("userVo") UserVo reqUser, ModelMap model) {
-		
-		int actionCnt = 0;
-		String actionMessage = "";
-		
-		actionCnt = loginService.updateUser(reqUser);
-		
-		if (actionCnt > 0) {
-			actionMessage = "변경되었습니다.";
-			
-			session.removeAttribute("login");
-			session.removeAttribute("loginSeq");
-			
 			return new ReturnVo("YES", actionMessage, reqUser);
 		} else {
-			actionMessage = "예상치 못한 오류가 발생하였습니다.";
 			return new ReturnVo("NO", actionMessage, null);
 		}
 	}

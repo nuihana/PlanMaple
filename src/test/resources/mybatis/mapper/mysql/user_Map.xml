@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+	
+	<update id="updateUser" parameterType="UserVo">
+		UPDATE PM_USER
+		SET USER_PW = #{user_pw}
+		WHERE USER_ID = #{user_id}
+	</update>
+	
+	<delete id="deleteUser" parameterType="UserVo">
+		DELETE FROM PM_USER
+		WHERE USER_SEQ = #{user_seq}
+	</delete>
+	
+</mapper>

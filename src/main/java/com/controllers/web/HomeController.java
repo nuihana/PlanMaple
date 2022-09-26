@@ -110,7 +110,7 @@ public class HomeController {
 		if (serverLeftManagement.isEmpty()) {
 			return new ReturnVo("NO", null, null);
 		} else {
-			return new ReturnVo("OK", null, serverLeftManagement);
+			return new ReturnVo("YES", null, serverLeftManagement);
 		}
 	}
 	

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.utils.WebConfig;
-import com.vos.web.UserVo;
 
 public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 
