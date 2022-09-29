@@ -41,6 +41,31 @@ function ajaxCall4Html(apiURL, request, callback){
 	});
 }
 
+function ajaxCall4HtmlLoading(apiURL, request, callback, bfFunc, afFunc){
+	$.ajax({
+		url : apiURL,
+		headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+		type : 'post',
+		crossDomain : true,
+		dataType : "html",
+		async : false,
+		data : request,
+		beforeSend : function() {
+			bfFunc();
+		},
+		success : function(result) {
+			callback(result);
+		},
+		complete : function() {
+			afFunc();
+		},
+		error:function(request,status,error){
+			console.log(error);
+			callback('{"result":"0"}');
+		}
+	});
+}
+
 function ajaxCall4Json(apiURL, request, callback){
 	$.ajax({
 		url : apiURL,

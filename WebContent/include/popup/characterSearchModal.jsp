@@ -14,52 +14,74 @@ $(document).ready(function() {
 
 function searchCharacterInfo() {
 	if (characterSearchValidation()) {
-		ajaxCall4Html(ctxPath + '/characterSearchAjax', $("#formCharacterSearch").separator('separatorRemoveForm').serialize(), function(data) {
-			var rtn = JSON.parse(data);
-			console.log(rtn);
+		ajaxCall4HtmlLoading(
+				ctxPath + '/characterSearchAjax',
+				$("#formCharacterSearch").separator('separatorRemoveForm').serialize(),
+				function(data) {
+					var rtn = JSON.parse(data);
 			
-			if (rtn.result == "YES") {
-				//검색 결과 표현
-				$('#characterProfile_name').text(rtn.data.character_name);
-				$('#characterProfile_server').text(rtn.data.character_server);
-				$('#characterProfile_level').text(rtn.data.character_level);
-				$('#characterProfile_class').text(rtn.data.character_class);
-				
-				$('#characterProfile_img').attr("src", rtn.data.character_img);
-				
-				//검색 결과 저장form에 set
-				$('#save_character_name').val(rtn.data.character_name);
-				$('#save_character_server_code').val(rtn.data.character_server_code);
-				$('#save_character_server').val(rtn.data.character_server);
-				$('#save_character_level').val(rtn.data.character_level);
-				$('#save_character_class').val(rtn.data.character_class);
-				$('#save_character_img').val(rtn.data.character_img);
-				
-				//저장 버튼 활성화
-				$('#btn_save').attr("disabled", false);
-			} else {
-				//검색 결과 초기화
-				$('#characterProfile_name').text("");
-				$('#characterProfile_server').text("");
-				$('#characterProfile_level').text("");
-				$('#characterProfile_class').text("");
-				
-				$('#characterProfile_img').attr("src", "${pageContext.request.contextPath}/static/common_files/question-mark.png");
-				
-				$.alert("캐릭터를 검색할 수 없습니다.");
-				
-				//검색 결과 저장form 초기화
-				$('#save_character_name').val("");
-				$('#save_character_server_code').val("");
-				$('#save_character_server').val("");
-				$('#save_character_level').val("");
-				$('#save_character_class').val("");
-				$('#save_character_img').val("");
-				
-				//저장 버튼 활성화
-				$('#btn_save').attr("disabled", true);
-			}
-		});
+					if (rtn.result == "YES") {
+						//검색 결과 표현
+						$('#characterProfile_name').text(rtn.data.character_name);
+						$('#characterProfile_server').text(rtn.data.character_server);
+						$('#characterProfile_level').text(rtn.data.character_level);
+						$('#characterProfile_class').text(rtn.data.character_class);
+						
+						$('#characterProfile_img').attr("src", rtn.data.character_img);
+						
+						//검색 결과 저장form에 set
+						$('#save_character_name').val(rtn.data.character_name);
+						$('#save_character_server_code').val(rtn.data.character_server_code);
+						$('#save_character_server').val(rtn.data.character_server);
+						$('#save_character_level').val(rtn.data.character_level);
+						$('#save_character_class').val(rtn.data.character_class);
+						$('#save_character_img').val(rtn.data.character_img);
+						
+						//저장 버튼 활성화
+						$('#btn_save').attr("disabled", false);
+					} else {
+						//검색 결과 초기화
+						$('#characterProfile_name').text("");
+						$('#characterProfile_server').text("");
+						$('#characterProfile_level').text("");
+						$('#characterProfile_class').text("");
+						
+						$('#characterProfile_img').attr("src", "${pageContext.request.contextPath}/static/common_files/question-mark.png");
+						
+						$.alert("캐릭터를 검색할 수 없습니다.");
+						
+						//검색 결과 저장form 초기화
+						$('#save_character_name').val("");
+						$('#save_character_server_code').val("");
+						$('#save_character_server').val("");
+						$('#save_character_level').val("");
+						$('#save_character_class').val("");
+						$('#save_character_img').val("");
+						
+						//저장 버튼 활성화
+						$('#btn_save').attr("disabled", true);
+					}
+				},
+				function() {
+					$.blockUI({
+						message: '<div class="spinner-border m-5" role="status"><span class="visually-hidden">Loading...</span></div>',
+						css: {
+							position: 'absolute',
+							backgroundColor: 'rgba(0,0,0,0)',
+							color: '#fff',
+							border: 'none',
+							top: '12%',
+							left: '40%'
+							},
+						overlayCSS: {
+							backgroundColor: 'rgba(0,0,0,0.4)'
+						},
+						baseZ: 1100
+					});
+				},
+				function() {
+					$.unblockUI();
+				});
 	}
 }
 
