@@ -64,11 +64,16 @@ public class CharacterController {
 		logger.info("characterSearchAjax : [" + characterVo.getCharacter_name() + "] 검색");
 		
 		String searchUrl = "https://maplestory.nexon.com/Ranking/World/Total?c=" + characterVo.getCharacter_name() + "&w=0";
+		String searchRebootUrl = "https://maplestory.nexon.com/Ranking/World/Total?c=" + characterVo.getCharacter_name() + "&w=254";
 		String[] dataArray = crawler.getCharacterInfoFromHTML(searchUrl).split("[|]");
+		String[] rebootDataArray = crawler.getCharacterInfoFromHTML(searchRebootUrl).split("[|]");
 		
 		if (dataArray.length >= 5) {
 			logger.info("characterSearchAjax : 검색 성공");
 			return new ReturnVo("YES", null, new CharacterVo(dataArray[0], dataArray[1], dataArray[2], dataArray[3], serverList[Integer.parseInt(dataArray[3])], dataArray[4]));
+		} else if (rebootDataArray.length >= 5) {
+			logger.info("characterSearchAjax : 리부트 검색 성공");
+			return new ReturnVo("YES", null, new CharacterVo(rebootDataArray[0], rebootDataArray[1], rebootDataArray[2], rebootDataArray[3], serverList[Integer.parseInt(rebootDataArray[3])], rebootDataArray[4]));
 		} else {
 			logger.info("characterSearchAjax : 검색 실패 [정보 없음]");
 			return new ReturnVo("NO", null, null);
