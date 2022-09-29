@@ -261,6 +261,17 @@ function checkParantBoxValidation(code, character) {
 }
 </script>
 
+<style>
+.fixed-header {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+}
+.fixed-header > tr > th {
+	background-color: #fff;
+}
+</style>
+
 </head>
 <body>
 	<div class="main-container">
@@ -283,7 +294,7 @@ function checkParantBoxValidation(code, character) {
 									<input type="hidden" id="proc_role" name="proc_role"/>
 								</form>
 								<table class="table table-hover" style="width: auto;">
-									<thead>
+									<thead class="fixed-header">
 										<tr>
 											<th rowspan="2" width="50px;" style="border-bottom: none;"></th>
 											<c:forEach var="characterList" items="${characterList}" varStatus="status">

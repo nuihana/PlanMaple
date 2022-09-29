@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -98,11 +99,17 @@ public class ManagementController {
 					} else {
 						tmp.addUnique_managementlist(tmpVo);
 					}
+					
+					tmp.setChid_count(String.valueOf(Integer.parseInt(tmp.getChid_count()) + 1));
 				} else {
 					tmp.addUnique_managementlist(new ManagementVo());
 				}
 			}
 		}
+		
+		bodyManagecodeList = bodyManagecodeList.stream()
+				.filter(h -> h.getParant_code().equals("") || Integer.parseInt(h.getChid_count()) > 0)
+				.collect(Collectors.toList());
 		
 		model.addAttribute("headManagecodeList", headManagecodeList);
 		model.addAttribute("bodyManagecodeList", bodyManagecodeList);
