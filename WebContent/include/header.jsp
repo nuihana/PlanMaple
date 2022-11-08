@@ -60,6 +60,11 @@ function logout() {
 						<i class="bi bi-calendar-check"></i>
 					</a>
 				</li>
+				<li class="tooltip-nav-list">
+					<a href="/timer" class="tooltip-nav nav-link p-2 text-white" data-tooltip="기간제">
+						<i class="bi bi-alarm-fill"></i>
+					</a>
+				</li>
 			</ul>
 			
 			<ul class="nav">
