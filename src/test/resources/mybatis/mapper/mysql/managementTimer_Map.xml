@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="managementTimer">
+
+	<select id="selectCharacterTimerList" parameterType="CharacterVo" resultType="ManagementTimerVo">
+		SELECT *
+		FROM PM_MANAGEMENT_TIMER
+		WHERE timer_target_type = 'C'
+		AND timer_target = #{character_seq}
+	</select>
+
+	<insert id="insertCharacterTimer" parameterType="ManagementTimerVo">
+		INSERT INTO PM_MANAGEMENT_TIMER
+		(timer_code, timer_target, timer_target_type, timer_value, timer_desc)
+		VALUES
+		(#{timer_code}, #{timer_target}, #{timer_target_type}, DATE_ADD(NOW(), ${timer_value}), #{timer_desc})
+	</insert>
+	
+	<update id="updateCharacterTimer" parameterType="ManagementTimerVo">
+		UPDATE PM_MANAGEMENT_TIMER
+		SET timer_code = #{timer_code},
+			timer_value = DATE_ADD(NOW(), ${timer_value}),
+			timer_desc = #{timer_desc}
+		WHERE timer_target_type = #{timer_target_type}
+		AND timer_target = #{timer_target}
+		AND INSTR(timer_code, SUBSTR(#{timer_code}, 1, 4)) > 0
+	</update>
+	
+	<delete id="deleteCharacterTimer" parameterType="ManagementTimerVo">
+		DELETE FROM PM_MANAGEMENT_TIMER
+		WHERE timer_target_type = #{timer_target_type}
+		AND timer_target = #{timer_target}
+		AND INSTR(timer_code, SUBSTR(#{timer_code}, 1, 4)) > 0
+	</delete>
+	
+</mapper>

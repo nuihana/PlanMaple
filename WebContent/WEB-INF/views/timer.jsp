@@ -30,7 +30,8 @@ function selectCharacter(character_seq) {
 	} else {
 		
 	}
-	
+
+	$('#timer_target').val(character_seq);
 	$("#character_tr_" + character_seq).addClass("table-active");
 }
 
@@ -107,7 +108,7 @@ function selectFarmMonster(timer_seq) {
 										</div>
 										<div class="col-sm-8 col-xs-8">
 											<div style="position: relative; overflow: auto; height: 900px;">
-												<div id="characterTimerEditer" style="position: absolute; height: 100%; width: 100%;">
+												<div id="characterTimerEditer" style="position: absolute; height: 100%; width: 98%;">
 													<jsp:include page="/WEB-INF/views/innerPage/innerCharacterTimer.jsp"></jsp:include>
 												</div>
 											</div>
@@ -166,7 +167,7 @@ function selectFarmMonster(timer_seq) {
 											<div class="card">
 												<div class="card-body">
 													<div style="position: relative; overflow: auto; height: 900px;">
-														<div id="farmTimerEditer" style="position: absolute; height: 100%; width: 100%;">
+														<div id="farmTimerEditer" style="position: absolute; height: 100%; width: 96%; margin: 0 auto;">
 															<jsp:include page="/WEB-INF/views/innerPage/innerFarmTimer.jsp"></jsp:include>
 														</div>
 													</div>

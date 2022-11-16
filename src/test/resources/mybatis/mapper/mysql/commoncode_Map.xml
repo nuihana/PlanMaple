@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="commoncode">
+
+	<select id="selectCommoncode" parameterType="hashMap" resultType="CommoncodeVo">
+		SELECT *
+		FROM PM_COMMONCODE
+		WHERE CODE_GROUP = #{code_group}
+	</select>
+	
+</mapper>

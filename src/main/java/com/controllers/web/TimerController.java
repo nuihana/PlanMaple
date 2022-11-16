@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.services.web.CharacterService;
+import com.services.web.ManagementTimerService;
 import com.utils.WebConfig;
 import com.vos.web.CharacterVo;
+import com.vos.web.ManagementTimerVo;
+import com.vos.web.ReturnVo;
 
 @Controller
 public class TimerController {
@@ -28,6 +31,8 @@ public class TimerController {
 	
 	@Inject
 	CharacterService characterService;
+	@Inject
+	ManagementTimerService managementTimerSerivice;
 
 	@RequestMapping(value = {"timer"}, method = RequestMethod.GET)
 	public @ResponseBody ModelAndView timer(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
@@ -47,6 +52,10 @@ public class TimerController {
 	public @ResponseBody ModelAndView characterTimer(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("characterVo") CharacterVo characterVo, ModelMap model) {
 		
+		List<ManagementTimerVo> characterTimerList = managementTimerSerivice.selectCharacterTimerList(characterVo);
+		
+		model.addAttribute("characterTimerList", characterTimerList);
+		
 		return new ModelAndView("/innerPage/innerCharacterTimer", model);
 	}
 	
@@ -55,5 +64,24 @@ public class TimerController {
 			ModelMap model) {
 		
 		return new ModelAndView("/innerPage/innerFarmTimer", model);
+	}
+	
+	@RequestMapping(value = {"timerProc"}, method = RequestMethod.POST)
+	public @ResponseBody ReturnVo managementProc (ManagementTimerVo managementTimerVo) {
+		int actionCnt = 0;
+		String actionMessage = "";
+		
+		logger.info(managementTimerVo.toString());
+		
+		if (managementTimerVo.getProc_role().equalsIgnoreCase("character_save")) {
+			actionMessage = "등록 되었습니다.";
+			actionCnt = managementTimerSerivice.saveCharacterTimer(managementTimerVo);
+		}
+		
+		if (actionCnt > 0) {
+			return new ReturnVo("YES", actionMessage, null);
+		} else {
+			return new ReturnVo("NO", actionMessage, null);
+		}
 	}
 }

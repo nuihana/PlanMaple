@@ -19,6 +19,8 @@
 		<typeAlias alias="CharacterVo" type="com.vos.web.CharacterVo" />
 		<typeAlias alias="ManagecodeVo" type="com.vos.web.ManagecodeVo" />
 		<typeAlias alias="ManagementVo" type="com.vos.web.ManagementVo" />
+		<typeAlias alias="ManagementTimerVo" type="com.vos.web.ManagementTimerVo" />
+		<typeAlias alias="CommoncodeVo" type="com.vos.web.CommoncodeVo" />
     </typeAliases>
   
 </configuration>
