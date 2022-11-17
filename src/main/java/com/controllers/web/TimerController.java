@@ -54,7 +54,12 @@ public class TimerController {
 		
 		List<ManagementTimerVo> characterTimerList = managementTimerSerivice.selectCharacterTimerList(characterVo);
 		
-		model.addAttribute("characterTimerList", characterTimerList);
+		for (int i = 0, limit = characterTimerList.size(); i < limit; i++) {
+			ManagementTimerVo tmpVo = characterTimerList.get(i);
+			String voName = tmpVo.getTimer_code().contains("ACCE") ? "acceVo" : tmpVo.getTimer_code().contains("EQUI") ? "equiVo" : "alchVo";
+			
+			model.addAttribute(voName, tmpVo);
+		}
 		
 		return new ModelAndView("/innerPage/innerCharacterTimer", model);
 	}
@@ -71,11 +76,13 @@ public class TimerController {
 		int actionCnt = 0;
 		String actionMessage = "";
 		
-		logger.info(managementTimerVo.toString());
-		
 		if (managementTimerVo.getProc_role().equalsIgnoreCase("character_save")) {
 			actionMessage = "등록 되었습니다.";
 			actionCnt = managementTimerSerivice.saveCharacterTimer(managementTimerVo);
+		}
+		
+		if (actionCnt == 0) {
+			actionMessage = "변경할 데이터가 존재하지 않습니다.";
 		}
 		
 		if (actionCnt > 0) {

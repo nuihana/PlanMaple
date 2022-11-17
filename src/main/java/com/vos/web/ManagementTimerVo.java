@@ -10,6 +10,8 @@ public class ManagementTimerVo {
 	private String timer_value;
 	private String timer_desc;
 	
+	private String timer_set_time; // 타이머 시작한 timestamp 세팅
+	
 	private String proc_role;
 	
 	private String acce; // 장신구제작
@@ -90,6 +92,12 @@ public class ManagementTimerVo {
 	}
 	public void setProc_role(String proc_role) {
 		this.proc_role = proc_role;
+	}
+	public String getTimer_set_time() {
+		return timer_set_time;
+	}
+	public void setTimer_set_time(String timer_set_time) {
+		this.timer_set_time = timer_set_time;
 	}
 
 	public void setTimerCode(List<CommoncodeVo> selectList) {
