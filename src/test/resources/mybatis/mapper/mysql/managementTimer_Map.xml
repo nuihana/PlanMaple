@@ -36,6 +36,28 @@
 		AND INSTR(timer_code, SUBSTR(#{timer_code}, 1, 4)) > 0
 	</update>
 	
+	<update id="refreshCharacterTimer" parameterType="ManagementTimerVo">
+		UPDATE PM_MANAGEMENT_TIMER
+		SET	timer_value = (
+			SELECT
+				CASE
+					WHEN RIGHT(com.value, 1) = 'H'
+					THEN DATE_ADD(NOW(), INTERVAL CONCAT(REGEXP_REPLACE(com.value, '[^0-9]', '')) HOUR)
+					WHEN RIGHT(com.value, 1) = 'd'
+					THEN DATE_ADD(NOW(), INTERVAL CONCAT(REGEXP_REPLACE(com.value, '[^0-9]', '')) DAY)
+				END AS timer_value
+			FROM PM_COMMONCODE com
+			WHERE com.code = timer_code
+		)
+		WHERE timer_seq = #{timer_seq}
+	</update>
+	
+	<update id="changeCharacterTimer" parameterType="ManagementTimerVo">
+		UPDATE PM_MANAGEMENT_TIMER
+		SET	timer_value = #{timer_value}
+		WHERE timer_seq = #{timer_seq}
+	</update>
+	
 	<delete id="deleteCharacterTimer" parameterType="ManagementTimerVo">
 		DELETE FROM PM_MANAGEMENT_TIMER
 		WHERE timer_target_type = #{timer_target_type}

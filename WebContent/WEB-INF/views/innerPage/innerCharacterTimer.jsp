@@ -38,8 +38,8 @@ $(document).ready(function () {
 			        borderWidth: 1
 			    }],
 			    labels: [
-			        '만료 시간',
-			        '남은 시간'
+			        '만료 시간(분)',
+			        '남은 시간(분)'
 			    ]
 			},
 			options : {
@@ -88,8 +88,8 @@ $(document).ready(function () {
 			        borderWidth: 1
 			    }],
 			    labels: [
-			        '만료 시간',
-			        '남은 시간'
+			        '만료 시간(분)',
+			        '남은 시간(분)'
 			    ]
 			},
 			options : {
@@ -139,8 +139,8 @@ $(document).ready(function () {
 			        borderWidth: 1
 			    }],
 			    labels: [
-			        '만료 시간',
-			        '남은 시간'
+			        '만료 시간(분)',
+			        '남은 시간(분)'
 			    ]
 			},
 			options : {
@@ -172,7 +172,7 @@ function saveManagementCharacterTimer() {
 // 			console.log(rtn);
 			
 			if (rtn.result == 'YES') {
-				$.confirm("저장되었습니다.", "selectCharacter('" + $('#timer_target').val() + "');");
+				$.confirm(rtn.messages, "selectCharacter('" + $('#timer_target').val() + "');");
 			} else {
 				$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
 			}
@@ -207,6 +207,57 @@ function saveManagementCharacterTimerValidation() {
 	
 	return true;
 }
+
+function refreshCraftTimer(timer_seq) {
+	$('#proc_role').val('refresh');
+	
+	$('#timer_seq').val(timer_seq);
+	
+	ajaxCall4Html(ctxPath + '/timerProc', $("#formManagementCharacterTimer").serialize(), function(data) {
+		var rtn = JSON.parse(data);
+//			console.log(rtn);
+		
+		if (rtn.result == 'YES') {
+			$.confirm(rtn.messages, "selectCharacter('" + $('#timer_target').val() + "');");
+		} else {
+			$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+		}
+	});
+}
+
+function editTimerValue(timer_seq, timer_value) {
+	$('#proc_role').val('timer_set');
+	
+	$('#timer_seq').val(timer_seq);
+	
+	$('#timer_set_year').val(timer_value.substr(0, 4));
+	$('#timer_set_month').val(timer_value.substr(5, 2));
+	$('#timer_set_day').val(timer_value.substr(8, 2));
+
+	$('#timer_set_hour').val(timer_value.substr(11, 2));
+	$('#timer_set_munite').val(timer_value.substr(14, 2));
+	$('#timer_set_second').val(timer_value.substr(17, 2));
+	
+	$.timerSet();
+}
+
+function updateCraftTimer() {
+	let afterSetTime = $('#timer_set_year').val() + '-' + $('#timer_set_month').val() + '-' + $('#timer_set_day').val()
+						+ ' ' + $('#timer_set_hour').val() + ':' + $('#timer_set_munite').val() + ':' + $('#timer_set_second').val();
+	
+	$('#timer_value').val(afterSetTime);
+	
+	ajaxCall4Html(ctxPath + '/timerProc', $("#formManagementCharacterTimer").serialize(), function(data) {
+		var rtn = JSON.parse(data);
+// 			console.log(rtn);
+		
+		if (rtn.result == 'YES') {
+			$.confirm(rtn.messages, "selectCharacter('" + $('#timer_target').val() + "');");
+		} else {
+			$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+		}
+	});
+}
 </script>
 
 <div class="row">
@@ -216,8 +267,10 @@ function saveManagementCharacterTimerValidation() {
 			<div class="card-header text-center"><strong>전문기술 선택</strong></div>
 			<div class="card-body">
 				<form id="formManagementCharacterTimer" action="" method="post">
+					<input type="hidden" id="timer_seq" name="timer_seq"/>
 					<input type="hidden" id="timer_target" name="timer_target"/>
 					<input type="hidden" id="timer_target_type" name="timer_target_type" value="C"/>
+					<input type="hidden" id="timer_value" name="timer_value"/>
 				
 					<input type="hidden" id="proc_role" name="proc_role"/>
 					
@@ -262,7 +315,7 @@ function saveManagementCharacterTimerValidation() {
 	</div>
 <!-- 그래프 표현 card area -->
 	<div class="col-sm-12 col-xs-12">
-		<div class="card">
+		<div class="card" style="height: 410px;">
 			<div class="card-body">
 				<div class="row justify-content-center">
 					<c:if test="${acceVo ne null}">
@@ -274,8 +327,8 @@ function saveManagementCharacterTimerValidation() {
 								</div>
 								<div class="card-footer">
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-										<button type="button" class="btn btn-sm btn-secondary" onclick="">실제 마감 시간 변경</button>
-										<button type="button" class="btn btn-sm btn-secondary" onclick="">숙련도 갱신</button>
+										<button type="button" class="btn btn-sm btn-secondary" onclick="editTimerValue('${acceVo.timer_seq}', '${acceVo.timer_value}');">마감 시간 수동 변경</button>
+										<button type="button" class="btn btn-sm btn-secondary" onclick="refreshCraftTimer('${acceVo.timer_seq}');">숙련도 갱신</button>
 									</div>
 								</div>
 							</div>
@@ -290,8 +343,8 @@ function saveManagementCharacterTimerValidation() {
 								</div>
 								<div class="card-footer">
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-										<button type="button" class="btn btn-sm btn-secondary" onclick="">실제 마감 시간 변경</button>
-										<button type="button" class="btn btn-sm btn-secondary" onclick="">숙련도 갱신</button>
+										<button type="button" class="btn btn-sm btn-secondary" onclick="editTimerValue('${equiVo.timer_seq}', '${equiVo.timer_value}');">마감 시간 수동 변경</button>
+										<button type="button" class="btn btn-sm btn-secondary" onclick="refreshCraftTimer('${equiVo.timer_seq}');">숙련도 갱신</button>
 									</div>
 								</div>
 							</div>
@@ -306,8 +359,8 @@ function saveManagementCharacterTimerValidation() {
 								</div>
 								<div class="card-footer">
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-										<button type="button" class="btn btn-sm btn-secondary" onclick="">실제 마감 시간 변경</button>
-										<button type="button" class="btn btn-sm btn-secondary" onclick="">숙련도 갱신</button>
+										<button type="button" class="btn btn-sm btn-secondary" onclick="editTimerValue('${alchVo.timer_seq}', '${alchVo.timer_value}');">마감 시간 수동 변경</button>
+										<button type="button" class="btn btn-sm btn-secondary" onclick="refreshCraftTimer('${alchVo.timer_seq}');">숙련도 갱신</button>
 									</div>
 								</div>
 							</div>
@@ -318,3 +371,5 @@ function saveManagementCharacterTimerValidation() {
 		</div>
 	</div>
 </div>
+
+<jsp:include page="/include/popup/timerSetModal.jsp" />

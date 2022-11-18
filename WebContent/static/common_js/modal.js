@@ -62,6 +62,17 @@ $(function() {
 		$.unblockUI();
 	};
 	
+	$.timerSet = function() {
+		let options = {
+			backdrop: true,
+			keyboard: true,
+			focus: true
+		};
+		
+		let myModal = new bootstrap.Modal(document.getElementById('timer_set_modal'), options);
+		myModal.show();
+	};
+	
 //	$.dialog = function(value) {
 //		$("#dial_modal").modal();
 //		$("#modal_body").html(value);

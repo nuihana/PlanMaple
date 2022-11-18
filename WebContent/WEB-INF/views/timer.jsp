@@ -119,7 +119,7 @@ function selectFarmMonster(timer_seq) {
 								<div class="tab-pane fade" id="timer_farm_tab" role="tabpanel" aria-labelledby="timer_farm_tab" tabindex="0">
 									<div class="row">
 										<div class="col-sm-8 col-xs-8">
-											<div style="overflow: auto; max-height: 900px;">
+											<div style="max-height: 900px;">
 												<div class="row mb-3">
 													<div class="col-sm-4 col-xs-4">
 														<div class="card text-center">
@@ -141,7 +141,7 @@ function selectFarmMonster(timer_seq) {
 													</div>
 												</div>
 												<div class="card">
-													<div class="card-body">
+													<div class="card-body" style="min-height: 770px; max-height: 770px;">
 														<form id="formFarmTimer" action="" method="post">
 															<input type="hidden" id="farmTimer_timer_seq" name="timer_seq"/>
 														</form>
@@ -160,6 +160,9 @@ function selectFarmMonster(timer_seq) {
 															</tbody>
 														</table>
 													</div>
+														<div class="card-footer text-end">
+															<button type="button" class="btn btn-sm btn-secondary">몬스터 추가</button>
+														</div>
 												</div>
 											</div>
 										</div>

@@ -79,6 +79,12 @@ public class TimerController {
 		if (managementTimerVo.getProc_role().equalsIgnoreCase("character_save")) {
 			actionMessage = "등록 되었습니다.";
 			actionCnt = managementTimerSerivice.saveCharacterTimer(managementTimerVo);
+		} else if (managementTimerVo.getProc_role().equalsIgnoreCase("refresh")) {
+			actionMessage = "갱신 되었습니다.";
+			actionCnt = managementTimerSerivice.refreshCharacterTimer(managementTimerVo);
+		} else if (managementTimerVo.getProc_role().equalsIgnoreCase("timer_set")) {
+			actionMessage = "시간이 변경되었습니다.";
+			actionCnt = managementTimerSerivice.changeCharacterTimer(managementTimerVo);
 		}
 		
 		if (actionCnt == 0) {

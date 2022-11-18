@@ -70,5 +70,13 @@ public class ManagementTimerService {
 		
 		return result;
 	}
+
+	public int refreshCharacterTimer(ManagementTimerVo managementTimerVo) {
+		return sqlSession.update("managementTimer.refreshCharacterTimer", managementTimerVo);
+	}
+
+	public int changeCharacterTimer(ManagementTimerVo managementTimerVo) {
+		return sqlSession.update("managementTimer.changeCharacterTimer", managementTimerVo);
+	}
 }
  
