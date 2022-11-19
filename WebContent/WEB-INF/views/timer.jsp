@@ -36,6 +36,8 @@ function selectCharacter(character_seq) {
 }
 
 function selectFarmMonster(timer_seq) {
+	$('.farm-data').removeClass("table-active");
+	
 	$('#farmTimer_timer_seq').val(timer_seq);
 	
 	if (timer_seq != undefined && timer_seq != "") {
@@ -49,6 +51,18 @@ function selectFarmMonster(timer_seq) {
 	} else {
 		
 	}
+	
+	$("#farm_tr_" + timer_seq).addClass("table-active");
+}
+
+function renderFarmList() {
+	$('#farmListEditer').ajaxload(
+		'blockLoad',
+		ctxPath+'/farmList',
+		"POST",
+		"html",
+		''
+	);
 }
 </script>
 
@@ -119,50 +133,12 @@ function selectFarmMonster(timer_seq) {
 								<div class="tab-pane fade" id="timer_farm_tab" role="tabpanel" aria-labelledby="timer_farm_tab" tabindex="0">
 									<div class="row">
 										<div class="col-sm-8 col-xs-8">
+											<form id="formFarmTimer" action="" method="post">
+												<input type="hidden" id="farmTimer_timer_seq" name="timer_seq"/>
+											</form>
 											<div style="max-height: 900px;">
-												<div class="row mb-3">
-													<div class="col-sm-4 col-xs-4">
-														<div class="card text-center">
-															<div class="card-header" style="background-color: rgba(0,0,0,.1);">만료</div>
-															<div class="card-body">1</div>
-														</div>
-													</div>
-													<div class="col-sm-4 col-xs-4">
-														<div class="card text-center">
-															<div class="card-header" style="background-color: #FFDCDC;">24시간 이내 만료</div>
-															<div class="card-body">2</div>
-														</div>
-													</div>
-													<div class="col-sm-4 col-xs-4">
-														<div class="card text-center">
-															<div class="card-header" style="background-color: #FFE999;">7일 이내 만료</div>
-															<div class="card-body">3</div>
-														</div>
-													</div>
-												</div>
-												<div class="card">
-													<div class="card-body" style="min-height: 770px; max-height: 770px;">
-														<form id="formFarmTimer" action="" method="post">
-															<input type="hidden" id="farmTimer_timer_seq" name="timer_seq"/>
-														</form>
-														<table class="table table-hover text-center" id="" style="width: 100%;">
-															<thead>
-																<tr>
-																	<th width="*" class="text-center">대상</th>
-																	<th width="20%;" class="text-center">상태</th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr class="btn-fn" onclick="selectFarmMonster('1');">
-																	<td>쁘띠 시그너스</td>
-																	<td><i class="bi bi-circle-fill" style="color: #FFACAC;"></i></td>
-																</tr>
-															</tbody>
-														</table>
-													</div>
-														<div class="card-footer text-end">
-															<button type="button" class="btn btn-sm btn-secondary">몬스터 추가</button>
-														</div>
+												<div id="farmListEditer">
+													<jsp:include page="/WEB-INF/views/innerPage/innerFarmList.jsp"></jsp:include>
 												</div>
 											</div>
 										</div>

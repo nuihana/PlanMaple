@@ -8,40 +8,53 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
-	const farmCtx = $('#farmChart');
+	const now = new Date();
 	
-	var farmOption = {
-		type: 'doughnut',
-		data: {
-			datasets: [{
-		        data: [10, 20],
-		        backgroundColor: [
-		        	'rgba(255, 99, 132, 0.2)',
-		        	'rgba(54, 162, 235, 0.2)'
-		        ],
-		        borderColor: [
-		        	'rgba(255, 99, 132, 1)',
-		        	'rgba(54, 162, 235, 1)'
-		        ],
-		        borderWidth: 1
-		    }],
-		    labels: [
-		        '만료 시간',
-		        '남은 시간'
-		    ]
-		},
-		options : {
-		    responsive: false,
-			tooltips: {
-				enable: false
+	<c:if test="${farmVo ne null}">
+		const farmCtx = $('#farmChart');
+		
+		const farmStartDate = new Date('${fn:substring(farmVo.timer_set_time, 0, 4)}', '${fn:substring(farmVo.timer_set_time, 5, 7)}' - 1, '${fn:substring(farmVo.timer_set_time, 8, 10)}',
+									'${fn:substring(farmVo.timer_set_time, 11, 13)}', '${fn:substring(farmVo.timer_set_time, 14, 16)}', '${fn:substring(farmVo.timer_set_time, 17, 19)}');
+		
+		const farmEndDate = new Date('${fn:substring(farmVo.timer_value, 0, 4)}', '${fn:substring(farmVo.timer_value, 5, 7)}' - 1, '${fn:substring(farmVo.timer_value, 8, 10)}',
+									'${fn:substring(farmVo.timer_value, 11, 13)}', '${fn:substring(farmVo.timer_value, 14, 16)}', '${fn:substring(farmVo.timer_value, 17, 19)}');
+		
+		const farmPassedTime = Math.ceil((now.getTime() - farmStartDate.getTime()) / 1000 / 60 / 60);
+		const farmLeftTime = (farmEndDate.getTime() - now.getTime()) / 1000 / 60 / 60 > 0 ? Math.ceil((farmEndDate.getTime() - now.getTime()) / 1000 / 60 / 60) : 0;
+		
+		var farmOption = {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+			        data: [farmPassedTime, farmLeftTime],
+			        backgroundColor: [
+			        	'rgba(255, 99, 132, 0.2)',
+			        	'rgba(54, 162, 235, 0.2)'
+			        ],
+			        borderColor: [
+			        	'rgba(255, 99, 132, 1)',
+			        	'rgba(54, 162, 235, 1)'
+			        ],
+			        borderWidth: 1
+			    }],
+			    labels: [
+			        '만료 시간(시간)',
+			        '남은 시간(시간)'
+			    ]
 			},
-		    legend: {
-		    	display: false
+			options : {
+			    responsive: false,
+				tooltips: {
+					enable: false
+				},
+			    legend: {
+			    	display: false
+				}
 			}
-		}
-	};
-	
-	const farmChart = new Chart(farmCtx, farmOption);
+		};
+		
+		const farmChart = new Chart(farmCtx, farmOption);
+	</c:if>
 });
 </script>
 
@@ -51,9 +64,13 @@ $(document).ready(function () {
 		<div class="card">
 			<div class="card-body">
 				<table class="table table-borderless text-center">
+					<colgroup>
+						<col width="30%" />
+						<col width="*" />
+					</colgroup>
 					<tr>
 						<td><strong>대상</strong></td>
-						<td>쁘띠 시그너스</td>
+						<td>${farmVo.timer_desc}</td>
 					</tr>
 				</table>
 			</div>

@@ -18,8 +18,40 @@
 		WHERE timer_target_type = 'C'
 		AND timer_target = #{character_seq}
 	</select>
+	
+	<select id="selectFarmTimer" parameterType="ManagementTimerVo" resultType="ManagementTimerVo">
+		SELECT
+			a.*,
+			CASE
+				WHEN RIGHT(b.VALUE, 1) = 'H'
+		        THEN DATE_ADD(a.timer_value, INTERVAL CONCAT('-', REGEXP_REPLACE(b.VALUE, '[^0-9]', '')) HOUR)
+		        WHEN RIGHT(b.VALUE, 1) = 'd'
+		        THEN DATE_ADD(a.timer_value, INTERVAL CONCAT('-', REGEXP_REPLACE(b.VALUE, '[^0-9]', '')) DAY)
+			END AS TIMER_SET_TIME
+		FROM PM_MANAGEMENT_TIMER a
+		INNER JOIN PM_COMMONCODE b
+		ON a.TIMER_CODE = b.CODE
+		WHERE a.timer_seq = #{timer_seq}
+	</select>
 
-	<insert id="insertCharacterTimer" parameterType="ManagementTimerVo">
+	<select id="selectFarmTimerList" parameterType="CharacterVo" resultType="ManagementTimerVo">
+		SELECT
+			a.*,
+			CASE
+				WHEN RIGHT(b.VALUE, 1) = 'H'
+		        THEN DATE_ADD(a.timer_value, INTERVAL CONCAT('-', REGEXP_REPLACE(b.VALUE, '[^0-9]', '')) HOUR)
+		        WHEN RIGHT(b.VALUE, 1) = 'd'
+		        THEN DATE_ADD(a.timer_value, INTERVAL CONCAT('-', REGEXP_REPLACE(b.VALUE, '[^0-9]', '')) DAY)
+			END AS TIMER_SET_TIME
+		FROM PM_MANAGEMENT_TIMER a
+		INNER JOIN PM_COMMONCODE b
+		ON a.TIMER_CODE = b.CODE
+		WHERE timer_target_type = 'U'
+		AND timer_target = #{user_seq}
+		ORDER BY a.timer_value
+	</select>
+
+	<insert id="insertManagementTimer" parameterType="ManagementTimerVo">
 		INSERT INTO PM_MANAGEMENT_TIMER
 		(timer_code, timer_target, timer_target_type, timer_value, timer_desc)
 		VALUES

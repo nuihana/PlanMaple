@@ -23,6 +23,7 @@ import com.utils.WebConfig;
 import com.vos.web.CharacterVo;
 import com.vos.web.ManagementTimerVo;
 import com.vos.web.ReturnVo;
+import com.vos.web.UserVo;
 
 @Controller
 public class TimerController {
@@ -39,8 +40,11 @@ public class TimerController {
 		String user_seq = (String) session.getAttribute("loginSeq");
 		
 		List<CharacterVo> characterList = characterService.selectCharacterList(new CharacterVo(user_seq));
+
+		List<ManagementTimerVo> farmTimerList = managementTimerSerivice.selectFarmTimerList(new CharacterVo(user_seq));
 		
 		model.addAttribute("characterList", characterList);
+		model.addAttribute("farmTimerList", farmTimerList);
 		
 		model.addAttribute("loginSeq", user_seq);
 		model.addAttribute("config", config);
@@ -65,14 +69,28 @@ public class TimerController {
 	}
 	
 	@RequestMapping(value = {"farmTimer"}, method = RequestMethod.POST)
-	public @ResponseBody ModelAndView farmTimer(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			ModelMap model) {
+	public @ResponseBody ModelAndView farmTimer(ManagementTimerVo managementTimerVo, ModelMap model) {
+		
+		ManagementTimerVo farmVo = managementTimerSerivice.selectFarmTimer(managementTimerVo);
+		
+		model.addAttribute("farmVo", farmVo);
 		
 		return new ModelAndView("/innerPage/innerFarmTimer", model);
 	}
 	
+	@RequestMapping(value = {"farmList"}, method = RequestMethod.POST)
+	public @ResponseBody ModelAndView farmList(HttpSession session, ModelMap model) {
+		String user_seq = (String) session.getAttribute("loginSeq");
+
+		List<ManagementTimerVo> farmTimerList = managementTimerSerivice.selectFarmTimerList(new CharacterVo(user_seq));
+		
+		model.addAttribute("farmTimerList", farmTimerList);
+		
+		return new ModelAndView("/innerPage/innerFarmList", model);
+	}
+	
 	@RequestMapping(value = {"timerProc"}, method = RequestMethod.POST)
-	public @ResponseBody ReturnVo managementProc (ManagementTimerVo managementTimerVo) {
+	public @ResponseBody ReturnVo managementProc (HttpSession session, ManagementTimerVo managementTimerVo) {
 		int actionCnt = 0;
 		String actionMessage = "";
 		
@@ -85,6 +103,19 @@ public class TimerController {
 		} else if (managementTimerVo.getProc_role().equalsIgnoreCase("timer_set")) {
 			actionMessage = "시간이 변경되었습니다.";
 			actionCnt = managementTimerSerivice.changeCharacterTimer(managementTimerVo);
+		} else if (managementTimerVo.getProc_role().equalsIgnoreCase("farm_save")) {
+			actionMessage = "등록 되었습니다.";
+			
+			if (managementTimerVo.getFarm_timer_list() != null && managementTimerVo.getFarm_timer_list().size() > 0) {
+				for (ManagementTimerVo tmp : managementTimerVo.getFarm_timer_list()) {
+					UserVo userVo = (UserVo) session.getAttribute("login");
+					tmp.setTimer_target(userVo.getUser_seq());
+					tmp.setTimer_target_type("U");
+				}
+				
+				actionCnt += managementTimerSerivice.insertFarmTimer(managementTimerVo);
+			}
+			
 		}
 		
 		if (actionCnt == 0) {
@@ -92,7 +123,7 @@ public class TimerController {
 		}
 		
 		if (actionCnt > 0) {
-			return new ReturnVo("YES", actionMessage, null);
+			return new ReturnVo("YES", actionMessage, managementTimerVo);
 		} else {
 			return new ReturnVo("NO", actionMessage, null);
 		}

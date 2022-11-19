@@ -1,5 +1,8 @@
 package com.vos.web;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ManagementTimerVo {
@@ -19,6 +22,7 @@ public class ManagementTimerVo {
 	private String equi; // 장비제작
 	
 	private List<CommoncodeVo> timer_code_list;
+	private List<ManagementTimerVo> farm_timer_list;
 	
 	public ManagementTimerVo() {
 		//default 생성자
@@ -99,6 +103,12 @@ public class ManagementTimerVo {
 	public void setTimer_set_time(String timer_set_time) {
 		this.timer_set_time = timer_set_time;
 	}
+	public List<ManagementTimerVo> getFarm_timer_list() {
+		return farm_timer_list;
+	}
+	public void setFarm_timer_list(List<ManagementTimerVo> farm_timer_list) {
+		this.farm_timer_list = farm_timer_list;
+	}
 
 	public void setTimerCode(List<CommoncodeVo> selectList) {
 		this.timer_code_list = selectList;
@@ -120,6 +130,31 @@ public class ManagementTimerVo {
 		}
 		
 		return new ManagementTimerVo(this, target);
+	}
+	public void setVo() {
+		for (int i = 0, limit = timer_code_list.size(); i < limit; i++) {
+			if (timer_code_list.get(i).getCode().equalsIgnoreCase(timer_code)) {
+				this.timer_value = timer_code_list.get(i).getTimerValue();
+			}
+		}
+	}
+	public long getDeadlineFlag() {
+		Date deadline = null;
+		Date now = new Date();
+		
+		try {
+			deadline = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timer_value);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		long diffMin = 0;
+		
+		if (deadline != null) {
+			diffMin = (deadline.getTime() - now.getTime()) / (24 * 60 * 60 * 1000);
+		}
+		
+		return diffMin;
 	}
 	
 	@Override

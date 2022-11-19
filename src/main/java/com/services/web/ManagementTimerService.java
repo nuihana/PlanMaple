@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vos.web.CharacterVo;
+import com.vos.web.CommoncodeVo;
 import com.vos.web.ManagementTimerVo;
 
 @Service
@@ -36,7 +37,7 @@ public class ManagementTimerService {
 			int editCnt = 0;
 			editCnt += sqlSession.update("managementTimer.updateCharacterTimer", managementTimerVo.getVo("ACCE_00"));
 			if (editCnt == 0) {
-				editCnt += sqlSession.insert("managementTimer.insertCharacterTimer", managementTimerVo.getVo("ACCE_00"));
+				editCnt += sqlSession.insert("managementTimer.insertManagementTimer", managementTimerVo.getVo("ACCE_00"));
 			}
 			
 			result += editCnt;
@@ -49,7 +50,7 @@ public class ManagementTimerService {
 			int editCnt = 0;
 			editCnt += sqlSession.update("managementTimer.updateCharacterTimer", managementTimerVo.getVo("EQUI_00"));
 			if (editCnt == 0) {
-				editCnt += sqlSession.insert("managementTimer.insertCharacterTimer", managementTimerVo.getVo("EQUI_00"));
+				editCnt += sqlSession.insert("managementTimer.insertManagementTimer", managementTimerVo.getVo("EQUI_00"));
 			}
 			
 			result += editCnt;
@@ -62,7 +63,7 @@ public class ManagementTimerService {
 			int editCnt = 0;
 			editCnt += sqlSession.update("managementTimer.updateCharacterTimer", managementTimerVo.getVo("ALCH_00"));
 			if (editCnt == 0) {
-				editCnt += sqlSession.insert("managementTimer.insertCharacterTimer", managementTimerVo.getVo("ALCH_00"));
+				editCnt += sqlSession.insert("managementTimer.insertManagementTimer", managementTimerVo.getVo("ALCH_00"));
 			}
 			
 			result += editCnt;
@@ -77,6 +78,32 @@ public class ManagementTimerService {
 
 	public int changeCharacterTimer(ManagementTimerVo managementTimerVo) {
 		return sqlSession.update("managementTimer.changeCharacterTimer", managementTimerVo);
+	}
+
+	@Transactional
+	public int insertFarmTimer(ManagementTimerVo managementTimerVo) {
+		int result = 0;
+		
+		HashMap<String, String> reqMap = new HashMap<>();
+		reqMap.put("code_group", "TIMER");
+		
+		List<CommoncodeVo> timer_code_list = sqlSession.selectList("commoncode.selectCommoncode", reqMap);
+		
+		for (ManagementTimerVo tmp : managementTimerVo.getFarm_timer_list()) {
+			tmp.setTimerCode(timer_code_list);
+			tmp.setVo();
+			result += sqlSession.insert("managementTimer.insertManagementTimer", tmp);
+		}
+		
+		return result;
+	}
+
+	public List<ManagementTimerVo> selectFarmTimerList(CharacterVo characterVo) {
+		return sqlSession.selectList("managementTimer.selectFarmTimerList", characterVo);
+	}
+
+	public ManagementTimerVo selectFarmTimer(ManagementTimerVo managementTimerVo) {
+		return sqlSession.selectOne("managementTimer.selectFarmTimer", managementTimerVo);
 	}
 }
  
