@@ -115,7 +115,12 @@ public class TimerController {
 				
 				actionCnt += managementTimerSerivice.insertFarmTimer(managementTimerVo);
 			}
-			
+		} else if (managementTimerVo.getProc_role().equalsIgnoreCase("farm_delete")) {
+			actionMessage = "삭제 되었습니다.";
+			actionCnt = managementTimerSerivice.deleteFarmTimer(managementTimerVo);
+		} else if (managementTimerVo.getProc_role().equalsIgnoreCase("farm-refresh")) {
+			actionMessage = "갱신 되었습니다.";
+			actionCnt = managementTimerSerivice.refreshFarmTimer(managementTimerVo);
 		}
 		
 		if (actionCnt == 0) {

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,8 @@ import com.vos.web.ManagementTimerVo;
 
 @Service
 public class ManagementTimerService {
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private SqlSession sqlSession;
 
@@ -104,6 +108,18 @@ public class ManagementTimerService {
 
 	public ManagementTimerVo selectFarmTimer(ManagementTimerVo managementTimerVo) {
 		return sqlSession.selectOne("managementTimer.selectFarmTimer", managementTimerVo);
+	}
+
+	public int deleteFarmTimer(ManagementTimerVo managementTimerVo) {
+		return sqlSession.delete("managementTimer.deleteFarmTimer", managementTimerVo);
+	}
+
+	public int refreshFarmTimer(ManagementTimerVo managementTimerVo) {
+		return sqlSession.update("managementTimer.refreshFarmTimer", managementTimerVo);
+	}
+	
+	public int selectDeadlineCnt(HashMap<String, Object> map) {
+		return sqlSession.selectOne("managementTimer.selectDeadlineCnt", map);
 	}
 }
  

@@ -61,7 +61,7 @@ function logout() {
 					</a>
 				</li>
 				<li class="tooltip-nav-list">
-					<a href="/timer" class="tooltip-nav nav-link p-2 text-white" data-tooltip="기간제">
+					<a href="/timer" class="tooltip-nav nav-link p-2 text-white" data-tooltip="타이머(베타)">
 						<i class="bi bi-alarm-fill"></i>
 					</a>
 				</li>

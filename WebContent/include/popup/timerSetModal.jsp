@@ -99,7 +99,7 @@ $(document).ready(function() {
 			</div>
 			<!-- Footer -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" onclick="updateCraftTimer();" data-bs-dismiss="modal">변경</button>
+				<button id="timer_set_btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">변경</button>
 				<button type="button" class="btn" data-bs-dismiss="modal">취소</button>
 			</div>
 		</div>

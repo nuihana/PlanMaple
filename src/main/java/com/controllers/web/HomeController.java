@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.services.web.CharacterService;
 import com.services.web.CommonService;
 import com.services.web.ManagementService;
+import com.services.web.ManagementTimerService;
 import com.utils.WebConfig;
 import com.vos.web.CharacterVo;
 import com.vos.web.ManagementVo;
@@ -41,6 +42,8 @@ public class HomeController {
 	ManagementService managementService;
 	@Inject
 	CommonService commonService;
+	@Inject
+	ManagementTimerService managementTimerService;
 
 	@RequestMapping(value = {"home"}, method = RequestMethod.GET)
 	public @ResponseBody ModelAndView home(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
@@ -50,8 +53,8 @@ public class HomeController {
 		
 		UserVo myInfo = commonService.selectUser(new UserVo(user_seq));
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		HashMap<String, String> selectMap = new HashMap<String, String>();
+		HashMap<String, Object> map = new HashMap<>();
+		HashMap<String, Object> selectMap = new HashMap<>();
 		map.put("characterCnt", characterList.size());
 		selectMap.put("user_seq", user_seq);
 		
@@ -71,6 +74,16 @@ public class HomeController {
 			deadlineSum += Integer.parseInt(String.valueOf(tmp.get("CHARACTER_WORK")));
 		}
 		map.put("deadlineManagementCnt", deadlineSum);
+		
+		selectMap.clear();
+		selectMap.put("timer_target_type", "U");
+		selectMap.put("timer_target", user_seq);
+		map.put("deadlineFarmCnt", managementTimerService.selectDeadlineCnt(selectMap));
+
+		selectMap.clear();
+		selectMap.put("timer_target_type", "C");
+		selectMap.put("timer_target", characterList);
+		map.put("deadlineCraftCnt", managementTimerService.selectDeadlineCnt(selectMap));
 
 		model.addAttribute("loginSeq", user_seq);
 		model.addAttribute("card_data", map);
@@ -84,7 +97,7 @@ public class HomeController {
 	public @ResponseBody ReturnVo homeDataAjax(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
 		String user_seq = (String) session.getAttribute("loginSeq");
 		
-		HashMap<String, String> selectMap = new HashMap<String, String>();
+		HashMap<String, Object> selectMap = new HashMap<>();
 		selectMap.put("user_seq", user_seq);
 		
 		List<ManagementVo> serverLeftManagement = new ArrayList<ManagementVo>();

@@ -21,7 +21,7 @@ public class MainController {
 	@Inject
 	private DataSource datsSource = null;
 
-	private String buildVersion = "20220906_001";
+	private String buildVersion = "20221120_001";
 	 
 	public MainController() throws Exception {
 		logger.info("init Project");

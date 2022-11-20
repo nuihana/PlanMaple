@@ -107,14 +107,14 @@ function characterMemoSave() {
 				</div>
 				<div class="col-sm-4 col-xs-4">
 					<div class="card btn-fn text-center" onclick="location.href = ctxPath + '/management';">
-						<div class="card-header" style="background-color: #FFDCDC;">오늘이 마감인 숙제</div>
-						<div class="card-body">${card_data.get('deadlineManagementCnt')}</div>
+						<div class="card-header" style="background-color: #FFDCDC;">오늘이 마감인 숙제 / 남은 숙제</div>
+						<div class="card-body">${card_data.get('deadlineManagementCnt')} / ${card_data.get('leftManagementCnt')}</div>
 					</div>
 				</div>
 				<div class="col-sm-4 col-xs-4">
-					<div class="card btn-fn text-center" onclick="location.href = ctxPath + '/management';">
-						<div class="card-header">남아있는 숙제</div>
-						<div class="card-body">${card_data.get('leftManagementCnt')}</div>
+					<div class="card btn-fn text-center" onclick="location.href = ctxPath + '/timer';">
+						<div class="card-header" style="background-color: #FFE999;">마감인 전문기술(6시간) / 농장 몬스터(24시간)</div>
+						<div class="card-body">${card_data.get('deadlineCraftCnt')} / ${card_data.get('deadlineFarmCnt')}</div>
 					</div>
 				</div>
 			</div>
@@ -135,32 +135,21 @@ function characterMemoSave() {
 							</div>
 						</div>
 					</div>
-					<div class="accordion mt-3" id="accordionExample">
+					<div class="accordion mt-3" id="accordionNotice">
 						<div class="accordion-item">
 							<h2 class="accordion-header" id="headingOne">
 								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-								사용법
+								문의사항
 								</button>
 							</h2>
-							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="accordionNotice">
 								<div class="accordion-body">
-									<strong>캐릭터</strong>화면에서 <i class="bi bi-person-plus-fill"></i> 버튼을 클릭 후, 캐릭터 닉네임을 검색하여 관리 캐릭터로 등록한다.<br/>
-									이후 해당 캐릭터로 진행중인 숙제들을 진행중 목록으로 등록하면, <strong>숙제</strong>화면에서 관리가 가능해진다.
+									버그 제보, 문의사항, 기능건의는 <strong>prixia@naver.com</strong> 으로 메일 주세요.<br/><br/>
+									현재 <strong>전문기술 명장 / 장인 유지</strong> 및 <strong>몬스터 라이프 수명 확인</strong> 기능을 위한 타이머 기능을 시범적 운영중입니다.<br/>
+									이용중 오류, 버그 발견 시 제보 부탁드립니다. 감사합니다.
 								</div>
 							</div>
 						</div>
-<!-- 						<div class="accordion-item"> -->
-<!-- 							<h2 class="accordion-header" id="headingTwo"> -->
-<!-- 								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> -->
-<!-- 								Accordion Item #2 -->
-<!-- 								</button> -->
-<!-- 							</h2> -->
-<!-- 							<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample"> -->
-<!-- 								<div class="accordion-body"> -->
-<!-- 									<strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow. -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
 					</div>
 				</div>
 				<div class="col-sm-4 col-xs-4">

@@ -50,6 +50,25 @@
 		AND timer_target = #{user_seq}
 		ORDER BY a.timer_value
 	</select>
+	
+	<select id="selectDeadlineCnt" parameterType="hashMap" resultType="int">
+		SELECT IFNULL(COUNT(1), 0) AS count
+		FROM PM_MANAGEMENT_TIMER
+		WHERE timer_target_type = #{timer_target_type}
+		<choose>
+			<when test='timer_target_type == "U"'>
+				AND timer_target = #{timer_target}
+				<![CDATA[AND TIMESTAMPDIFF(HOUR, NOW(), timer_value) < 24]]>
+			</when>
+			<when test='timer_target_type == "C"'>
+				AND timer_target IN
+					<foreach collection="timer_target" item="item" open="(" separator="," close=")">
+						#{item.character_seq}
+					</foreach>
+				<![CDATA[AND TIMESTAMPDIFF(HOUR, NOW(), timer_value) < 6]]>
+			</when>
+		</choose>
+	</select>
 
 	<insert id="insertManagementTimer" parameterType="ManagementTimerVo">
 		INSERT INTO PM_MANAGEMENT_TIMER
@@ -60,8 +79,13 @@
 	
 	<update id="updateCharacterTimer" parameterType="ManagementTimerVo">
 		UPDATE PM_MANAGEMENT_TIMER
-		SET timer_code = #{timer_code},
-			timer_value = DATE_ADD(NOW(), ${timer_value}),
+		SET timer_value =
+			CASE
+				WHEN timer_code != #{timer_code}
+				THEN DATE_ADD(NOW(), ${timer_value})
+				ELSE timer_value
+			END,
+			timer_code = #{timer_code},
 			timer_desc = #{timer_desc}
 		WHERE timer_target_type = #{timer_target_type}
 		AND timer_target = #{timer_target}
@@ -90,11 +114,34 @@
 		WHERE timer_seq = #{timer_seq}
 	</update>
 	
+	<update id="refreshFarmTimer" parameterType="ManagementTimerVo">
+		UPDATE PM_MANAGEMENT_TIMER
+		SET
+			timer_code = #{timer_code},
+			timer_value = (
+				SELECT
+					CASE
+						WHEN RIGHT(com.value, 1) = 'H'
+						THEN DATE_ADD(NOW(), INTERVAL CONCAT(REGEXP_REPLACE(com.value, '[^0-9]', '')) HOUR)
+						WHEN RIGHT(com.value, 1) = 'd'
+						THEN DATE_ADD(NOW(), INTERVAL CONCAT(REGEXP_REPLACE(com.value, '[^0-9]', '')) DAY)
+					END AS timer_value
+				FROM PM_COMMONCODE com
+				WHERE com.code = timer_code
+			)
+		WHERE timer_seq = #{timer_seq}
+	</update>
+	
 	<delete id="deleteCharacterTimer" parameterType="ManagementTimerVo">
 		DELETE FROM PM_MANAGEMENT_TIMER
 		WHERE timer_target_type = #{timer_target_type}
 		AND timer_target = #{timer_target}
 		AND INSTR(timer_code, SUBSTR(#{timer_code}, 1, 4)) > 0
+	</delete>
+	
+	<delete id="deleteFarmTimer" parameterType="ManagementTimerVo">
+		DELETE FROM PM_MANAGEMENT_TIMER
+		WHERE timer_seq = #{timer_seq}
 	</delete>
 	
 </mapper>

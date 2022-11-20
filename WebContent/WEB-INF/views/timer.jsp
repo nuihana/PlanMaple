@@ -64,6 +64,31 @@ function renderFarmList() {
 		''
 	);
 }
+
+function editTimerValue(timer_seq, timer_value, target) {
+	if (timer_seq == undefined || timer_seq == '') {
+		$.alert("대상을 선택해주세요.");
+		return;
+	}
+	
+	$('#timer_set_year').val(timer_value.substr(0, 4));
+	$('#timer_set_month').val(timer_value.substr(5, 2));
+	$('#timer_set_day').val(timer_value.substr(8, 2));
+
+	$('#timer_set_hour').val(timer_value.substr(11, 2));
+	$('#timer_set_munite').val(timer_value.substr(14, 2));
+	$('#timer_set_second').val(timer_value.substr(17, 2));
+
+	if (target == 'farm') {
+		$('#farm_proc_role').val('timer_set');
+		$('#farm_timer_seq').val(timer_seq);
+		$.timerSet("updateFarmTimer();");
+	} else if (target == 'character') {
+		$('#proc_role').val('timer_set');
+		$('#timer_seq').val(timer_seq);
+		$.timerSet("updateCraftTimer();");
+	}
+}
 </script>
 
 </head>
@@ -73,11 +98,18 @@ function renderFarmList() {
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12 col-xs-12">
+					<div class="alert alert-secondary" role="alert">
+						현재 페이지를 시범 운영중이오니, 오류 및 버그 발견시 <strong>prixia@naver.com</strong>으로 제보 부탁드립니다.
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 col-xs-12">
 					<div class="card">
 						<div class="card-header pb-0">
 							<div class="nav nav-tabs" id="timer_navs" role="tablist">
-								<button class="nav-link active" id="timer_maker_nav" data-bs-toggle="tab" data-bs-target="#timer_maker_tab" type="button" role="tab" aria-controls="timer_maker_tab" aria-selected="true">제작 - 유지</button>
-								<button class="nav-link" id="timer_farm_nav" data-bs-toggle="tab" data-bs-target="#timer_farm_tab" type="button" role="tab" aria-controls="timer_farm_tab" aria-selected="true">농장 - 만료</button>
+								<button class="nav-link active" id="timer_maker_nav" data-bs-toggle="tab" data-bs-target="#timer_maker_tab" type="button" role="tab" aria-controls="timer_maker_tab" aria-selected="true">전문기술</button>
+								<button class="nav-link" id="timer_farm_nav" data-bs-toggle="tab" data-bs-target="#timer_farm_tab" type="button" role="tab" aria-controls="timer_farm_tab" aria-selected="true">몬스터 라이프</button>
 							</div>
 						</div>
 						<div class="card-body">
@@ -135,6 +167,7 @@ function renderFarmList() {
 										<div class="col-sm-8 col-xs-8">
 											<form id="formFarmTimer" action="" method="post">
 												<input type="hidden" id="farmTimer_timer_seq" name="timer_seq"/>
+												<input type="hidden" id="farmTimer_proc_role" name="proc_role"/>
 											</form>
 											<div style="max-height: 900px;">
 												<div id="farmListEditer">
@@ -161,6 +194,7 @@ function renderFarmList() {
 				</div>
 			</div>
 		</div>
+		<jsp:include page="/include/popup/timerSetModal.jsp" />
 		<jsp:include page="/include/footer.jsp"></jsp:include>
 	</div>
 </body>

@@ -21,9 +21,9 @@ function renderMonsterInsertForm() {
 	varHtml += "</td>";
 	varHtml += "<td>";
 	varHtml += "<select class='farm-timer-select' name='farm_timer_list[" + htmlRenderingCnt + "].timer_code'>";
-	varHtml += "<option value=''>선택</option>";
+	varHtml += "<option value=''>등록방법</option>";
 	varHtml += "<option value='FARM_001'>수명연장</option>";
-	varHtml += "<option value='FARM_002'>조합수명</option>";
+	varHtml += "<option value='FARM_002'>신규조합</option>";
 	varHtml += "</select>";
 	varHtml += "</td>";
 	varHtml += "</tr>";
@@ -89,6 +89,24 @@ function insertFarmTimerValidation() {
 	
 	return true;
 }
+
+function deleteFarmMonster(timer_seq) {
+	$('#farmTimer_timer_seq').val(timer_seq);
+	$('#farmTimer_proc_role').val('farm_delete');
+	
+	if (timer_seq != undefined && timer_seq != "") {
+		ajaxCall4Html(ctxPath + '/timerProc', $("#formFarmTimer").serialize(), function(data) {
+			var rtn = JSON.parse(data);
+			console.log(rtn);
+			
+			if (rtn.result == 'YES') {
+				$.confirm(rtn.messages, "renderFarmList();");
+			} else {
+				$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+			}
+		});
+	}
+}
 </script>
 
 <c:set var="expired" value="0" />
@@ -100,7 +118,7 @@ function insertFarmTimerValidation() {
 		<c:when test="${farmTimerList.getDeadlineFlag() < 0}">
 			<c:set var="expired" value="${expired + 1}" />
 		</c:when>
-		<c:when test="${farmTimerList.getDeadlineFlag() < 3}">
+		<c:when test="${farmTimerList.getDeadlineFlag() < 1}">
 			<c:set var="danger" value="${danger + 1}" />
 		</c:when>
 		<c:when test="${farmTimerList.getDeadlineFlag() < 7}">
@@ -118,7 +136,7 @@ function insertFarmTimerValidation() {
 	</div>
 	<div class="col-sm-4 col-xs-4">
 		<div class="card text-center">
-			<div class="card-header" style="background-color: #FFDCDC;">72시간 이내 만료</div>
+			<div class="card-header" style="background-color: #FFDCDC;">24시간 이내 만료</div>
 			<div class="card-body">${danger}</div>
 		</div>
 	</div>
@@ -144,15 +162,16 @@ function insertFarmTimerValidation() {
 				</thead>
 				<tbody>
 					<c:forEach var="farmTimerList" items="${farmTimerList}" varStatus="status">
-						<tr id="farm_tr_${farmTimerList.timer_seq}" class="btn-fn farm-data" onclick="selectFarmMonster('${farmTimerList.timer_seq}');">
-							<td colspan="2">${farmTimerList.timer_desc}</td>
-							<td><i class="bi bi-circle-fill" 
+						<tr id="farm_tr_${farmTimerList.timer_seq}" class="btn-fn farm-data">
+							<td style="cursor: default;"><i class="btn-fn bi bi-dash-square" style="color: #FFACAC;" onclick="deleteFarmMonster('${farmTimerList.timer_seq}');"></i></td>
+							<td onclick="selectFarmMonster('${farmTimerList.timer_seq}');">${farmTimerList.timer_desc}</td>
+							<td onclick="selectFarmMonster('${farmTimerList.timer_seq}');"><i class="bi bi-circle-fill" 
 								<c:choose>
 									<c:when test="${farmTimerList.getDeadlineFlag() < 0}">
 										style="color: rgba(0,0,0,.1);"
 									</c:when>
-									<c:when test="${farmTimerList.getDeadlineFlag() < 3}">
-										style="color: #FFACAC;"
+									<c:when test="${farmTimerList.getDeadlineFlag() < 1}">
+										style="color: #FF8C8C;"
 									</c:when>
 									<c:when test="${farmTimerList.getDeadlineFlag() < 7}">
 										style="color: #FFE999;"

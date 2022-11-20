@@ -56,7 +56,61 @@ $(document).ready(function () {
 		const farmChart = new Chart(farmCtx, farmOption);
 	</c:if>
 });
+
+function refreshFarmTimer(timer_seq, timer_code) {
+	if (timer_seq == undefined || timer_seq == '') {
+		$.alert("대상 몬스터를 선택해주세요.");
+		return;
+	}
+	
+	$('#farm_proc_role').val('farm-refresh');
+	
+	$('#farm_timer_seq').val(timer_seq);
+	$('#farm_timer_code').val(timer_code);
+	
+	ajaxCall4Html(ctxPath + '/timerProc', $("#formManagementFarmTimer").serialize(), function(data) {
+		var rtn = JSON.parse(data);
+//			console.log(rtn);
+		
+		if (rtn.result == 'YES') {
+			$.confirm(rtn.messages, "renderingAfterRefresh('" + timer_seq + "');");
+		} else {
+			$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+		}
+	});
+}
+
+function renderingAfterRefresh(timer_seq) {
+	renderFarmList();
+	selectFarmMonster(timer_seq);
+}
+
+function updateFarmTimer() {
+	let afterSetTime = $('#timer_set_year').val() + '-' + $('#timer_set_month').val() + '-' + $('#timer_set_day').val()
+						+ ' ' + $('#timer_set_hour').val() + ':' + $('#timer_set_munite').val() + ':' + $('#timer_set_second').val();
+	
+	$('#farm_timer_value').val(afterSetTime);
+	
+	ajaxCall4Html(ctxPath + '/timerProc', $("#formManagementFarmTimer").serialize(), function(data) {
+		var rtn = JSON.parse(data);
+// 			console.log(rtn);
+		
+		if (rtn.result == 'YES') {
+			$.confirm(rtn.messages, "renderingAfterRefresh('" + $('#farm_timer_seq').val() + "');");
+		} else {
+			$.alert("데이터 입력에 실패했습니다. 확인 후 다시 이용해주세요. <br/> <b>실패사유</b> : " + rtn.messages);
+		}
+	});
+}
 </script>
+
+<form id="formManagementFarmTimer" action="" method="post">
+	<input type="hidden" id="farm_timer_seq" name="timer_seq"/>
+	<input type="hidden" id="farm_timer_code" name="timer_code"/>
+	<input type="hidden" id="farm_timer_value" name="timer_value"/>
+	
+	<input type="hidden" id="farm_proc_role" name="proc_role"/>
+</form>
 
 <div class="row">
 <!-- 전문직업 선택 card area -->
@@ -75,8 +129,9 @@ $(document).ready(function () {
 				</table>
 			</div>
 			<div class="card-footer text-end">
-				<button type="button" class="btn btn-secondary">조합 갱신</button>
-				<button type="button" class="btn btn-secondary">일반 갱신</button>
+				<button type="button" class="btn btn-sm btn-secondary mb-1" onclick="editTimerValue('${farmVo.timer_seq}', '${farmVo.timer_value}', 'farm');">마감 시간 변경</button>
+				<button type="button" class="btn btn-sm btn-secondary mb-1" onclick="refreshFarmTimer('${farmVo.timer_seq}', 'FARM_001');">수명 연장</button>
+				<button type="button" class="btn btn-sm btn-secondary mb-1" onclick="refreshFarmTimer('${farmVo.timer_seq}', 'FARM_002');">신규 조합</button>
 			</div>
 		</div>
 	</div>

@@ -225,22 +225,6 @@ function refreshCraftTimer(timer_seq) {
 	});
 }
 
-function editTimerValue(timer_seq, timer_value) {
-	$('#proc_role').val('timer_set');
-	
-	$('#timer_seq').val(timer_seq);
-	
-	$('#timer_set_year').val(timer_value.substr(0, 4));
-	$('#timer_set_month').val(timer_value.substr(5, 2));
-	$('#timer_set_day').val(timer_value.substr(8, 2));
-
-	$('#timer_set_hour').val(timer_value.substr(11, 2));
-	$('#timer_set_munite').val(timer_value.substr(14, 2));
-	$('#timer_set_second').val(timer_value.substr(17, 2));
-	
-	$.timerSet();
-}
-
 function updateCraftTimer() {
 	let afterSetTime = $('#timer_set_year').val() + '-' + $('#timer_set_month').val() + '-' + $('#timer_set_day').val()
 						+ ' ' + $('#timer_set_hour').val() + ':' + $('#timer_set_munite').val() + ':' + $('#timer_set_second').val();
@@ -327,7 +311,7 @@ function updateCraftTimer() {
 								</div>
 								<div class="card-footer">
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-										<button type="button" class="btn btn-sm btn-secondary" onclick="editTimerValue('${acceVo.timer_seq}', '${acceVo.timer_value}');">마감 시간 수동 변경</button>
+										<button type="button" class="btn btn-sm btn-secondary" onclick="editTimerValue('${acceVo.timer_seq}', '${acceVo.timer_value}', 'character');">마감 시간 변경</button>
 										<button type="button" class="btn btn-sm btn-secondary" onclick="refreshCraftTimer('${acceVo.timer_seq}');">숙련도 갱신</button>
 									</div>
 								</div>
@@ -343,7 +327,7 @@ function updateCraftTimer() {
 								</div>
 								<div class="card-footer">
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-										<button type="button" class="btn btn-sm btn-secondary" onclick="editTimerValue('${equiVo.timer_seq}', '${equiVo.timer_value}');">마감 시간 수동 변경</button>
+										<button type="button" class="btn btn-sm btn-secondary" onclick="editTimerValue('${equiVo.timer_seq}', '${equiVo.timer_value}', 'character');">마감 시간 변경</button>
 										<button type="button" class="btn btn-sm btn-secondary" onclick="refreshCraftTimer('${equiVo.timer_seq}');">숙련도 갱신</button>
 									</div>
 								</div>
@@ -359,7 +343,7 @@ function updateCraftTimer() {
 								</div>
 								<div class="card-footer">
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-										<button type="button" class="btn btn-sm btn-secondary" onclick="editTimerValue('${alchVo.timer_seq}', '${alchVo.timer_value}');">마감 시간 수동 변경</button>
+										<button type="button" class="btn btn-sm btn-secondary" onclick="editTimerValue('${alchVo.timer_seq}', '${alchVo.timer_value}', 'character');">마감 시간 변경</button>
 										<button type="button" class="btn btn-sm btn-secondary" onclick="refreshCraftTimer('${alchVo.timer_seq}');">숙련도 갱신</button>
 									</div>
 								</div>
@@ -371,5 +355,3 @@ function updateCraftTimer() {
 		</div>
 	</div>
 </div>
-
-<jsp:include page="/include/popup/timerSetModal.jsp" />

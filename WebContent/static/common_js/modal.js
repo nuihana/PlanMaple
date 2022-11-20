@@ -62,7 +62,7 @@ $(function() {
 		$.unblockUI();
 	};
 	
-	$.timerSet = function() {
+	$.timerSet = function(func) {
 		let options = {
 			backdrop: true,
 			keyboard: true,
@@ -70,6 +70,7 @@ $(function() {
 		};
 		
 		let myModal = new bootstrap.Modal(document.getElementById('timer_set_modal'), options);
+		$("#timer_set_btn").attr("onclick", func);
 		myModal.show();
 	};
 	

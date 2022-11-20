@@ -40,11 +40,11 @@ public class ManagementService {
 		sqlSession.update("management.updateManagementReset", map);
 	}
 
-	public List<Map<String, String>> selectLeftManagementList(HashMap<String, String> map) {
+	public List<Map<String, String>> selectLeftManagementList(HashMap<String, Object> map) {
 		return sqlSession.selectList("management.selectLeftManagementList", map);
 	}
 
-	public List<Map<String, String>> selectDeadlineManagementList(HashMap<String, String> map) {
+	public List<Map<String, String>> selectDeadlineManagementList(HashMap<String, Object> map) {
 		return sqlSession.selectList("management.selectDeadlineManagementList", map);
 	}
 
