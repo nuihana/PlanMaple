@@ -226,8 +226,8 @@ function refreshCraftTimer(timer_seq) {
 }
 
 function updateCraftTimer() {
-	let afterSetTime = $('#timer_set_year').val() + '-' + $('#timer_set_month').val() + '-' + $('#timer_set_day').val()
-						+ ' ' + $('#timer_set_hour').val() + ':' + $('#timer_set_munite').val() + ':' + $('#timer_set_second').val();
+	let afterSetTime = $('#timer_set_year').val() + '-' + lpad($('#timer_set_month').val(), 2, '0') + '-' + lpad($('#timer_set_day').val(), 2, '0')
+						+ ' ' + lpad($('#timer_set_hour').val(), 2, '0') + ':' + lpad($('#timer_set_munite').val(), 2, '0') + ':' + lpad($('#timer_set_second').val(), 2, '0');
 	
 	$('#timer_value').val(afterSetTime);
 	
