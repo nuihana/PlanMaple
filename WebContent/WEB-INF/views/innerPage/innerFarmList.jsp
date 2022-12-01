@@ -115,7 +115,7 @@ function deleteFarmMonster(timer_seq) {
 
 <c:forEach var="farmTimerList" items="${farmTimerList}" varStatus="status">
 	<c:choose>
-		<c:when test="${farmTimerList.getDeadlineFlag() < 0}">
+		<c:when test="${farmTimerList.getDeadlineFlag() <= 0}">
 			<c:set var="expired" value="${expired + 1}" />
 		</c:when>
 		<c:when test="${farmTimerList.getDeadlineFlag() < 1}">
@@ -167,7 +167,7 @@ function deleteFarmMonster(timer_seq) {
 							<td onclick="selectFarmMonster('${farmTimerList.timer_seq}');">${farmTimerList.timer_desc}</td>
 							<td onclick="selectFarmMonster('${farmTimerList.timer_seq}');"><i class="bi bi-circle-fill" 
 								<c:choose>
-									<c:when test="${farmTimerList.getDeadlineFlag() < 0}">
+									<c:when test="${farmTimerList.getDeadlineFlag() <= 0}">
 										style="color: rgba(0,0,0,.1);"
 									</c:when>
 									<c:when test="${farmTimerList.getDeadlineFlag() < 1}">
