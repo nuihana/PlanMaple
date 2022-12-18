@@ -1,7 +1,5 @@
 package com.controllers.core;
 
-import java.util.TimeZone;
-
 import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -21,7 +19,7 @@ public class MainController {
 	@Inject
 	private DataSource datsSource = null;
 
-	private String buildVersion = "20221120_001";
+	private String buildVersion = "20221218_001";
 	 
 	public MainController() throws Exception {
 		logger.info("init Project");

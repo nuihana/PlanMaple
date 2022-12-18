@@ -151,7 +151,8 @@ public class ManagementTimerVo {
 		long diffMin = 0;
 		
 		if (deadline != null) {
-			diffMin = (deadline.getTime() - now.getTime()) / (24 * 60 * 60 * 1000);
+//			diffMin = (deadline.getTime() - now.getTime()) / (24 * 60 * 60 * 1000); //n 일 단위
+			diffMin = (deadline.getTime() - now.getTime()) / (60 * 60 * 1000); //n 시간 단위
 		}
 		
 		return diffMin;

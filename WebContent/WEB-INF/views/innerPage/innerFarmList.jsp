@@ -118,10 +118,10 @@ function deleteFarmMonster(timer_seq) {
 		<c:when test="${farmTimerList.getDeadlineFlag() <= 0}">
 			<c:set var="expired" value="${expired + 1}" />
 		</c:when>
-		<c:when test="${farmTimerList.getDeadlineFlag() < 1}">
+		<c:when test="${farmTimerList.getDeadlineFlag() < 24}">
 			<c:set var="danger" value="${danger + 1}" />
 		</c:when>
-		<c:when test="${farmTimerList.getDeadlineFlag() < 7}">
+		<c:when test="${farmTimerList.getDeadlineFlag() < 168}">
 			<c:set var="warning" value="${warning + 1}" />
 		</c:when>
 	</c:choose>
@@ -170,10 +170,10 @@ function deleteFarmMonster(timer_seq) {
 									<c:when test="${farmTimerList.getDeadlineFlag() <= 0}">
 										style="color: rgba(0,0,0,.1);"
 									</c:when>
-									<c:when test="${farmTimerList.getDeadlineFlag() < 1}">
+									<c:when test="${farmTimerList.getDeadlineFlag() < 24}">
 										style="color: #FF8C8C;"
 									</c:when>
-									<c:when test="${farmTimerList.getDeadlineFlag() < 7}">
+									<c:when test="${farmTimerList.getDeadlineFlag() < 168}">
 										style="color: #FFE999;"
 									</c:when>
 									<c:otherwise>
