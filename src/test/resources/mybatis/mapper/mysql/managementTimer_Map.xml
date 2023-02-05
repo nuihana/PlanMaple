@@ -61,11 +61,18 @@
 				<![CDATA[AND TIMESTAMPDIFF(HOUR, NOW(), timer_value) < 24]]>
 			</when>
 			<when test='timer_target_type == "C"'>
-				AND timer_target IN
-					<foreach collection="timer_target" item="item" open="(" separator="," close=")">
-						#{item.character_seq}
-					</foreach>
-				<![CDATA[AND TIMESTAMPDIFF(HOUR, NOW(), timer_value) < 6]]>
+				<choose>
+					<when test="!timer_target,isEmpty()">
+						AND timer_target IN
+							<foreach collection="timer_target" item="item" open="(" separator="," close=")">
+								#{item.character_seq}
+							</foreach>
+						<![CDATA[AND TIMESTAMPDIFF(HOUR, NOW(), timer_value) < 6]]>
+					</when>
+					<otherwise>
+						AND 1 = 0
+					</otherwise>
+				</choose>
 			</when>
 		</choose>
 	</select>
